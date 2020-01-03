@@ -364,7 +364,6 @@ public final class Entree extends javax.swing.JInternalFrame {
             ps = connEntree.prepareStatement(requet);
             rs = ps.executeQuery();
 
-            if (rs.next()) {
                 String t1 = rs.getString("NumEntree");
                 String t2 = rs.getString("RefEntree");
                 String t3 = rs.getString("NumFournisseur");
@@ -383,17 +382,6 @@ public final class Entree extends javax.swing.JInternalFrame {
                 ComboFournisseur.setSelectedItem(rs2.getString("NomFournisseur"));
                 String num = numeroEntree.getText();
                 AffichageLigneEntree(num);
-                try {
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
-            }
 
         } catch (SQLException e) {
             System.out.println(e);
