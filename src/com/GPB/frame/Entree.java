@@ -27,7 +27,7 @@ import net.proteanit.sql.DbUtils;
  */
 public final class Entree extends javax.swing.JInternalFrame {
 
-    Connection connEntree = null;
+    Connection conn = null;
     ResultSet rs = null;
     ResultSet rs2 = null;
     ResultSet rs3 = null;
@@ -42,11 +42,10 @@ public final class Entree extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form Examen
-     *
      * @throws java.sql.SQLException
      */
     public Entree() throws SQLException {
-        connEntree = ConexionBD.Conexion();
+        
         initComponents();
         remove_title_bar();
 
@@ -57,13 +56,15 @@ public final class Entree extends javax.swing.JInternalFrame {
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
         txtrechercher1Entree.setText("Tapez Reference Entree");
-        
+        CloseConnexion();
+        conn = ConexionBD.Conexion();
         AffichageEntree();
         AffichageArticle();
+        CloseConnexion();
         remplirComboFournisseur();
         masquerLigneEntree();
         masquerArticle();
-
+        
         btnsupprimerLE.setEnabled(false);
         btnmodifierLE.setEnabled(false);
         btnenregistrerLE.setEnabled(false);
@@ -106,42 +107,13 @@ public final class Entree extends javax.swing.JInternalFrame {
     private void AffichageArticle() {
         try {
             String requete2 = "select * from article";
-            ps = connEntree.prepareStatement(requete2);
-            rs = ps.executeQuery();
-            TableArticleEntree.setModel(DbUtils.resultSetToTableModel(rs));
+            ps5 = conn.prepareStatement(requete2);
+            rs5 = ps5.executeQuery();
+            TableArticleEntree.setModel(DbUtils.resultSetToTableModel(rs5));
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+                CloseRsPs5();
         }
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackgroundarticle.setIcon(img);
@@ -153,42 +125,13 @@ public final class Entree extends javax.swing.JInternalFrame {
         try {
             String requete = "select NumEntree as 'Numero' ,RefEntree as 'Reference' ,Fournisseur.NomFournisseur as 'Fournisseur' ,DateEntree as 'Date' ,MontantTotalEntree as 'MontantTotal' ,ObservationEntree as 'Observation' from Entree, Fournisseur WHERE\n"
                     + "(Fournisseur.NumFournisseur=Entree.NumFournisseur)";
-            ps = connEntree.prepareStatement(requete);
-            rs = ps.executeQuery();
-            TableEntree.setModel(DbUtils.resultSetToTableModel(rs));
+            ps5 = conn.prepareStatement(requete);
+            rs5 = ps5.executeQuery();
+            TableEntree.setModel(DbUtils.resultSetToTableModel(rs5));
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs5();
         }
         //ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         //txtbackgroundarticle.setIcon(img);
@@ -200,56 +143,103 @@ public final class Entree extends javax.swing.JInternalFrame {
         try {
             String requete = "select NumLigneEntree as 'Numero' ,article.NomArticle as 'Article' ,NbrEntree as 'Nombre' ,puFournisseur as 'Prix Unitaire Fournisseur' ,MontantEntree as 'Montant' from LigneEntree, article WHERE\n"
                     + "article.NumArticle=LigneEntree.NumArticle and LigneEntree.NumEntree like '" + numEntree + "'";
-            ps = connEntree.prepareStatement(requete);
-            rs = ps.executeQuery();
-            TableLigneEntree.setModel(DbUtils.resultSetToTableModel(rs));
+            ps5 = conn.prepareStatement(requete);
+            rs5 = ps5.executeQuery();
+            TableLigneEntree.setModel(DbUtils.resultSetToTableModel(rs5));
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs5();
         }
         //ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         //txtbackgroundarticle.setIcon(img);
         //txtrechercherarticle.setText("Tapez Numero ou Nom Article");
 
     }
+    
+    public void CloseConnexion() {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+    }
+    
+    public void CloseRsPs1() {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+    }
+    
+    public void CloseRsPs2() {
+        if (rs2 != null) {
+            try {
+                rs2.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+        if (ps2 != null) {
+            try {
+                ps2.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+    }
+    
+    public void CloseRsPs3() {
+        if (rs3 != null) {
+            try {
+                rs3.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+        if (ps3 != null) {
+            try {
+                ps3.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+    }
+    
+    public void CloseRsPs4() {
+        if (rs4 != null) {
+            try {
+                rs4.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+        if (ps4 != null) {
+            try {
+                ps4.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+    }
+    
+    public void CloseRsPs5() {
+        if (rs5 != null) {
+            try {
+                rs5.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+        if (ps5 != null) {
+            try {
+                ps5.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+    }
+    
+    
 
     public void DeplaceLigneEntree() {
+        conn = ConexionBD.Conexion();
         try {
 
             int row = TableLigneEntree.getSelectedRow();
             Entree.test = (TableLigneEntree.getModel().getValueAt(row, 0).toString());
             String requet = " select * from  LigneEntree where NumLigneEntree = '" + test + "' ";
-            ps = connEntree.prepareStatement(requet);
+            ps = conn.prepareStatement(requet);
             rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -262,7 +252,7 @@ public final class Entree extends javax.swing.JInternalFrame {
                 puFournisseur.setText(t4);
 
                 String article1 = " select * from article where NumArticle = '" + t2 + "'";
-                ps2 = connEntree.prepareStatement(article1);
+                ps2 = conn.prepareStatement(article1);
                 rs2 = ps2.executeQuery();
                 article.setText(rs2.getString("NomArticle"));
             }
@@ -271,45 +261,20 @@ public final class Entree extends javax.swing.JInternalFrame {
             System.out.println(e);
 
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseRsPs2();
+            CloseConnexion();
         }
     }
 
     public void DeplaceArticle() {
+        conn = ConexionBD.Conexion();
         try {
 
             int row = TableArticleEntree.getSelectedRow();
             Entree.test = (TableArticleEntree.getModel().getValueAt(row, 0).toString());
             String requet = " select * from article where NumArticle = '" + test + "'";
-            ps = connEntree.prepareStatement(requet);
+            ps = conn.prepareStatement(requet);
             rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -323,45 +288,19 @@ public final class Entree extends javax.swing.JInternalFrame {
             System.out.println(e);
 
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
     }
 
     public void DeplaceEntree() {
+        conn = ConexionBD.Conexion();
         try {
 
             int row = TableEntree.getSelectedRow();
             Entree.test = (TableEntree.getModel().getValueAt(row, 0).toString());
             String requet = " select * from Entree where NumEntree = '" + test + "'";
-            ps = connEntree.prepareStatement(requet);
+            ps = conn.prepareStatement(requet);
             rs = ps.executeQuery();
 
                 String t1 = rs.getString("NumEntree");
@@ -371,7 +310,7 @@ public final class Entree extends javax.swing.JInternalFrame {
                 String t5 = rs.getString("MontantTotalEntree");
                 String t6 = rs.getString("ObservationEntree");
                 String fournisseur = " select * from Fournisseur where NumFournisseur = '" + t3 + "'";
-                ps2 = connEntree.prepareStatement(fournisseur);
+                ps2 = conn.prepareStatement(fournisseur);
                 rs2 = ps2.executeQuery();
                 numeroEntree.setText(t1);
                 //DesignationArticle.setText(t2);
@@ -387,43 +326,18 @@ public final class Entree extends javax.swing.JInternalFrame {
             System.out.println(e);
 
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseRsPs2();
+            CloseConnexion();
         }
     }
 
     public void remplirComboFournisseur() {
+        conn = ConexionBD.Conexion();
         String requet = " select * from  Fournisseur";
 
         try {
-            ps = connEntree.prepareStatement(requet);
+            ps = conn.prepareStatement(requet);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -433,35 +347,8 @@ public final class Entree extends javax.swing.JInternalFrame {
 
         } catch (SQLException e) {
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
 
     }
@@ -1449,10 +1336,8 @@ public final class Entree extends javax.swing.JInternalFrame {
         DeplaceEntree();
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbachground.setIcon(img);
-        //txtrechercherArticle.setText("Taper Numero Article");
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
-        //txtrechercher1Article.setText("Taper Nom Article");
         btnsupprimerArticle.setEnabled(true);
         btnmodifierArticle.setEnabled(true);
         btnenregistrerArticle.setEnabled(false);
@@ -1461,56 +1346,31 @@ public final class Entree extends javax.swing.JInternalFrame {
 
     private void SommeMontant() throws SQLException {
         String requete = "select SUM(MontantEntree) as somme from LigneEntree where NumEntree = '" + numeroEntree.getText() + "'";
-        ps = connEntree.prepareStatement(requete);
-        rs = ps.executeQuery();
-        MontantTotal.setText(rs.getString("somme"));
-        try {
-            if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "erreur BD");
-        }
+        ps5 = conn.prepareStatement(requete);
+        rs5 = ps5.executeQuery();
+        MontantTotal.setText(rs5.getString("somme"));
+        
+        CloseRsPs5();
     }
 
     private void btnenregistrerLEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerLEActionPerformed
+        conn = ConexionBD.Conexion();
         try {
             //String requete5 = "select * from  LigneEntree where NumArticle = '" + article.getText() + "' and NumEntree = '" + numeroEntree.getText() + "'";
-            //ps5 = connEntree.prepareStatement(requete5);
+            //ps5 = conn.prepareStatement(requete5);
             
             String requete = "insert into LigneEntree (NumEntree,NumArticle,NbrEntree,puFournisseur,MontantEntree) values (?,?,?,?,?)";
-            ps = connEntree.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
 
             String requete2 = "select * from  article where NomArticle = '" + article.getText() + "'";
             
 
-            ps2 = connEntree.prepareStatement(requete2);
+            ps2 = conn.prepareStatement(requete2);
             rs2 = ps2.executeQuery();
             String num = rs2.getString("NumArticle");
             
             String requete4 = "select * from article where  NumArticle ='" + num + "'";
-            ps4 = connEntree.prepareStatement(requete4);
+            ps4 = conn.prepareStatement(requete4);
             rs4 = ps4.executeQuery();
             String ancienQte = rs4.getString("QteStock");
             String ancienMtn = rs4.getString("MontantStock");
@@ -1527,7 +1387,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             ps.execute();
 
             String requete3 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + num + "'";
-            ps3 = connEntree.prepareStatement(requete3);
+            ps3 = conn.prepareStatement(requete3);
             
             int qte = Integer.parseInt(nbr.getText()) + Integer.parseInt(ancienQte);
             ps3.setString(1, String.valueOf(qte));
@@ -1537,7 +1397,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             ps3.execute();
 
             JOptionPane.showMessageDialog(null, "Enregistrement succes");
-
+            
             AffichageLigneEntree(numeroEntree.getText());
             clearLE();
             try {
@@ -1549,35 +1409,11 @@ public final class Entree extends javax.swing.JInternalFrame {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "deja inserre" + ex);
-            }
+            CloseRsPs1();
+            CloseRsPs2();
+            CloseRsPs3();
+            CloseRsPs4();
+            CloseConnexion();
         }
 
     }//GEN-LAST:event_btnenregistrerLEActionPerformed
@@ -1649,16 +1485,17 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnmodifierLEMouseMoved
 
     private void btnmodifierLEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierLEActionPerformed
+        conn = ConexionBD.Conexion();
         try {
 
             String requete1String = "update categorie set NomCategorie =? where  NumCategorie ='" + numeroLigneEntree.getText() + "'";
 
             String requete = "update LigneEntree set NumEntree =?,NumArticle=?,NbrEntree=?,puFournisseur=?,MontantEntree=? where  NumLigneEntree ='" + numeroLigneEntree.getText() + "'";
-            ps = connEntree.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
 
             String requete2 = "select * from  article where NomArticle = '" + article.getText() + "'";
 
-            ps2 = connEntree.prepareStatement(requete2);
+            ps2 = conn.prepareStatement(requete2);
             rs2 = ps2.executeQuery();
             String num = rs2.getString("NumArticle");
             ps.setString(1, numeroEntree.getText());
@@ -1673,36 +1510,11 @@ public final class Entree extends javax.swing.JInternalFrame {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseRsPs2();
+            CloseConnexion();
         }
+        conn = ConexionBD.Conexion();
         AffichageLigneEntree(numeroEntree.getText());
         clearLE();
         try {
@@ -1710,6 +1522,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Entree.class.getName()).log(Level.SEVERE, null, ex);
         }
+        CloseConnexion();
 
     }//GEN-LAST:event_btnmodifierLEActionPerformed
 
@@ -1726,12 +1539,13 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnsupprimerLEMousePressed
 
     private void btnsupprimerLEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsupprimerLEActionPerformed
+        conn = ConexionBD.Conexion();
         try {
             if (JOptionPane.showConfirmDialog(null, "attention vous devez suprimer une Ligne Entree, est ce que tu es sur?",
                     "Supprimer Ligne Entree", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
 
                 String requete = "delete from LigneEntree where NumLigneEntree = '" + numeroLigneEntree.getText() + "'";
-                ps = connEntree.prepareStatement(requete);
+                ps = conn.prepareStatement(requete);
 
                 ps.execute();
             }
@@ -1739,37 +1553,10 @@ public final class Entree extends javax.swing.JInternalFrame {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "erreur de suppression" + e.getMessage());
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            
         }
+        
         AffichageLigneEntree(numeroEntree.getText());
         clearLE();
         try {
@@ -1777,6 +1564,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Entree.class.getName()).log(Level.SEVERE, null, ex);
         }
+        CloseConnexion();
     }//GEN-LAST:event_btnsupprimerLEActionPerformed
 
     private void printbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseEntered
@@ -1866,13 +1654,14 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnenregistrerArticleMousePressed
 
     private void btnenregistrerArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerArticleActionPerformed
+        conn = ConexionBD.Conexion();
         try {
             String requete = "insert into Entree (refEntree,NumFournisseur,DateEntree,MontantTotalEntree,ObservationEntree) values (?,?,?,?,?)";
-            ps = connEntree.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
 
             String requete2 = "select * from  Fournisseur where NomFournisseur = '" + ComboFournisseur.getSelectedItem() + "'";
 
-            ps2 = connEntree.prepareStatement(requete2);
+            ps2 = conn.prepareStatement(requete2);
             rs2 = ps2.executeQuery();
             String num = rs2.getString("NumFournisseur");
             ps.setString(1, ref.getText());
@@ -1886,39 +1675,14 @@ public final class Entree extends javax.swing.JInternalFrame {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "deja inserre" + ex);
-            }
+            CloseRsPs1();
+            CloseRsPs2();
+            CloseConnexion();
         }
+        conn = ConexionBD.Conexion();
         AffichageEntree();
         clearEntree();
-
+        CloseConnexion();
     }//GEN-LAST:event_btnenregistrerArticleActionPerformed
 
     private void btnmodifierArticleMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierArticleMouseMoved
@@ -1942,13 +1706,14 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnmodifierArticleMouseReleased
 
     private void btnmodifierArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierArticleActionPerformed
+        conn = ConexionBD.Conexion();
         try {
             String requete = "update Entree set refEntree =?,NumFournisseur=?,DateEntree=?,MontantTotalEntree=?,ObservationEntree=? where  NumEntree ='" + numeroEntree.getText() + "'";
-            ps = connEntree.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
 
             String requete2 = "select * from  Fournisseur where NomFournisseur = '" + ComboFournisseur.getSelectedItem() + "'";
 
-            ps2 = connEntree.prepareStatement(requete2);
+            ps2 = conn.prepareStatement(requete2);
             rs2 = ps2.executeQuery();
             String num = rs2.getString("NumFournisseur");
             ps.setString(1, ref.getText());
@@ -1962,40 +1727,16 @@ public final class Entree extends javax.swing.JInternalFrame {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "deja inserre" + ex);
-            }
+            CloseRsPs1();
+            CloseRsPs2();
+            CloseConnexion();
         }
+        conn = ConexionBD.Conexion();
         AffichageEntree();
         clearEntree();
         masquerArticle();
         masquerLigneEntree();
+        CloseConnexion();
     }//GEN-LAST:event_btnmodifierArticleActionPerformed
 
     private void btnsupprimerArticleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerArticleMouseEntered
@@ -2011,12 +1752,13 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnsupprimerArticleMousePressed
 
     private void btnsupprimerArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsupprimerArticleActionPerformed
+        conn = ConexionBD.Conexion();
         try {
             if (JOptionPane.showConfirmDialog(null, "attention vous devez suprimer un Article, est ce que tu es sur?",
                     "Supprimer Article", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
 
                 String requete = "delete from article where NumArticle = '" + numeroEntree.getText() + "'";
-                ps = connEntree.prepareStatement(requete);
+                ps = conn.prepareStatement(requete);
 
                 ps.execute();
             }
@@ -2024,37 +1766,12 @@ public final class Entree extends javax.swing.JInternalFrame {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "erreur de suppression" + e.getMessage());
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
+        conn = ConexionBD.Conexion();
         AffichageArticle();
+        CloseConnexion();
     }//GEN-LAST:event_btnsupprimerArticleActionPerformed
 
     private void printbtn1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtn1MouseEntered
@@ -2090,6 +1807,7 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_dateMouseEntered
 
     private void txtrechercherEntreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercherEntreeMouseClicked
+        conn = ConexionBD.Conexion();
         AffichageEntree();
         clearEntree();
 
@@ -2101,7 +1819,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         txtrechercher1Entree.setText("Taper Reference Entree");
 
         ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
-        // TODO add your handling code here:
+        CloseConnexion();
     }//GEN-LAST:event_txtrechercherEntreeMouseClicked
 
     private void txtrechercherEntreeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercherEntreeMouseEntered
@@ -2117,47 +1835,19 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtrechercherEntreeKeyPressed
 
     private void txtrechercherEntreeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherEntreeKeyReleased
-
+        conn = ConexionBD.Conexion();
         try {
             String requete = "select NumEntree as 'Numero' ,RefEntree as 'Reference' ,Fournisseur.NomFournisseur as 'Fournisseur' ,DateEntree as 'Date' ,MontantTotalEntree as 'MontantTotal' ,ObservationEntree as 'Observation' from Entree, Fournisseur WHERE\n"
                     + "(Fournisseur.NumFournisseur=Entree.NumFournisseur) and NumEntree LIKE ?";
-            ps = connEntree.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
             ps.setString(1, "%" + txtrechercherEntree.getText() + "%");
             rs = ps.executeQuery();
             TableEntree.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
 
     }//GEN-LAST:event_txtrechercherEntreeKeyReleased
@@ -2168,14 +1858,17 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtrechercherEntreeKeyTyped
 
     private void jButtonRefreshArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshArticleActionPerformed
+        conn = ConexionBD.Conexion();
         AffichageArticle();
         clearLE();
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackgroundarticle.setIcon(img);
         txtrechercherarticle.setText("Taper Numero ou Nom Entree");
+        CloseConnexion();
     }//GEN-LAST:event_jButtonRefreshArticleActionPerformed
 
     private void txtrechercher1EntreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercher1EntreeMouseClicked
+        conn = ConexionBD.Conexion();
         AffichageEntree();
         clearEntree();
 
@@ -2187,6 +1880,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         txtrechercher1Entree.setText("");
 
         ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
+        CloseConnexion();
     }//GEN-LAST:event_txtrechercher1EntreeMouseClicked
 
     private void txtrechercher1EntreeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercher1EntreeMouseEntered
@@ -2202,45 +1896,19 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtrechercher1EntreeKeyPressed
 
     private void txtrechercher1EntreeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercher1EntreeKeyReleased
-
+        conn = ConexionBD.Conexion();
         try {
             String requete = "select NumEntree as 'Numero' ,RefEntree as 'Reference' ,Fournisseur.NomFournisseur as 'Fournisseur' ,DateEntree as 'Date' ,MontantTotalEntree as 'MontantTotal' ,ObservationEntree as 'Observation' from Entree, Fournisseur WHERE\n"
                     + "(Fournisseur.NumFournisseur=Entree.NumFournisseur) and RefEntree LIKE ?";
-            ps = connEntree.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
             ps.setString(1, "%" + txtrechercher1Entree.getText() + "%");
             rs = ps.executeQuery();
             TableEntree.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
     }//GEN-LAST:event_txtrechercher1EntreeKeyReleased
 
@@ -2274,9 +1942,10 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtrechercherarticleKeyPressed
 
     private void txtrechercherarticleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherarticleKeyReleased
+        conn = ConexionBD.Conexion();
         try {
             String requete = "select * from article  where NumArticle LIKE ? or NomArticle LIKE ?";
-            ps = connEntree.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
             ps.setString(1, "%" + txtrechercherarticle.getText() + "%");
             ps.setString(2, "%" + txtrechercherarticle.getText() + "%");
             rs = ps.executeQuery();
@@ -2284,35 +1953,8 @@ public final class Entree extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
     }//GEN-LAST:event_txtrechercherarticleKeyReleased
 
