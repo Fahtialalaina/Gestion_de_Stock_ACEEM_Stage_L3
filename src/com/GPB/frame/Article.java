@@ -25,12 +25,15 @@ import net.proteanit.sql.DbUtils;
  */
 public class Article extends javax.swing.JInternalFrame {
 
-    Connection conn2 = null;
-    Connection conn3 = null;
+    Connection conn = null;
     ResultSet rs = null;
     ResultSet rs2 = null;
+    ResultSet rs3 = null;
+    ResultSet rs4 = null;
     PreparedStatement ps = null;
     PreparedStatement ps2 = null;
+    PreparedStatement ps3 = null;
+    PreparedStatement ps4 = null;
     static String test;
 
     /**
@@ -53,8 +56,8 @@ public class Article extends javax.swing.JInternalFrame {
         txtbackground3.setIcon(img2);
         txtrechercher1Article.setText("Taper Nom Article");
 
-        conn2 = ConexionBD.Conexion();
-        conn3 = ConexionBD.Conexion();
+        conn = ConexionBD.Conexion();
+        conn = ConexionBD.Conexion();
         AffichageCategorie();
         AffichageArticle();
         remplirComboCategorie();
@@ -67,7 +70,7 @@ public class Article extends javax.swing.JInternalFrame {
         btnenregistrerArticle.setEnabled(false);
 
         /*String requete4 = "delete from effectif";
-            ps = conn2.prepareStatement(requete4);
+            ps = conn.prepareStatement(requete4);
             ps.execute();*/
     }
 
@@ -81,18 +84,38 @@ public class Article extends javax.swing.JInternalFrame {
     private void AffichageCategorie() {
         try {
             String requete = "select NumCategorie as 'Numero' ,NomCategorie as 'Nom de la Categorie' from categorie ";
-            ps = conn2.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
             rs = ps.executeQuery();
             TableCategorie.setModel(DbUtils.resultSetToTableModel(rs));
-            ps.close();
-            rs.close();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
 
             try {
-                ps.close();
-                rs.close();
+                if(rs != null){
+                   rs.close();
+                }
+                if(ps != null){
+                   ps.close();
+                }
+                if(rs2 != null){
+                   rs2.close();
+                }
+                if(ps2 != null){
+                   ps2.close();
+                }
+                if(rs3 != null){
+                   rs3.close();
+                }
+                if(ps3 != null){
+                   ps3.close();
+                }
+                if(rs4 != null){
+                   rs4.close();
+                }
+                if(ps4 != null){
+                   ps4.close();
+                }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "erreur BD");
             }
@@ -107,19 +130,38 @@ public class Article extends javax.swing.JInternalFrame {
 
             String requete2 = "select * from article";
 
-            ps = conn2.prepareStatement(requete2);
+            ps = conn.prepareStatement(requete2);
             rs = ps.executeQuery();
             TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
-            ps.close();
-            rs.close();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
 
             try {
-                ps.close();
-                rs.close();
-
+                if(rs != null){
+                   rs.close();
+                }
+                if(ps != null){
+                   ps.close();
+                }
+                if(rs2 != null){
+                   rs2.close();
+                }
+                if(ps2 != null){
+                   ps2.close();
+                }
+                if(rs3 != null){
+                   rs3.close();
+                }
+                if(ps3 != null){
+                   ps3.close();
+                }
+                if(rs4 != null){
+                   rs4.close();
+                }
+                if(ps4 != null){
+                   ps4.close();
+                }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "erreur BD");
             }
@@ -133,7 +175,7 @@ public class Article extends javax.swing.JInternalFrame {
             int row = TableCategorie.getSelectedRow();
             Article.test = (TableCategorie.getModel().getValueAt(row, 0).toString());
             String requet = " select * from  categorie where NumCategorie = '" + test + "' ";
-            ps = conn2.prepareStatement(requet);
+            ps = conn.prepareStatement(requet);
             rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -149,8 +191,30 @@ public class Article extends javax.swing.JInternalFrame {
         } finally {
 
             try {
-                ps.close();
-                rs.close();
+                if(rs != null){
+                   rs.close();
+                }
+                if(ps != null){
+                   ps.close();
+                }
+                if(rs2 != null){
+                   rs2.close();
+                }
+                if(ps2 != null){
+                   ps2.close();
+                }
+                if(rs3 != null){
+                   rs3.close();
+                }
+                if(ps3 != null){
+                   ps3.close();
+                }
+                if(rs4 != null){
+                   rs4.close();
+                }
+                if(ps4 != null){
+                   ps4.close();
+                }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "erreur BD");
             }
@@ -163,7 +227,7 @@ public class Article extends javax.swing.JInternalFrame {
             int row = TableArticle.getSelectedRow();
             Article.test = (TableArticle.getModel().getValueAt(row, 0).toString());
             String requet = " select * from article where NumArticle = '" + test + "'";
-            ps = conn2.prepareStatement(requet);
+            ps = conn.prepareStatement(requet);
             rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -173,7 +237,7 @@ public class Article extends javax.swing.JInternalFrame {
                 String t4 = rs.getString("QteStock");
                 String t5 = rs.getString("categorie");
                 String cat = " select * from categorie where NumCategorie = '" + t5 + "'";
-                ps2 = conn2.prepareStatement(cat);
+                ps2 = conn.prepareStatement(cat);
                 rs2 = ps2.executeQuery();
                 numeroArticle.setText(t1);
                 DesignationArticle.setText(t2);
@@ -188,10 +252,30 @@ public class Article extends javax.swing.JInternalFrame {
         } finally {
 
             try {
-                ps.close();
-                rs.close();
-                ps2.close();
-                rs2.close();
+                if(rs != null){
+                   rs.close();
+                }
+                if(ps != null){
+                   ps.close();
+                }
+                if(rs2 != null){
+                   rs2.close();
+                }
+                if(ps2 != null){
+                   ps2.close();
+                }
+                if(rs3 != null){
+                   rs3.close();
+                }
+                if(ps3 != null){
+                   ps3.close();
+                }
+                if(rs4 != null){
+                   rs4.close();
+                }
+                if(ps4 != null){
+                   ps4.close();
+                }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "erreur BD");
             }
@@ -202,7 +286,7 @@ public class Article extends javax.swing.JInternalFrame {
         String requet = " select * from  categorie";
 
         try {
-            ps = conn2.prepareStatement(requet);
+            ps = conn.prepareStatement(requet);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -215,8 +299,30 @@ public class Article extends javax.swing.JInternalFrame {
         } finally {
 
             try {
-                ps.close();
-                rs.close();
+                if(rs != null){
+                   rs.close();
+                }
+                if(ps != null){
+                   ps.close();
+                }
+                if(rs2 != null){
+                   rs2.close();
+                }
+                if(ps2 != null){
+                   ps2.close();
+                }
+                if(rs3 != null){
+                   rs3.close();
+                }
+                if(ps3 != null){
+                   ps3.close();
+                }
+                if(rs4 != null){
+                   rs4.close();
+                }
+                if(ps4 != null){
+                   ps4.close();
+                }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "erreur BD");
             }
@@ -391,6 +497,7 @@ public class Article extends javax.swing.JInternalFrame {
 
         numeroArticle.setText("                  ");
 
+        puArticle.setEditable(false);
         puArticle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 puArticleMouseEntered(evt);
@@ -402,6 +509,7 @@ public class Article extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Prix unitaire   : ");
 
+        qteStockArticle.setEditable(false);
         qteStockArticle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 qteStockArticleMouseEntered(evt);
@@ -413,7 +521,7 @@ public class Article extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Qantité en stock   : ");
 
-        jLabel7.setText("Qantité en stock   : ");
+        jLabel7.setText("Catégorie   : ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -1165,7 +1273,7 @@ public class Article extends javax.swing.JInternalFrame {
     private void txtrechercher1CategorieKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercher1CategorieKeyReleased
         try {
             String requete = "select NumCategorie as 'Numero' ,NomCategorie as 'Nom Categorie' from categorie  where NomCategorie LIKE ?";
-            ps = conn2.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
             ps.setString(1, "%" + txtrechercher1Categorie.getText() + "%");
             rs = ps.executeQuery();
             TableCategorie.setModel(DbUtils.resultSetToTableModel(rs));
@@ -1174,8 +1282,30 @@ public class Article extends javax.swing.JInternalFrame {
         } finally {
 
             try {
-                ps.close();
-                rs.close();
+                if(rs != null){
+                   rs.close();
+                }
+                if(ps != null){
+                   ps.close();
+                }
+                if(rs2 != null){
+                   rs2.close();
+                }
+                if(ps2 != null){
+                   ps2.close();
+                }
+                if(rs3 != null){
+                   rs3.close();
+                }
+                if(ps3 != null){
+                   ps3.close();
+                }
+                if(rs4 != null){
+                   rs4.close();
+                }
+                if(ps4 != null){
+                   ps4.close();
+                }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "erreur BD");
             }
@@ -1219,7 +1349,7 @@ public class Article extends javax.swing.JInternalFrame {
 
         try {
             String requete = "select NumCategorie as 'Numero' ,NomCategorie as 'Nom Categorie' from categorie  where NumCategorie LIKE ?";
-            ps = conn2.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
             ps.setString(1, "%" + txtrechercherCategorie.getText() + "%");
             rs = ps.executeQuery();
             TableCategorie.setModel(DbUtils.resultSetToTableModel(rs));
@@ -1228,8 +1358,30 @@ public class Article extends javax.swing.JInternalFrame {
         } finally {
 
             try {
-                ps.close();
-                rs.close();
+                if(rs != null){
+                   rs.close();
+                }
+                if(ps != null){
+                   ps.close();
+                }
+                if(rs2 != null){
+                   rs2.close();
+                }
+                if(ps2 != null){
+                   ps2.close();
+                }
+                if(rs3 != null){
+                   rs3.close();
+                }
+                if(ps3 != null){
+                   ps3.close();
+                }
+                if(rs4 != null){
+                   rs4.close();
+                }
+                if(ps4 != null){
+                   ps4.close();
+                }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "erreur BD");
             }
@@ -1268,7 +1420,7 @@ public class Article extends javax.swing.JInternalFrame {
     private void btnenregistrerCategorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerCategorieActionPerformed
         try {
             String requete = "insert into  categorie (NomCategorie) values (?)";
-            ps = conn2.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
             ps.setString(1, txtNomCategorie.getText());
             ps.execute();
             JOptionPane.showMessageDialog(null, "Enregistrement succes");
@@ -1278,8 +1430,30 @@ public class Article extends javax.swing.JInternalFrame {
         } finally {
 
             try {
-                ps.close();
-                rs.close();
+                if(rs != null){
+                   rs.close();
+                }
+                if(ps != null){
+                   ps.close();
+                }
+                if(rs2 != null){
+                   rs2.close();
+                }
+                if(ps2 != null){
+                   ps2.close();
+                }
+                if(rs3 != null){
+                   rs3.close();
+                }
+                if(ps3 != null){
+                   ps3.close();
+                }
+                if(rs4 != null){
+                   rs4.close();
+                }
+                if(ps4 != null){
+                   ps4.close();
+                }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "deja inserre" + ex);
             }
@@ -1369,7 +1543,7 @@ public class Article extends javax.swing.JInternalFrame {
 
             String requete = "update categorie set NomCategorie =? where  NumCategorie ='" + numeroCategorie.getText() + "'";
 
-            ps = conn2.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
             ps.setString(1, txtNomCategorie.getText());
             ps.execute();
             JOptionPane.showMessageDialog(null, "Modification avec succès");
@@ -1378,9 +1552,30 @@ public class Article extends javax.swing.JInternalFrame {
         } finally {
 
             try {
-                ps.close();
-                rs.close();
-
+                if(rs != null){
+                   rs.close();
+                }
+                if(ps != null){
+                   ps.close();
+                }
+                if(rs2 != null){
+                   rs2.close();
+                }
+                if(ps2 != null){
+                   ps2.close();
+                }
+                if(rs3 != null){
+                   rs3.close();
+                }
+                if(ps3 != null){
+                   ps3.close();
+                }
+                if(rs4 != null){
+                   rs4.close();
+                }
+                if(ps4 != null){
+                   ps4.close();
+                }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "erreur BD");
             }
@@ -1409,12 +1604,12 @@ public class Article extends javax.swing.JInternalFrame {
                     "Supprimer Categorie", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
                 String requete = "delete from categorie where NumCategorie = '" + numeroCategorie.getText() + "'";
                 String requete2 = "select * from article where categorie = '" + numeroCategorie.getText() + "'";
-                ps2 = conn3.prepareStatement(requete2);
+                ps2 = conn.prepareStatement(requete2);
                 rs2 = ps2.executeQuery();
                 if(rs2.next()){
                     JOptionPane.showMessageDialog(null, "Erreur de suppression car il existe des articles pour cette categorie");
                 } else{
-                ps = conn3.prepareStatement(requete);
+                ps = conn.prepareStatement(requete);
                 ps.execute();
                 }
             }
@@ -1423,10 +1618,30 @@ public class Article extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "erreur de suppression" + e.getMessage());
         } finally {
             try {
-                ps.close();
-                rs.close();
-                ps2.close();
-                rs2.close();
+                if(rs != null){
+                   rs.close();
+                }
+                if(ps != null){
+                   ps.close();
+                }
+                if(rs2 != null){
+                   rs2.close();
+                }
+                if(ps2 != null){
+                   ps2.close();
+                }
+                if(rs3 != null){
+                   rs3.close();
+                }
+                if(ps3 != null){
+                   ps3.close();
+                }
+                if(rs4 != null){
+                   rs4.close();
+                }
+                if(ps4 != null){
+                   ps4.close();
+                }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "erreur BD");
             }
@@ -1524,22 +1739,18 @@ public class Article extends javax.swing.JInternalFrame {
 
     private void btnenregistrerArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerArticleActionPerformed
         try {
-            String requete = "insert into  article (NomArticle, pu, QteStock, Categorie, MontantStock) values (?,?,?,?,?)";
+            String requete = "insert into  article (NomArticle, Categorie) values (?,?)";
 
             String combo = (String) ComboCategorie.getSelectedItem();
             String requete2 = " select * from  categorie where NomCategorie = '" + combo + "'";
 
-            ps2 = conn2.prepareStatement(requete2);
+            ps2 = conn.prepareStatement(requete2);
             rs2 = ps2.executeQuery();
             String num = rs2.getString("NumCategorie");
 
-            ps = conn2.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
             ps.setString(1, DesignationArticle.getText());
-            ps.setString(2, puArticle.getText());
-            ps.setString(3, qteStockArticle.getText());
-            ps.setString(4, num);
-            long Mt = Integer.parseInt(puArticle.getText()) * Integer.parseInt(qteStockArticle.getText());
-            ps.setString(5, String.valueOf(Mt));
+            ps.setString(2, num);
             ps.execute();
             JOptionPane.showMessageDialog(null, "Enregistrement succes");
         } catch (HeadlessException | SQLException e) {
@@ -1548,10 +1759,30 @@ public class Article extends javax.swing.JInternalFrame {
         } finally {
 
             try {
-                ps2.close();
-                rs2.close();
-                ps.close();
-                rs.close();
+                if(rs != null){
+                   rs.close();
+                }
+                if(ps != null){
+                   ps.close();
+                }
+                if(rs2 != null){
+                   rs2.close();
+                }
+                if(ps2 != null){
+                   ps2.close();
+                }
+                if(rs3 != null){
+                   rs3.close();
+                }
+                if(ps3 != null){
+                   ps3.close();
+                }
+                if(rs4 != null){
+                   rs4.close();
+                }
+                if(ps4 != null){
+                   ps4.close();
+                }
 
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "deja inserre" + ex);
@@ -1584,23 +1815,18 @@ public class Article extends javax.swing.JInternalFrame {
     private void btnmodifierArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierArticleActionPerformed
         try {
 
-            String requete = "update article set NomArticle =? ,pu =? ,QteStock =? ,categorie =? ,MontantStock =? where  NumArticle ='" + numeroArticle.getText() + "'";
+            String requete = "update article set NomArticle =? ,categorie =? where  NumArticle ='" + numeroArticle.getText() + "'";
 
             String combo = (String) ComboCategorie.getSelectedItem();
             String requete2 = " select * from  categorie where NomCategorie = '" + combo + "'";
 
-            ps2 = conn2.prepareStatement(requete2);
+            ps2 = conn.prepareStatement(requete2);
             rs2 = ps2.executeQuery();
             String num = rs2.getString("NumCategorie");
 
-            ps = conn2.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
             ps.setString(1, DesignationArticle.getText());
-            ps.setString(2, puArticle.getText());
-            ps.setString(3, qteStockArticle.getText());
-            ps.setString(4, num);
-            long Mt = Integer.parseInt(puArticle.getText()) * Integer.parseInt(qteStockArticle.getText());
-            ps.setString(5, String.valueOf(Mt));
-            ps.execute();
+            ps.setString(2, num);
             JOptionPane.showMessageDialog(null, "Modification succes");
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
@@ -1608,10 +1834,30 @@ public class Article extends javax.swing.JInternalFrame {
         } finally {
 
             try {
-                ps2.close();
-                rs2.close();
-                ps.close();
-                rs.close();
+                if(rs != null){
+                   rs.close();
+                }
+                if(ps != null){
+                   ps.close();
+                }
+                if(rs2 != null){
+                   rs2.close();
+                }
+                if(ps2 != null){
+                   ps2.close();
+                }
+                if(rs3 != null){
+                   rs3.close();
+                }
+                if(ps3 != null){
+                   ps3.close();
+                }
+                if(rs4 != null){
+                   rs4.close();
+                }
+                if(ps4 != null){
+                   ps4.close();
+                }
 
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "deja inserre" + ex);
@@ -1641,12 +1887,12 @@ public class Article extends javax.swing.JInternalFrame {
                 String requete = "delete from article where NumArticle = '" + numeroArticle.getText() + "'";
                 
                 String requete2 = "select * from LigneEntree where NumArticle = '" + numeroArticle.getText() + "'";
-                ps2 = conn2.prepareStatement(requete2);
+                ps2 = conn.prepareStatement(requete2);
                 rs2 = ps2.executeQuery();
                 if(rs2.next()){
                     JOptionPane.showMessageDialog(null, "Erreur de suppression car il existe des Entrée pour cette article");
                 } else{
-                ps = conn2.prepareStatement(requete);
+                ps = conn.prepareStatement(requete);
                 ps.execute();
                 }
             }
@@ -1655,10 +1901,30 @@ public class Article extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "erreur de supprimer car peut Ãªtre que cette article est en cours de mouvement /n erreur de suppression" + e.getMessage());
         } finally {
             try {
-                ps.close();
-                rs.close();
-                ps2.close();
-                rs2.close();
+                if(rs != null){
+                   rs.close();
+                }
+                if(ps != null){
+                   ps.close();
+                }
+                if(rs2 != null){
+                   rs2.close();
+                }
+                if(ps2 != null){
+                   ps2.close();
+                }
+                if(rs3 != null){
+                   rs3.close();
+                }
+                if(ps3 != null){
+                   ps3.close();
+                }
+                if(rs4 != null){
+                   rs4.close();
+                }
+                if(ps4 != null){
+                   ps4.close();
+                }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "erreur BD");
             }
@@ -1721,7 +1987,7 @@ public class Article extends javax.swing.JInternalFrame {
         try {
             String requete = "select NumArticle as 'Numero' ,NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' from article, categorie WHERE\n"
                     + "(categorie.NumCategorie=article.categorie) and NomArticle LIKE ?";
-            ps = conn2.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
             ps.setString(1, "%" + txtrechercher1Article.getText() + "%");
             rs = ps.executeQuery();
             TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
@@ -1730,8 +1996,30 @@ public class Article extends javax.swing.JInternalFrame {
         } finally {
 
             try {
-                ps.close();
-                rs.close();
+               if(rs != null){
+                   rs.close();
+                }
+                if(ps != null){
+                   ps.close();
+                }
+                if(rs2 != null){
+                   rs2.close();
+                }
+                if(ps2 != null){
+                   ps2.close();
+                }
+                if(rs3 != null){
+                   rs3.close();
+                }
+                if(ps3 != null){
+                   ps3.close();
+                }
+                if(rs4 != null){
+                   rs4.close();
+                }
+                if(ps4 != null){
+                   ps4.close();
+                };
 
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "erreur BD");
@@ -1783,7 +2071,7 @@ public class Article extends javax.swing.JInternalFrame {
         try {
             String requete = "select NumArticle as 'Numero' ,NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' from article, categorie WHERE\n"
                     + "(categorie.NumCategorie=article.categorie) and NumArticle LIKE ?";
-            ps = conn2.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
             ps.setString(1, "%" + txtrechercherArticle.getText() + "%");
             rs = ps.executeQuery();
             TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
@@ -1792,9 +2080,30 @@ public class Article extends javax.swing.JInternalFrame {
         } finally {
 
             try {
-                ps.close();
-                rs.close();
-
+                if(rs != null){
+                   rs.close();
+                }
+                if(ps != null){
+                   ps.close();
+                }
+                if(rs2 != null){
+                   rs2.close();
+                }
+                if(ps2 != null){
+                   ps2.close();
+                }
+                if(rs3 != null){
+                   rs3.close();
+                }
+                if(ps3 != null){
+                   ps3.close();
+                }
+                if(rs4 != null){
+                   rs4.close();
+                }
+                if(ps4 != null){
+                   ps4.close();
+                }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "erreur BD");
             }

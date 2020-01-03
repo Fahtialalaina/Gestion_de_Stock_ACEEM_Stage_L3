@@ -26,7 +26,7 @@ public class AcceuilGui extends javax.swing.JFrame {
 
     public static String t3;
     private static ChartFrame frame;
-    Connection conn = null;
+    Connection connAccueil = null;
     ResultSet rs = null;
     PreparedStatement ps = null;
 
@@ -37,7 +37,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         initComponents();
         datecourante();
         //this.setIconImage(new ImageIcon(getClass().getResource("logocar.png")).getImage());
-        conn = ConexionBD.Conexion();
+        connAccueil = ConexionBD.Conexion();
         recuperutlisateur();
 
     }
@@ -89,7 +89,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         try {
             String recp = lo.utilisateur();
             String requet = "select * from login_table where login = '" + recp + "'";
-            ps = conn.prepareStatement(requet);
+            ps = connAccueil.prepareStatement(requet);
             rs = ps.executeQuery();
             if (rs.next()) {
                 String t2 = rs.getString("prenom");
@@ -130,7 +130,6 @@ public class AcceuilGui extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         labdate2 = new javax.swing.JLabel();
         logomax = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         menublanc = new javax.swing.JLabel();
         desk = new javax.swing.JDesktopPane();
         type = new javax.swing.JLabel();
@@ -141,9 +140,11 @@ public class AcceuilGui extends javax.swing.JFrame {
         utlisateurbtn = new javax.swing.JButton();
         Clientbtn = new javax.swing.JButton();
         Effectifbtn = new javax.swing.JButton();
-        banquebtn = new javax.swing.JButton();
+        Section = new javax.swing.JButton();
         article = new javax.swing.JButton();
         Entree = new javax.swing.JButton();
+        Fournisseur = new javax.swing.JButton();
+        Sortie = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -185,12 +186,6 @@ public class AcceuilGui extends javax.swing.JFrame {
         getContentPane().add(logomax);
         logomax.setBounds(10, 0, 610, 30);
 
-        jLabel4.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel4.setText("Projet L3 IG 2018-2019");
-        jLabel4.setToolTipText("");
-        getContentPane().add(jLabel4);
-        jLabel4.setBounds(10, 70, 140, 10);
-
         menublanc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/menu.png"))); // NOI18N
         getContentPane().add(menublanc);
         menublanc.setBounds(0, 0, 1370, 30);
@@ -201,7 +196,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         desk.setLayout(deskLayout);
         deskLayout.setHorizontalGroup(
             deskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1160, Short.MAX_VALUE)
+            .addGap(0, 1180, Short.MAX_VALUE)
         );
         deskLayout.setVerticalGroup(
             deskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,7 +204,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         );
 
         getContentPane().add(desk);
-        desk.setBounds(190, 70, 1160, 640);
+        desk.setBounds(170, 70, 1180, 640);
 
         type.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         type.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -315,23 +310,23 @@ public class AcceuilGui extends javax.swing.JFrame {
             }
         });
 
-        banquebtn.setBackground(new java.awt.Color(153, 153, 153));
-        banquebtn.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
-        banquebtn.setForeground(new java.awt.Color(255, 255, 255));
-        banquebtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
-        banquebtn.setText("Section");
-        banquebtn.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
-        banquebtn.setContentAreaFilled(false);
-        banquebtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        banquebtn.setOpaque(true);
-        banquebtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        Section.setBackground(new java.awt.Color(153, 153, 153));
+        Section.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
+        Section.setForeground(new java.awt.Color(255, 255, 255));
+        Section.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
+        Section.setText("Section");
+        Section.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
+        Section.setContentAreaFilled(false);
+        Section.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Section.setOpaque(true);
+        Section.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                banquebtnMouseReleased(evt);
+                SectionMouseReleased(evt);
             }
         });
-        banquebtn.addActionListener(new java.awt.event.ActionListener() {
+        Section.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                banquebtnActionPerformed(evt);
+                SectionActionPerformed(evt);
             }
         });
 
@@ -375,13 +370,55 @@ public class AcceuilGui extends javax.swing.JFrame {
             }
         });
 
+        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
+        Fournisseur.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
+        Fournisseur.setForeground(new java.awt.Color(255, 255, 255));
+        Fournisseur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
+        Fournisseur.setText("Fournisseur");
+        Fournisseur.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
+        Fournisseur.setContentAreaFilled(false);
+        Fournisseur.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Fournisseur.setOpaque(true);
+        Fournisseur.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                FournisseurMouseReleased(evt);
+            }
+        });
+        Fournisseur.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FournisseurActionPerformed(evt);
+            }
+        });
+
+        Sortie.setBackground(new java.awt.Color(153, 153, 153));
+        Sortie.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
+        Sortie.setForeground(new java.awt.Color(255, 255, 255));
+        Sortie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
+        Sortie.setText("Sortie");
+        Sortie.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
+        Sortie.setContentAreaFilled(false);
+        Sortie.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Sortie.setOpaque(true);
+        Sortie.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                SortieMouseReleased(evt);
+            }
+        });
+        Sortie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SortieActionPerformed(evt);
+            }
+        });
+
         jDesktopPane1.setLayer(pretbtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(utlisateurbtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(Clientbtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(Effectifbtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(banquebtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(Section, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(article, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(Entree, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(Fournisseur, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(Sortie, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -390,20 +427,16 @@ public class AcceuilGui extends javax.swing.JFrame {
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Effectifbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pretbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(utlisateurbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(article, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(banquebtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Clientbtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Entree, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                    .addComponent(Effectifbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pretbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(utlisateurbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(article, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Section, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Entree, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Clientbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Fournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Sortie, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(152, Short.MAX_VALUE))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -411,10 +444,14 @@ public class AcceuilGui extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(article, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(banquebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Section, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Entree, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Fournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Sortie, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(Clientbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pretbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -426,7 +463,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         );
 
         getContentPane().add(jDesktopPane1);
-        jDesktopPane1.setBounds(10, 120, 152, 440);
+        jDesktopPane1.setBounds(10, 120, 298, 520);
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -499,7 +536,7 @@ public class AcceuilGui extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formWindowOpened
 
-    private void banquebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_banquebtnActionPerformed
+    private void SectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SectionActionPerformed
         this.desk.removeAll();
         this.desk.repaint();
 
@@ -516,7 +553,7 @@ public class AcceuilGui extends javax.swing.JFrame {
             Logger.getLogger(AcceuilGui.class.getName()).log(Level.SEVERE, null, ex1);
         }
         ex.show();
-    }//GEN-LAST:event_banquebtnActionPerformed
+    }//GEN-LAST:event_SectionActionPerformed
 
     private void utlisateurbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_utlisateurbtnActionPerformed
         this.desk.removeAll();
@@ -535,7 +572,7 @@ public class AcceuilGui extends javax.swing.JFrame {
     private void ClientbtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientbtnMouseReleased
         Clientbtn.setBackground(new java.awt.Color(0, 153, 153));
         Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
-        banquebtn.setBackground(new java.awt.Color(153, 153, 153));
+        Section.setBackground(new java.awt.Color(153, 153, 153));
         pretbtn.setBackground(new java.awt.Color(153, 153, 153));
         utlisateurbtn.setBackground(new java.awt.Color(153, 153, 153));
     }//GEN-LAST:event_ClientbtnMouseReleased
@@ -543,7 +580,7 @@ public class AcceuilGui extends javax.swing.JFrame {
     private void EffectifbtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EffectifbtnMouseReleased
         Clientbtn.setBackground(new java.awt.Color(153, 153, 153));
         Effectifbtn.setBackground(new java.awt.Color(0, 153, 153));
-        banquebtn.setBackground(new java.awt.Color(153, 153, 153));
+        Section.setBackground(new java.awt.Color(153, 153, 153));
         pretbtn.setBackground(new java.awt.Color(153, 153, 153));
         utlisateurbtn.setBackground(new java.awt.Color(153, 153, 153));
     }//GEN-LAST:event_EffectifbtnMouseReleased
@@ -556,16 +593,16 @@ public class AcceuilGui extends javax.swing.JFrame {
 //        candidatbtn.setBackground(new java.awt.Color(204,204,204));
     }//GEN-LAST:event_ClientbtnMouseExited
 
-    private void banquebtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_banquebtnMouseReleased
-        banquebtn.setBackground(new java.awt.Color(0, 153, 153));
+    private void SectionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SectionMouseReleased
+        Section.setBackground(new java.awt.Color(0, 153, 153));
         Clientbtn.setBackground(new java.awt.Color(153, 153, 153));
         Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
         pretbtn.setBackground(new java.awt.Color(153, 153, 153));
         utlisateurbtn.setBackground(new java.awt.Color(153, 153, 153));
-    }//GEN-LAST:event_banquebtnMouseReleased
+    }//GEN-LAST:event_SectionMouseReleased
 
     private void pretbtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pretbtnMouseReleased
-        banquebtn.setBackground(new java.awt.Color(153, 153, 153));
+        Section.setBackground(new java.awt.Color(153, 153, 153));
         Clientbtn.setBackground(new java.awt.Color(153, 153, 153));
         Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
         pretbtn.setBackground(new java.awt.Color(0, 153, 153));
@@ -573,7 +610,7 @@ public class AcceuilGui extends javax.swing.JFrame {
     }//GEN-LAST:event_pretbtnMouseReleased
 
     private void utlisateurbtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_utlisateurbtnMouseReleased
-        banquebtn.setBackground(new java.awt.Color(153, 153, 153));
+        Section.setBackground(new java.awt.Color(153, 153, 153));
         Clientbtn.setBackground(new java.awt.Color(153, 153, 153));
         Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
         pretbtn.setBackground(new java.awt.Color(153, 153, 153));
@@ -598,7 +635,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         article.setBackground(new java.awt.Color(0, 153, 153));
         Clientbtn.setBackground(new java.awt.Color(153, 153, 153));
         Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
-        banquebtn.setBackground(new java.awt.Color(153, 153, 153));
+        Section.setBackground(new java.awt.Color(153, 153, 153));
         pretbtn.setBackground(new java.awt.Color(153, 153, 153));
         utlisateurbtn.setBackground(new java.awt.Color(153, 153, 153));
     }//GEN-LAST:event_articleMouseReleased
@@ -645,6 +682,52 @@ public class AcceuilGui extends javax.swing.JFrame {
         ex.show();
     }//GEN-LAST:event_EntreeActionPerformed
 
+    private void FournisseurMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FournisseurMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FournisseurMouseReleased
+
+    private void FournisseurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FournisseurActionPerformed
+        this.desk.removeAll();
+        this.desk.repaint();
+
+        Fournisseur ex = null;
+        try {
+            ex = new Fournisseur();
+        } catch (SQLException ex1) {
+            Logger.getLogger(AcceuilGui.class.getName()).log(Level.SEVERE, null, ex1);
+        }
+        this.desk.add(ex);
+        try {
+            ex.setMaximum(true);
+        } catch (PropertyVetoException ex1) {
+            Logger.getLogger(AcceuilGui.class.getName()).log(Level.SEVERE, null, ex1);
+        }
+        ex.show();
+    }//GEN-LAST:event_FournisseurActionPerformed
+
+    private void SortieMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SortieMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SortieMouseReleased
+
+    private void SortieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SortieActionPerformed
+        this.desk.removeAll();
+        this.desk.repaint();
+
+        Sortie ex = null;
+        try {
+            ex = new Sortie();
+        } catch (SQLException ex1) {
+            Logger.getLogger(AcceuilGui.class.getName()).log(Level.SEVERE, null, ex1);
+        }
+        this.desk.add(ex);
+        try {
+            ex.setMaximum(true);
+        } catch (PropertyVetoException ex1) {
+            Logger.getLogger(AcceuilGui.class.getName()).log(Level.SEVERE, null, ex1);
+        }
+        ex.show();
+    }//GEN-LAST:event_SortieActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -686,13 +769,14 @@ public class AcceuilGui extends javax.swing.JFrame {
     private javax.swing.JButton Clientbtn;
     private javax.swing.JButton Effectifbtn;
     private javax.swing.JButton Entree;
+    private javax.swing.JButton Fournisseur;
+    private javax.swing.JButton Section;
+    private javax.swing.JButton Sortie;
     private javax.swing.JButton article;
-    private javax.swing.JButton banquebtn;
     private javax.swing.JDesktopPane desk;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labDate;
     private javax.swing.JLabel labdate2;
