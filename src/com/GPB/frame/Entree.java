@@ -161,6 +161,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         if (conn != null) {
             try {
                 conn.close();
+                System.out.println("Connexion fermée");
             } catch (SQLException e) { /* ignored */}
         }
     }
