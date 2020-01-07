@@ -27,17 +27,21 @@ import net.proteanit.sql.DbUtils;
  */
 public class Sortie extends javax.swing.JInternalFrame {
 
-    Connection connSortie = null;
+    Connection conn = null;
     ResultSet rs = null;
     ResultSet rs2 = null;
     ResultSet rs3 = null;
     ResultSet rs4 = null;
     ResultSet rs5 = null;
+    ResultSet rs6 = null;
+    ResultSet rs7 = null;
     PreparedStatement ps = null;
     PreparedStatement ps2 = null;
     PreparedStatement ps3 = null;
     PreparedStatement ps4 = null;
     PreparedStatement ps5 = null;
+    PreparedStatement ps6 = null;
+    PreparedStatement ps7 = null;
     static String test;
 
     /**
@@ -46,7 +50,7 @@ public class Sortie extends javax.swing.JInternalFrame {
      * @throws java.sql.SQLException
      */
     public Sortie() throws SQLException {
-        
+
         initComponents();
         remove_title_bar();
 
@@ -56,10 +60,11 @@ public class Sortie extends javax.swing.JInternalFrame {
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
         txtrechercher1Entree.setText("Taper Reference Sortie");
-
-        connSortie = ConexionBD.Conexion();
+        CloseConnexion();
+        conn = ConexionBD.Conexion();
         AffichageSortie();
         AffichageArticle();
+        CloseConnexion();
         remplirComboSection();
         masquerLigneSortie();
         masquerArticle();
@@ -103,27 +108,148 @@ public class Sortie extends javax.swing.JInternalFrame {
         TableArticleSortie.setVisible(true);
     }
 
+    public void CloseConnexion() {
+        if (conn != null) {
+            try {
+                conn.close();
+                System.out.println("Connexion fermée");
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+    }
+
+    public void CloseRsPs1() {
+        if (rs != null) {
+            try {
+                rs.close();
+                System.out.println("RS1 fermée");
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+        if (ps != null) {
+            try {
+                ps.close();
+                System.out.println("PS1 fermée");
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+    }
+
+    public void CloseRsPs2() {
+        if (rs2 != null) {
+            try {
+                rs2.close();
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+        if (ps2 != null) {
+            try {
+                ps2.close();
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+    }
+
+    public void CloseRsPs3() {
+        if (rs3 != null) {
+            try {
+                rs3.close();
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+        if (ps3 != null) {
+            try {
+                ps3.close();
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+    }
+
+    public void CloseRsPs4() {
+        if (rs4 != null) {
+            try {
+                rs4.close();
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+        if (ps4 != null) {
+            try {
+                ps4.close();
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+    }
+
+    public void CloseRsPs5() {
+        if (rs5 != null) {
+            try {
+                rs5.close();
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+        if (ps5 != null) {
+            try {
+                ps5.close();
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+    }
+
+    public void CloseRsPs6() {
+        if (rs6 != null) {
+            try {
+                rs6.close();
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+        if (ps6 != null) {
+            try {
+                ps6.close();
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+    }
+
+    public void CloseRsPs7() {
+        if (rs7 != null) {
+            try {
+                rs7.close();
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+        if (ps7 != null) {
+            try {
+                ps7.close();
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+    }
+
     private void AffichageArticle() {
         try {
             String requete2 = "select * from article";
-            ps = connSortie.prepareStatement(requete2);
-            rs = ps.executeQuery();
-            TableArticleSortie.setModel(DbUtils.resultSetToTableModel(rs));
+            ps5 = conn.prepareStatement(requete2);
+            rs5 = ps5.executeQuery();
+            TableArticleSortie.setModel(DbUtils.resultSetToTableModel(rs5));
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs5();
         }
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackgroundarticle.setIcon(img);
@@ -135,24 +261,13 @@ public class Sortie extends javax.swing.JInternalFrame {
         try {
             String requete = "select NumSortie as 'Numero' ,RefSortie as 'Reference' ,Section.idSection as 'Section' ,DateSortie as 'Date' ,MontantTotalSortie as 'MontantTotal' ,ObservationSortie as 'Observation' from Sortie, Section WHERE\n"
                     + "(Section.idSection=Sortie.NumSection)";
-            ps = connSortie.prepareStatement(requete);
-            rs = ps.executeQuery();
-            TableSortie.setModel(DbUtils.resultSetToTableModel(rs));
+            ps5 = conn.prepareStatement(requete);
+            rs5 = ps5.executeQuery();
+            TableSortie.setModel(DbUtils.resultSetToTableModel(rs5));
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs5();
         }
         //ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         //txtbackgroundarticle.setIcon(img);
@@ -164,24 +279,13 @@ public class Sortie extends javax.swing.JInternalFrame {
         try {
             String requete = "select NumLigneSortie as 'Numero' ,article.NomArticle as 'Article' ,NbrSortie as 'Nombre' ,puSortie as 'Prix Unitaire' ,MontantSortie as 'Montant' from LigneSortie, article WHERE\n"
                     + "article.NumArticle=LigneSortie.NumArticle and LigneSortie.NumSortie like '" + numSortie + "'";
-            ps = connSortie.prepareStatement(requete);
-            rs = ps.executeQuery();
-            TableLigneSortie.setModel(DbUtils.resultSetToTableModel(rs));
+            ps5 = conn.prepareStatement(requete);
+            rs5 = ps5.executeQuery();
+            TableLigneSortie.setModel(DbUtils.resultSetToTableModel(rs5));
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs5();
         }
         //ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         //txtbackgroundarticle.setIcon(img);
@@ -190,12 +294,13 @@ public class Sortie extends javax.swing.JInternalFrame {
     }
 
     public void DeplaceLigneSortie() {
+        conn = ConexionBD.Conexion();
         try {
 
             int row = TableLigneSortie.getSelectedRow();
             Sortie.test = (TableLigneSortie.getModel().getValueAt(row, 0).toString());
             String requet = " select * from  LigneSortie where NumLigneSortie = '" + test + "' ";
-            ps = connSortie.prepareStatement(requet);
+            ps = conn.prepareStatement(requet);
             rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -208,64 +313,29 @@ public class Sortie extends javax.swing.JInternalFrame {
                 puSortie.setText(t4);
 
                 String article1 = " select * from article where NumArticle = '" + t2 + "'";
-                ps2 = connSortie.prepareStatement(article1);
+                ps2 = conn.prepareStatement(article1);
                 rs2 = ps2.executeQuery();
                 article.setText(rs2.getString("NomArticle"));
-                try {
-                    if(rs2 != null){
-                       rs2.close();
-                    }
-                    if(ps2 != null){
-                       ps2.close();
-                    }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
             }
 
         } catch (SQLException e) {
             System.out.println(e);
 
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseRsPs2();
+            CloseConnexion();
         }
     }
 
     public void DeplaceArticle() {
+        conn = ConexionBD.Conexion();
         try {
 
             int row = TableArticleSortie.getSelectedRow();
             Sortie.test = (TableArticleSortie.getModel().getValueAt(row, 0).toString());
             String requet = " select * from article where NumArticle = '" + test + "'";
-            ps = connSortie.prepareStatement(requet);
+            ps = conn.prepareStatement(requet);
             rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -279,106 +349,53 @@ public class Sortie extends javax.swing.JInternalFrame {
             System.out.println(e);
 
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
     }
 
     public void DeplaceSortie() {
+        conn = ConexionBD.Conexion();
         try {
-
             int row = TableSortie.getSelectedRow();
             Sortie.test = (TableSortie.getModel().getValueAt(row, 0).toString());
             String requet = " select * from Sortie where NumSortie = '" + test + "'";
-            ps = connSortie.prepareStatement(requet);
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                try {
-                String t1 = rs.getString("NumSortie");
-                String t2 = rs.getString("RefSortie");
-                String t3 = rs.getString("NumSection");
-                String t4 = rs.getString("DateSortie");
-                String t5 = rs.getString("MontantTotalSortie");
-                String t6 = rs.getString("ObservationSortie");
-                String section = " select * from Section where idSection = '" + t3 + "'";
-                ps2 = connSortie.prepareStatement(section);
-                rs2 = ps2.executeQuery();
-                numeroSortie.setText(t1);
-                ref.setText(t2);
-                date.setText(t4);
-                MontantTotal.setText(t5);
-                obs.setText(t6);
-                ComboSection.setSelectedItem(rs2.getString("NomSection"));
-                String num = numeroSortie.getText();
-                AffichageLigneSortie(num);
-                } catch (Exception e) {
-                     System.out.println(e);
-                }finally{
-                try {
-                    if(rs2 != null){
-                       rs2.close();
-                    }
-                    if(ps2 != null){
-                       ps2.close();
-                    }
-                } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-                }
-                }
-            }
+            ps3 = conn.prepareStatement(requet);
+            rs3 = ps3.executeQuery();
+            String t1 = rs3.getString("NumSortie");
+            String t2 = rs3.getString("RefSortie");
+            String t3 = rs3.getString("NumSection");
+            String t4 = rs3.getString("DateSortie");
+            String t5 = rs3.getString("MontantTotalSortie");
+            String t6 = rs3.getString("ObservationSortie");
+            String section = " select * from Section where idSection = '" + t3 + "'";
+            ps4 = conn.prepareStatement(section);
+            rs4 = ps4.executeQuery();
+            numeroSortie.setText(t1);
+            ref.setText(t2);
+            date.setText(t4);
+            MontantTotal.setText(t5);
+            obs.setText(t6);
+            ComboSection.setSelectedItem(rs4.getString("NomSection"));
+            String num = numeroSortie.getText();
+            AffichageLigneSortie(num);
 
         } catch (SQLException e) {
             System.out.println(e);
 
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs3();
+            CloseRsPs4();
+            CloseConnexion();
         }
     }
 
     public void remplirComboSection() {
+        conn = ConexionBD.Conexion();
         String requet = " select * from  Section";
 
         try {
-            ps = connSortie.prepareStatement(requet);
+            ps = conn.prepareStatement(requet);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -389,35 +406,8 @@ public class Sortie extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
 
     }
@@ -945,7 +935,6 @@ public class Sortie extends javax.swing.JInternalFrame {
 
         article.setText("                  ");
 
-        puSortie.setEditable(false);
         puSortie.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 puSortieActionPerformed(evt);
@@ -1397,18 +1386,20 @@ public class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TableSortieMouseEntered
 
     private void TableSortieMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableSortieMouseReleased
-
         afficherLigneSortie();
         afficherArticle();
+        conn = ConexionBD.Conexion();
         AffichageArticle();
+        CloseConnexion();
         clearLS();
-        ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
         DeplaceSortie();
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbachground.setIcon(img);
-        //txtrechercherArticle.setText("Taper Numero Article");
+        txtrechercherEntree.setText("Tapez Numero Sortie");
+
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
+        txtrechercher1Entree.setText("Tapez Reference Sortie");
         //txtrechercher1Article.setText("Taper Nom Article");
         btnsupprimerSortie.setEnabled(true);
         btnmodifierSortie.setEnabled(true);
@@ -1418,104 +1409,83 @@ public class Sortie extends javax.swing.JInternalFrame {
 
     private void SommeMontant() throws SQLException {
         String requete = "select SUM(MontantSortie) as somme from LigneSortie where NumSortie = '" + numeroSortie.getText() + "'";
-        ps = connSortie.prepareStatement(requete);
-        rs = ps.executeQuery();
-        MontantTotal.setText(rs.getString("somme"));
-        try {
-            if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "erreur BD");
-        }
+        ps5 = conn.prepareStatement(requete);
+        rs5 = ps5.executeQuery();
+        MontantTotal.setText(rs5.getString("somme"));
+
+        CloseRsPs5();
     }
 
     private void btnenregistrerLSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerLSActionPerformed
         try {
             //String requete5 = "select * from  LigneEntree where NumArticle = '" + article.getText() + "' and NumEntree = '" + numeroEntree.getText() + "'";
-            //ps5 = connSortie.prepareStatement(requete5);
-            
-            String requete = "insert into LigneSortie (NumSortie,NumArticle,NbrSortie,puSortie,MontantSortie) values (?,?,?,?,?)";
-            ps = connSortie.prepareStatement(requete);
+            //ps5 = conn.prepareStatement(requete5);
+            conn = ConexionBD.Conexion();
 
-            String requete2 = "select * from  article where NomArticle = '" + article.getText() + "'";
-            
+            String requete5 = "select * from  article where NomArticle = '" + article.getText() + "'";
+            ps5 = conn.prepareStatement(requete5);
+            rs5 = ps5.executeQuery();
+            String ancienQte1 = rs5.getString("QteStock");
 
-            ps2 = connSortie.prepareStatement(requete2);
-            rs2 = ps2.executeQuery();
-            String num = rs2.getString("NumArticle");
-            
-            String requete4 = "select * from article where  NumArticle ='" + num + "'";
-            ps4 = connSortie.prepareStatement(requete4);
-            rs4 = ps4.executeQuery();
-            String ancienQte = rs4.getString("QteStock");
-            String ancienMtn = rs4.getString("MontantStock");
-            
-            ps.setString(1, numeroSortie.getText());
-            ps.setString(2, num);
-            ps.setString(3, nbr.getText());
-            ps.setString(4, puSortie.getText());
-            int mtn = Integer.parseInt(nbr.getText()) * Integer.parseInt(puSortie.getText());
-            ps.setString(5, String.valueOf(mtn));
-            //String avant = MontantTotal.getText();
-            //Long apres = mtn + Integer.parseInt(avant);
-            //MontantTotal.setText(String.valueOf(apres));
-            ps.execute();
+            if (Integer.parseInt(ancienQte1) < Integer.parseInt(nbr.getText())) {
+                JOptionPane.showMessageDialog(null, "Stock insuffisant");
+            } else {
+                String requete = "insert into LigneSortie (NumSortie,NumArticle,NbrSortie,puSortie,MontantSortie) values (?,?,?,?,?)";
+                ps = conn.prepareStatement(requete);
 
-            String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
-            ps3 = connSortie.prepareStatement(requete3);
-            
-            int qte = Integer.parseInt(ancienQte) - Integer.parseInt(nbr.getText());
-            ps3.setString(1, String.valueOf(qte));
-            ps3.setString(2, String.valueOf(Integer.parseInt(ancienMtn)-mtn));
-            ps3.execute();
+                String requete2 = "select * from  article where NomArticle = '" + article.getText() + "'";
 
-            JOptionPane.showMessageDialog(null, "Enregistrement succes");
+                ps2 = conn.prepareStatement(requete2);
+                rs2 = ps2.executeQuery();
+                String num = rs2.getString("NumArticle");
 
-            AffichageLigneSortie(numeroSortie.getText());
-            clearLS();
-            /*try {
-                SommeMontant();
-            } catch (SQLException ex) {
-                Logger.getLogger(Sortie.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+                String requete4 = "select * from article where  NumArticle ='" + num + "'";
+                ps4 = conn.prepareStatement(requete4);
+                rs4 = ps4.executeQuery();
+                String ancienQte = rs4.getString("QteStock");
+                String ancienMtn = rs4.getString("MontantStock");
+
+                ps.setString(1, numeroSortie.getText());
+                ps.setString(2, num);
+                ps.setString(3, nbr.getText());
+                ps.setString(4, puSortie.getText());
+                int mtn = Integer.parseInt(nbr.getText()) * Integer.parseInt(puSortie.getText());
+                ps.setString(5, String.valueOf(mtn));
+                //String avant = MontantTotal.getText();
+                //Long apres = mtn + Integer.parseInt(avant);
+                //MontantTotal.setText(String.valueOf(apres));
+                ps.execute();
+
+                String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
+                ps3 = conn.prepareStatement(requete3);
+
+                int qte = Integer.parseInt(ancienQte) - Integer.parseInt(nbr.getText());
+                ps3.setString(1, String.valueOf(qte));
+                ps3.setString(2, String.valueOf(Integer.parseInt(ancienMtn) - mtn));
+                ps3.execute();
+
+                JOptionPane.showMessageDialog(null, "Enregistrement succes");
+
+                AffichageLigneSortie(numeroSortie.getText());
+                clearLS();
+                try {
+                    SommeMontant();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Sortie.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
         } finally {
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "deja inserre" + ex);
-            }
+            CloseRsPs1();
+            CloseRsPs2();
+            CloseRsPs3();
+            CloseRsPs4();
+            CloseConnexion();
         }
-
+        RectifierMontantTotalSortie();
     }//GEN-LAST:event_btnenregistrerLSActionPerformed
 
     private void TableSortieKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TableSortieKeyReleased
@@ -1585,18 +1555,51 @@ public class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnmodifierLSMouseMoved
 
     private void btnmodifierLSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierLSActionPerformed
+        conn = ConexionBD.Conexion();
         try {
 
-            //String requete1String = "update categorie set NomCategorie =? where  NumCategorie ='" + numeroLigneEntree.getText() + "'";
+            String requete1 = "select * from LigneSortie where  NumLigneSortie ='" + numeroLigneSortie.getText() + "'";
+            ps5 = conn.prepareStatement(requete1);
+            rs5 = ps5.executeQuery();
+            String NumArticle = rs5.getString("NumArticle");
+            String NbrSortie = rs5.getString("NbrSortie");
+            String MontantSortie = rs5.getString("MontantSortie");
+
+            String requete7 = "select * from  article where NumArticle = '" + NumArticle + "'";
+            ps7 = conn.prepareStatement(requete7);
+            rs7 = ps7.executeQuery();
+            String AncienQte = rs7.getString("QteStock");
+            String AncienMtn = rs7.getString("MontantStock");
+
+            String requete6 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + NumArticle + "'";
+            ps6 = conn.prepareStatement(requete6);
+
+            int qte = Integer.parseInt(AncienQte) + Integer.parseInt(NbrSortie);
+            ps6.setString(1, String.valueOf(qte));
+            int MtnRet = Integer.parseInt(AncienMtn) + Integer.parseInt(MontantSortie);
+            if (qte != 0) {
+                int pu = MtnRet / qte;
+                ps6.setString(2, String.valueOf(pu));
+            } else {
+                ps6.setString(2, String.valueOf(0));
+            }
+            ps6.setString(3, String.valueOf(MtnRet));
+            ps6.execute();
 
             String requete = "update LigneSortie set NumSortie =?,NumArticle=?,NbrSortie=?,puSortie=?,MontantSortie=? where  NumLigneSortie ='" + numeroLigneSortie.getText() + "'";
-            ps = connSortie.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
 
             String requete2 = "select * from  article where NomArticle = '" + article.getText() + "'";
-
-            ps2 = connSortie.prepareStatement(requete2);
+            ps2 = conn.prepareStatement(requete2);
             rs2 = ps2.executeQuery();
             String num = rs2.getString("NumArticle");
+
+            String requete4 = "select * from article where  NumArticle ='" + num + "'";
+            ps4 = conn.prepareStatement(requete4);
+            rs4 = ps4.executeQuery();
+            String ancienQte = rs4.getString("QteStock");
+            String ancienMtn = rs4.getString("MontantStock");
+
             ps.setString(1, numeroSortie.getText());
             ps.setString(2, num);
             ps.setString(3, nbr.getText());
@@ -1604,41 +1607,26 @@ public class Sortie extends javax.swing.JInternalFrame {
             long mtn = Integer.parseInt(nbr.getText()) * Integer.parseInt(puSortie.getText());
             ps.setString(5, String.valueOf(mtn));
             ps.execute();
+
+            String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
+            ps3 = conn.prepareStatement(requete3);
+
+            int Qte = Integer.parseInt(ancienQte) - Integer.parseInt(nbr.getText());
+            ps3.setString(1, String.valueOf(Qte));
+            ps3.setString(2, String.valueOf(Integer.parseInt(ancienMtn) - mtn));
+            ps3.execute();
+            AffichageLigneSortie(numeroSortie.getText());
+            clearLS();
             JOptionPane.showMessageDialog(null, "Modification succes");
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseRsPs2();
+            CloseConnexion();
         }
+        conn = ConexionBD.Conexion();
         AffichageLigneSortie(numeroSortie.getText());
         clearLS();
         try {
@@ -1646,8 +1634,27 @@ public class Sortie extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Sortie.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        CloseConnexion();
+        RectifierMontantTotalSortie();
     }//GEN-LAST:event_btnmodifierLSActionPerformed
+
+    private void RectifierMontantTotalSortie() {
+        conn = ConexionBD.Conexion();
+        try {
+            String requete = "update Sortie set MontantTotalSortie=? where  NumSortie ='" + numeroSortie.getText() + "'";
+            ps = conn.prepareStatement(requete);
+
+            ps.setString(1, MontantTotal.getText());
+            ps.execute();
+        } catch (HeadlessException | SQLException e) {
+            System.out.println("--> SQLException : " + e);
+        } finally {
+            CloseRsPs1();
+            CloseRsPs2();
+        }
+        AffichageSortie();
+        CloseConnexion();
+    }
 
     private void btnsupprimerLSMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerLSMouseEntered
         btnsupprimerLS.setBackground(new java.awt.Color(0, 153, 153));
@@ -1662,65 +1669,38 @@ public class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnsupprimerLSMousePressed
 
     private void btnsupprimerLSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsupprimerLSActionPerformed
+        conn = ConexionBD.Conexion();
         try {
             if (JOptionPane.showConfirmDialog(null, "attention vous devez suprimer une Ligne Sortie, est ce que tu es sur?",
-                "Supprimer Ligne Sortie", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
+                    "Supprimer Ligne Sortie", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
                 String requete2 = "select * from  article where NomArticle = '" + article.getText() + "'";
-                ps2 = connSortie.prepareStatement(requete2);
+                ps2 = conn.prepareStatement(requete2);
                 rs2 = ps2.executeQuery();
                 String num = rs2.getString("NumArticle");
-                
+
                 String requete4 = "select * from article where  NumArticle ='" + num + "'";
-                ps4 = connSortie.prepareStatement(requete4);
+                ps4 = conn.prepareStatement(requete4);
                 rs4 = ps4.executeQuery();
                 String ancienQte = rs4.getString("QteStock");
                 String ancienMtn = rs4.getString("MontantStock");
-                
+
                 String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
-                ps3 = connSortie.prepareStatement(requete3);
+                ps3 = conn.prepareStatement(requete3);
                 int qte = Integer.parseInt(ancienQte) + Integer.parseInt(nbr.getText());
                 ps3.setString(1, String.valueOf(qte));
                 int mtn = Integer.parseInt(nbr.getText()) * Integer.parseInt(puSortie.getText());
-                ps3.setString(2, String.valueOf(Integer.parseInt(ancienMtn)+mtn));
+                ps3.setString(2, String.valueOf(Integer.parseInt(ancienMtn) + mtn));
                 ps3.execute();
-                
+
                 String requete = "delete from LigneSortie where NumLigneSortie = '" + numeroLigneSortie.getText() + "'";
-                ps = connSortie.prepareStatement(requete);
+                ps = conn.prepareStatement(requete);
                 ps.execute();
             }
         } catch (HeadlessException | SQLException e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "erreur de suppression" + e.getMessage());
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
         }
         AffichageLigneSortie(numeroSortie.getText());
         clearLS();
@@ -1729,6 +1709,8 @@ public class Sortie extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Sortie.class.getName()).log(Level.SEVERE, null, ex);
         }
+        CloseConnexion();
+        RectifierMontantTotalSortie();
     }//GEN-LAST:event_btnsupprimerLSActionPerformed
 
     private void printbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseEntered
@@ -1818,13 +1800,14 @@ public class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnenregistrerSortieMousePressed
 
     private void btnenregistrerSortieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerSortieActionPerformed
+        conn = ConexionBD.Conexion();
         try {
             String requete = "insert into Sortie (refSortie,NumSection,DateSortie,MontantTotalSortie,ObservationSortie) values (?,?,?,?,?)";
-            ps = connSortie.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
 
             String requete2 = "select * from  Section where NomSection = '" + ComboSection.getSelectedItem() + "'";
 
-            ps2 = connSortie.prepareStatement(requete2);
+            ps2 = conn.prepareStatement(requete2);
             rs2 = ps2.executeQuery();
             String num = rs2.getString("idSection");
             ps.setString(1, ref.getText());
@@ -1838,39 +1821,12 @@ public class Sortie extends javax.swing.JInternalFrame {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "deja inserre" + ex);
-            }
+            CloseRsPs1();
+            CloseRsPs2();
         }
         AffichageSortie();
         clearSortie();
-
+        CloseConnexion();
     }//GEN-LAST:event_btnenregistrerSortieActionPerformed
 
     private void btnmodifierSortieMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierSortieMouseMoved
@@ -1894,60 +1850,35 @@ public class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnmodifierSortieMouseReleased
 
     private void btnmodifierSortieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierSortieActionPerformed
+        conn = ConexionBD.Conexion();
         try {
             String requete = "update Sortie set refSortie =?,NumSection=?,DateSortie=?,MontantTotalSortie=?,ObservationSortie=? where  NumSortie ='" + numeroSortie.getText() + "'";
-            ps = connSortie.prepareStatement(requete);
+            ps6 = conn.prepareStatement(requete);
 
             String requete2 = "select * from  Section where idSection = '" + ComboSection.getSelectedItem() + "'";
 
-            ps2 = connSortie.prepareStatement(requete2);
-            rs2 = ps2.executeQuery();
-            String num = rs2.getString("idSection");
-            ps.setString(1, ref.getText());
-            ps.setString(2, num);
-            ps.setString(3, date.getText());
-            ps.setString(4, MontantTotal.getText());
-            ps.setString(5, obs.getText());
-            ps.execute();
+            ps7 = conn.prepareStatement(requete2);
+            rs7 = ps7.executeQuery();
+            String num = rs7.getString("idSection");
+            ps6.setString(1, ref.getText());
+            ps6.setString(2, num);
+            ps6.setString(3, date.getText());
+            ps6.setString(4, MontantTotal.getText());
+            ps6.setString(5, obs.getText());
+            ps6.execute();
             JOptionPane.showMessageDialog(null, "Modification succes");
         } catch (HeadlessException | SQLException e) {
-            System.out.println("--> SQLException : " + e);
+            System.out.println("--> SQLException modif : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "deja inserre" + ex);
-            }
+            CloseRsPs6();
+            CloseRsPs7();
         }
         AffichageSortie();
         clearSortie();
         masquerArticle();
         masquerLigneSortie();
+        CloseConnexion();
     }//GEN-LAST:event_btnmodifierSortieActionPerformed
 
     private void btnsupprimerSortieMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerSortieMouseEntered
@@ -1963,89 +1894,60 @@ public class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnsupprimerSortieMousePressed
 
     private void btnsupprimerSortieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsupprimerSortieActionPerformed
+        conn = ConexionBD.Conexion();
         try {
             if (JOptionPane.showConfirmDialog(null, "attention vous devez suprimer une Sortie, Toute les Lignes Sortie de ce Sortie seront tous supprimées ,est ce que tu es sur?",
                     "Supprimer Article", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
 
                 String requete2 = "select * from LigneSortie where NumSortie = '" + numeroSortie.getText() + "'";
-                ps2 = connSortie.prepareStatement(requete2);
+                ps2 = conn.prepareStatement(requete2);
                 rs2 = ps2.executeQuery();
-                
-                while (rs2.next()) {  
+
+                while (rs2.next()) {
                     try {
-                    String num = rs2.getString("NumArticle");
-                    String nbr = rs2.getString("NbrSortie");
-                    String pu = rs2.getString("puSortie");
-                    String mtn = rs2.getString("MontantSortie");
-                    
-                    String requete4 = "select * from article where  NumArticle ='" + num + "'";
-                    ps4 = connSortie.prepareStatement(requete4);
-                    rs4 = ps4.executeQuery();
-                    String ancienQte = rs4.getString("QteStock");
-                    String ancienMtn = rs4.getString("MontantStock");
-                
-                    String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
-                    ps3 = connSortie.prepareStatement(requete3);
-                    int qte = Integer.parseInt(ancienQte) + Integer.parseInt(nbr);
-                    ps3.setString(1, String.valueOf(qte));
-                    ps3.setString(2, String.valueOf(Integer.parseInt(ancienMtn)+mtn));
-                    ps3.execute();
-                    
-                    
+                        String num = rs2.getString("NumArticle");
+                        String nbr = rs2.getString("NbrSortie");
+                        String pu = rs2.getString("puSortie");
+                        String mtn = rs2.getString("MontantSortie");
+
+                        String requete4 = "select * from article where  NumArticle ='" + num + "'";
+                        ps4 = conn.prepareStatement(requete4);
+                        rs4 = ps4.executeQuery();
+                        String ancienQte = rs4.getString("QteStock");
+                        String ancienMtn = rs4.getString("MontantStock");
+
+                        String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
+                        ps3 = conn.prepareStatement(requete3);
+                        int qte = Integer.parseInt(ancienQte) + Integer.parseInt(nbr);
+                        ps3.setString(1, String.valueOf(qte));
+                        ps3.setString(2, String.valueOf(Integer.parseInt(ancienMtn) + mtn));
+                        ps3.execute();
+
                     } catch (HeadlessException | SQLException e) {
                         System.out.println(e);
                         JOptionPane.showMessageDialog(null, "erreur de suppression" + e.getMessage());
                     }
                 }
                 String requete6 = "delete from LigneSortie where NumSortie = '" + numeroSortie.getText() + "'";
-                ps5 = connSortie.prepareStatement(requete6);
+                ps5 = conn.prepareStatement(requete6);
                 ps5.execute();
-                
+
                 String requete = "delete from Sortie where NumSortie = '" + numeroSortie.getText() + "'";
-                ps = connSortie.prepareStatement(requete);
+                ps = conn.prepareStatement(requete);
                 ps.execute();
             }
         } catch (HeadlessException | SQLException e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "erreur de suppression" + e.getMessage());
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-                if(rs5 != null){
-                   rs5.close();
-                }
-                if(ps5 != null){
-                   ps5.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseRsPs2();
+            CloseRsPs3();
+            CloseRsPs4();
+            CloseRsPs5();
         }
         AffichageArticle();
+        CloseConnexion();
     }//GEN-LAST:event_btnsupprimerSortieActionPerformed
 
     private void printbtn1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtn1MouseEntered
@@ -2108,47 +2010,19 @@ public class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtrechercherEntreeKeyPressed
 
     private void txtrechercherEntreeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherEntreeKeyReleased
-
+        conn = ConexionBD.Conexion();
         try {
             String requete = "select NumSortie as 'Numero' ,RefSortie as 'Reference' ,Section.idSection as 'Section' ,DateSortie as 'Date' ,MontantTotalSortie as 'MontantTotal' ,ObservationSortie as 'Observation' from Sortie, Section WHERE\n"
                     + "(Section.idSection=Sortie.NumSection) and NumSortie LIKE ?";
-            ps = connSortie.prepareStatement(requete);
-            ps.setString(1, "%" + txtrechercherEntree.getText() + "%");
-            rs = ps.executeQuery();
-            TableSortie.setModel(DbUtils.resultSetToTableModel(rs));
+            ps5 = conn.prepareStatement(requete);
+            ps5.setString(1, "%" + txtrechercherEntree.getText() + "%");
+            rs5 = ps5.executeQuery();
+            TableSortie.setModel(DbUtils.resultSetToTableModel(rs5));
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs5();
+            CloseConnexion();
         }
 
     }//GEN-LAST:event_txtrechercherEntreeKeyReleased
@@ -2167,6 +2041,7 @@ public class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonRefreshArticleActionPerformed
 
     private void txtrechercher1EntreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercher1EntreeMouseClicked
+        conn = ConexionBD.Conexion();
         AffichageSortie();
         clearSortie();
 
@@ -2178,6 +2053,7 @@ public class Sortie extends javax.swing.JInternalFrame {
         txtrechercher1Entree.setText("");
 
         ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
+        CloseConnexion();
     }//GEN-LAST:event_txtrechercher1EntreeMouseClicked
 
     private void txtrechercher1EntreeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercher1EntreeMouseEntered
@@ -2193,45 +2069,19 @@ public class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtrechercher1EntreeKeyPressed
 
     private void txtrechercher1EntreeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercher1EntreeKeyReleased
-
+        conn = ConexionBD.Conexion();
         try {
             String requete = "select NumSortie as 'Numero' ,RefSortie as 'Reference' ,Section.idSection as 'Section' ,DateSortie as 'Date' ,MontantTotalSortie as 'MontantTotal' ,ObservationSortie as 'Observation' from Sortie, Section WHERE\n"
                     + "(Section.idSection=Sortie.NumSection) and RefSortie LIKE ?";
-            ps = connSortie.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
             ps.setString(1, "%" + txtrechercher1Entree.getText() + "%");
             rs = ps.executeQuery();
             TableSortie.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
     }//GEN-LAST:event_txtrechercher1EntreeKeyReleased
 
@@ -2265,9 +2115,10 @@ public class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtrechercherarticleKeyPressed
 
     private void txtrechercherarticleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherarticleKeyReleased
+        conn = ConexionBD.Conexion();
         try {
             String requete = "select * from article  where NumArticle LIKE ? or NomArticle LIKE ?";
-            ps = connSortie.prepareStatement(requete);
+            ps = conn.prepareStatement(requete);
             ps.setString(1, "%" + txtrechercherarticle.getText() + "%");
             ps.setString(2, "%" + txtrechercherarticle.getText() + "%");
             rs = ps.executeQuery();
@@ -2275,35 +2126,8 @@ public class Sortie extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
     }//GEN-LAST:event_txtrechercherarticleKeyReleased
 
@@ -2335,7 +2159,20 @@ public class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_puSortieActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
+        txtbachground.setIcon(img);
+        txtrechercherEntree.setText("Tapez Numero Entree");
+
+        ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
+        txtbackground1.setIcon(img2);
+        txtrechercher1Entree.setText("Tapez Reference Entree");
+
+        conn = ConexionBD.Conexion();
+        AffichageSortie();
+        masquerArticle();
+        masquerLigneSortie();
+        clearSortie();
+        CloseConnexion();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

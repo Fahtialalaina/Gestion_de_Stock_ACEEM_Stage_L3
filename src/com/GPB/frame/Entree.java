@@ -33,11 +33,15 @@ public final class Entree extends javax.swing.JInternalFrame {
     ResultSet rs3 = null;
     ResultSet rs4 = null;
     ResultSet rs5 = null;
+    ResultSet rs6 = null;
+    ResultSet rs7 = null;
     PreparedStatement ps = null;
     PreparedStatement ps2 = null;
     PreparedStatement ps3 = null;
     PreparedStatement ps4 = null;
     PreparedStatement ps5 = null;
+    PreparedStatement ps6 = null;
+    PreparedStatement ps7 = null;
     static String test;
 
     /**
@@ -227,6 +231,32 @@ public final class Entree extends javax.swing.JInternalFrame {
         if (ps5 != null) {
             try {
                 ps5.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+    }
+    
+    public void CloseRsPs6() {
+        if (rs6 != null) {
+            try {
+                rs6.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+        if (ps6 != null) {
+            try {
+                ps6.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+    }
+    
+    public void CloseRsPs7() {
+        if (rs7 != null) {
+            try {
+                rs7.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+        if (ps7 != null) {
+            try {
+                ps7.close();
             } catch (SQLException e) { /* ignored */}
         }
     }
@@ -1333,15 +1363,20 @@ public final class Entree extends javax.swing.JInternalFrame {
         afficherArticle();
         AffichageArticle();
         clearLE();
-        ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
         DeplaceEntree();
+        
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbachground.setIcon(img);
+        txtrechercherEntree.setText("Tapez Numero Entree");
+        
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
+        txtbackground1.setIcon(img2);
+        txtrechercher1Entree.setText("Tapez Reference Entree");
         txtbackground1.setIcon(img2);
         btnsupprimerArticle.setEnabled(true);
         btnmodifierArticle.setEnabled(true);
         btnenregistrerArticle.setEnabled(false);
+        
 
     }//GEN-LAST:event_TableEntreeMouseReleased
 
@@ -1382,10 +1417,14 @@ public final class Entree extends javax.swing.JInternalFrame {
             ps.setString(4, puFournisseur.getText());
             int mtn = Integer.parseInt(nbr.getText()) * Integer.parseInt(puFournisseur.getText());
             ps.setString(5, String.valueOf(mtn));
+            
+            
             //String avant = MontantTotal.getText();
             //Long apres = mtn + Integer.parseInt(avant);
             //MontantTotal.setText(String.valueOf(apres));
             ps.execute();
+            
+            
 
             String requete3 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + num + "'";
             ps3 = conn.prepareStatement(requete3);
@@ -1393,6 +1432,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             int qte = Integer.parseInt(nbr.getText()) + Integer.parseInt(ancienQte);
             ps3.setString(1, String.valueOf(qte));
             int pu = (mtn + Integer.parseInt(ancienMtn)) / qte;
+            //int NvMtn = mtn + Integer.parseInt(ancienMtn);
             ps3.setString(2, String.valueOf(pu));
             ps3.setString(3, String.valueOf(pu * qte));
             ps3.execute();
@@ -1416,9 +1456,29 @@ public final class Entree extends javax.swing.JInternalFrame {
             CloseRsPs4();
             CloseConnexion();
         }
-
+        
+        RectifierMontantTotalEntree();
+        
     }//GEN-LAST:event_btnenregistrerLEActionPerformed
 
+    private void RectifierMontantTotalEntree(){
+        conn = ConexionBD.Conexion();
+        try {
+            String requete = "update Entree set MontantTotalEntree=? where  NumEntree ='" + numeroEntree.getText() + "'";
+            ps = conn.prepareStatement(requete);
+
+            ps.setString(1, MontantTotal.getText());
+            ps.execute();
+        } catch (HeadlessException | SQLException e) {
+            System.out.println("--> SQLException : " + e);
+        } finally {
+            CloseRsPs1();
+            CloseRsPs2();
+        }
+        AffichageEntree();
+        CloseConnexion();
+    }
+    
     private void TableEntreeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TableEntreeKeyReleased
         if ((evt.getKeyCode() == KeyEvent.VK_UP) || (evt.getKeyCode() == KeyEvent.VK_DOWN)) {
             ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
@@ -1488,31 +1548,83 @@ public final class Entree extends javax.swing.JInternalFrame {
     private void btnmodifierLEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierLEActionPerformed
         conn = ConexionBD.Conexion();
         try {
-
-            String requete1String = "update categorie set NomCategorie =? where  NumCategorie ='" + numeroLigneEntree.getText() + "'";
+            
+            String requete1 = "select * from LigneEntree where  NumLigneEntree ='" + numeroLigneEntree.getText() + "'";
+            ps5 = conn.prepareStatement(requete1);
+            rs5 = ps5.executeQuery();
+            String NumArticle = rs5.getString("NumArticle");
+            String NbrEntree = rs5.getString("NbrEntree");
+            String MontantEntree = rs5.getString("MontantEntree");
+            
+            String requete7 = "select * from  article where NumArticle = '" + NumArticle + "'";
+            ps7 = conn.prepareStatement(requete7);
+            rs7 = ps7.executeQuery();
+            String AncienQte = rs7.getString("QteStock");
+            String AncienMtn = rs7.getString("MontantStock");
+            
+                String requete6 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + NumArticle + "'";
+            ps6 = conn.prepareStatement(requete6);
+            
+            int qte = Integer.parseInt(AncienQte) - Integer.parseInt(NbrEntree);
+            ps6.setString(1, String.valueOf(qte));
+            int MtnRet = Integer.parseInt(AncienMtn) - Integer.parseInt(MontantEntree);
+            if (qte != 0) {
+                int pu = MtnRet / qte;
+                ps6.setString(2, String.valueOf(pu));
+            } else {
+                ps6.setString(2, String.valueOf(0));
+            }
+            ps6.setString(3, String.valueOf(MtnRet));
+            ps6.execute();
 
             String requete = "update LigneEntree set NumEntree =?,NumArticle=?,NbrEntree=?,puFournisseur=?,MontantEntree=? where  NumLigneEntree ='" + numeroLigneEntree.getText() + "'";
             ps = conn.prepareStatement(requete);
 
             String requete2 = "select * from  article where NomArticle = '" + article.getText() + "'";
-
             ps2 = conn.prepareStatement(requete2);
             rs2 = ps2.executeQuery();
             String num = rs2.getString("NumArticle");
+            
             ps.setString(1, numeroEntree.getText());
             ps.setString(2, num);
             ps.setString(3, nbr.getText());
             ps.setString(4, puFournisseur.getText());
-            long mtn = Integer.parseInt(nbr.getText()) * Integer.parseInt(puFournisseur.getText());
+            int mtn = Integer.parseInt(nbr.getText()) * Integer.parseInt(puFournisseur.getText());
             ps.setString(5, String.valueOf(mtn));
             ps.execute();
+            
+            
+            String requete4 = "select * from article where  NumArticle ='" + num + "'";
+            ps4 = conn.prepareStatement(requete4);
+            rs4 = ps4.executeQuery();
+            String ancienQte = rs4.getString("QteStock");
+            String ancienMtn = rs4.getString("MontantStock");
+            
+             String requete3 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + num + "'";
+            ps3 = conn.prepareStatement(requete3);
+            
+            int qte2 = Integer.parseInt(nbr.getText()) + Integer.parseInt(ancienQte);
+            ps3.setString(1, String.valueOf(qte2));
+            int pu2 = (mtn + Integer.parseInt(ancienMtn)) / qte2;
+            ps3.setString(2, String.valueOf(pu2));
+            ps3.setString(3, String.valueOf(pu2 * qte2));
+            ps3.execute();
+            
+            
             JOptionPane.showMessageDialog(null, "Modification succes");
+            
+            
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
         } finally {
             CloseRsPs1();
             CloseRsPs2();
+            CloseRsPs3();
+            CloseRsPs4();
+            CloseRsPs5();
+            CloseRsPs6();
+            CloseRsPs7();
             CloseConnexion();
         }
         conn = ConexionBD.Conexion();
@@ -1524,7 +1636,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             Logger.getLogger(Entree.class.getName()).log(Level.SEVERE, null, ex);
         }
         CloseConnexion();
-
+        RectifierMontantTotalEntree();
     }//GEN-LAST:event_btnmodifierLEActionPerformed
 
     private void btnsupprimerLEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerLEMouseEntered
@@ -1545,17 +1657,53 @@ public final class Entree extends javax.swing.JInternalFrame {
             if (JOptionPane.showConfirmDialog(null, "attention vous devez suprimer une Ligne Entree, est ce que tu es sur?",
                     "Supprimer Ligne Entree", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
 
-                String requete = "delete from LigneEntree where NumLigneEntree = '" + numeroLigneEntree.getText() + "'";
-                ps = conn.prepareStatement(requete);
+                String requete1 = "select * from LigneEntree where  NumLigneEntree ='" + numeroLigneEntree.getText() + "'";
+                ps5 = conn.prepareStatement(requete1);
+                rs5 = ps5.executeQuery();
+                String NumArticle = rs5.getString("NumArticle");
+                String NbrEntree = rs5.getString("NbrEntree");
+                String MontantEntree = rs5.getString("MontantEntree");
 
-                ps.execute();
+                String requete7 = "select * from  article where NumArticle = '" + NumArticle + "'";
+                ps7 = conn.prepareStatement(requete7);
+                rs7 = ps7.executeQuery();
+                String AncienQte = rs7.getString("QteStock");
+                String AncienMtn = rs7.getString("MontantStock");
+
+                
+                int qte = Integer.parseInt(AncienQte) - Integer.parseInt(NbrEntree);
+                int MtnRet = Integer.parseInt(AncienMtn) - Integer.parseInt(MontantEntree);
+                
+                if (qte < 0 || MtnRet < 0) {
+                    JOptionPane.showMessageDialog(null, "Erreur de supression car le stock est insuffisant!");
+                } else {
+                    String requete6 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + NumArticle + "'";
+                    ps6 = conn.prepareStatement(requete6);
+
+                    ps6.setString(1, String.valueOf(qte));
+                    if (qte != 0) {
+                        int pu = MtnRet / qte;
+                        ps6.setString(2, String.valueOf(pu));
+                    } else {
+                        ps6.setString(2, String.valueOf(0));
+                    }
+                    ps6.setString(3, String.valueOf(MtnRet));
+                    ps6.execute();
+
+                    String requete = "delete from LigneEntree where NumLigneEntree = '" + numeroLigneEntree.getText() + "'";
+                    ps = conn.prepareStatement(requete);
+
+                    ps.execute();
+                }
             }
         } catch (HeadlessException | SQLException e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(null, "erreur de suppression" + e.getMessage());
+            JOptionPane.showMessageDialog(null, "erreur de suppression" + e.getMessage() + "\n Peut être que le stock est vide!");
         } finally {
             CloseRsPs1();
-            
+            CloseRsPs5();
+            CloseRsPs6();
+            CloseRsPs7();
         }
         
         AffichageLigneEntree(numeroEntree.getText());
@@ -1566,6 +1714,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             Logger.getLogger(Entree.class.getName()).log(Level.SEVERE, null, ex);
         }
         CloseConnexion();
+        RectifierMontantTotalEntree();
     }//GEN-LAST:event_btnsupprimerLEActionPerformed
 
     private void printbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseEntered
@@ -1606,10 +1755,10 @@ public final class Entree extends javax.swing.JInternalFrame {
         DeplaceLigneEntree();
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbachground.setIcon(img);
-        txtrechercherEntree.setText("Taper Numero Categorie");
+        txtrechercherEntree.setText("Taper Numero Entree");
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
-        txtrechercher1Entree.setText("Taper Nom Categorie");
+        txtrechercher1Entree.setText("Taper Nom Entree");
         btnsupprimerLE.setEnabled(true);
         btnmodifierLE.setEnabled(true);
         btnenregistrerLE.setEnabled(false);        // TODO add your handling code here:
@@ -1636,6 +1785,8 @@ public final class Entree extends javax.swing.JInternalFrame {
         btnsupprimerArticle.setEnabled(false);
         btnmodifierArticle.setEnabled(false);
         clearEntree();
+        masquerArticle();
+        masquerLigneEntree();
     }//GEN-LAST:event_btnnvArticleMouseReleased
 
     private void btnnvArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnvArticleActionPerformed
@@ -1678,9 +1829,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         } finally {
             CloseRsPs1();
             CloseRsPs2();
-            CloseConnexion();
         }
-        conn = ConexionBD.Conexion();
         AffichageEntree();
         clearEntree();
         CloseConnexion();
@@ -1730,9 +1879,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         } finally {
             CloseRsPs1();
             CloseRsPs2();
-            CloseConnexion();
         }
-        conn = ConexionBD.Conexion();
         AffichageEntree();
         clearEntree();
         masquerArticle();
@@ -1768,9 +1915,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "erreur de suppression" + e.getMessage());
         } finally {
             CloseRsPs1();
-            CloseConnexion();
         }
-        conn = ConexionBD.Conexion();
         AffichageArticle();
         CloseConnexion();
     }//GEN-LAST:event_btnsupprimerArticleActionPerformed
@@ -1987,7 +2132,20 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_puFournisseurActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
+        txtbachground.setIcon(img);
+        txtrechercherEntree.setText("Tapez Numero Entree");
+        
+        ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
+        txtbackground1.setIcon(img2);
+        txtrechercher1Entree.setText("Tapez Reference Entree");
+        
+        conn = ConexionBD.Conexion();
+        AffichageEntree();
+        masquerArticle();
+        masquerLigneEntree();
+        clearEntree();
+        CloseConnexion();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
