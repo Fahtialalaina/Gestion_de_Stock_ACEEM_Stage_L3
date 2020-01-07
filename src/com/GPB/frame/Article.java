@@ -130,7 +130,7 @@ public class Article extends javax.swing.JInternalFrame {
 
             String requete2 = "select * from article";
 
-            ps = conn.prepareStatement(requete2);
+            ps = conn.prepareStatement(requete);
             rs = ps.executeQuery();
             TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (SQLException e) {
