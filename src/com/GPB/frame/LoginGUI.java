@@ -40,6 +40,9 @@ public class LoginGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        MouveJframe = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btn = new javax.swing.JLabel();
@@ -48,7 +51,6 @@ public class LoginGUI extends javax.swing.JFrame {
         close = new javax.swing.JLabel();
         resize = new javax.swing.JLabel();
         txtpassword = new javax.swing.JPasswordField();
-        MouveJframe = new javax.swing.JLabel();
         Background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -56,6 +58,29 @@ public class LoginGUI extends javax.swing.JFrame {
         setUndecorated(true);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(25, 131, 131));
+        jPanel1.setToolTipText("GESTION DE STOCK ACEEM");
+
+        jLabel3.setFont(new java.awt.Font("Trebuchet MS", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("GESTION DE STOCK ACEEM");
+        jPanel1.add(jLabel3);
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 390, 40));
+
+        MouveJframe.setBackground(new java.awt.Color(0, 102, 102));
+        MouveJframe.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                MouveJframeMouseDragged(evt);
+            }
+        });
+        MouveJframe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                MouveJframeMousePressed(evt);
+            }
+        });
+        getContentPane().add(MouveJframe, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 0, 270, 40));
 
         jLabel1.setFont(new java.awt.Font("Baloo", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -122,21 +147,21 @@ public class LoginGUI extends javax.swing.JFrame {
         });
         getContentPane().add(txtlogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, 220, 30));
 
-        close.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        close.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         close.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 closeMouseClicked(evt);
             }
         });
-        getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 30, 30));
+        getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 30, 40));
 
-        resize.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        resize.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         resize.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 resizeMouseClicked(evt);
             }
         });
-        getContentPane().add(resize, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 40, 40));
+        getContentPane().add(resize, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 30, 40));
 
         txtpassword.setBackground(new java.awt.Color(0, 128, 128));
         txtpassword.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
@@ -170,20 +195,8 @@ public class LoginGUI extends javax.swing.JFrame {
         });
         getContentPane().add(txtpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, 220, 30));
 
-        MouveJframe.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                MouveJframeMouseDragged(evt);
-            }
-        });
-        MouveJframe.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                MouveJframeMousePressed(evt);
-            }
-        });
-        getContentPane().add(MouveJframe, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 30));
-
         Background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/Automax.png"))); // NOI18N
-        getContentPane().add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 450));
+        getContentPane().add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, -1));
 
         setSize(new java.awt.Dimension(499, 450));
         setLocationRelativeTo(null);
@@ -344,6 +357,8 @@ public class LoginGUI extends javax.swing.JFrame {
     private javax.swing.JLabel close;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel resize;
     private javax.swing.JTextField txtlogin;
     private javax.swing.JPasswordField txtpassword;

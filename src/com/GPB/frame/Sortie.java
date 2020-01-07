@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -19,6 +20,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -275,6 +278,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
             TableArticleSortie.setModel(DbUtils.resultSetToTableModel(rs5));
+            ajusterTableArticleSortie();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -293,6 +297,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
             TableSortie.setModel(DbUtils.resultSetToTableModel(rs5));
+            ajusterTableSortie();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -311,6 +316,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
             TableLigneSortie.setModel(DbUtils.resultSetToTableModel(rs5));
+            ajusterTableLigneSortie();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -320,6 +326,93 @@ public final class Sortie extends javax.swing.JInternalFrame {
         //txtbackgroundarticle.setIcon(img);
         //txtrechercherarticle.setText("Tapez Numero ou Nom Article");
 
+    }
+    
+    private void ajusterTableArticleSortie() {                                         
+        int col = 0, droiteMax = 0, larg = 0, largTotal = 0,
+                                    row = 0, tableX = 0, width = 0;
+        JTableHeader header = TableArticleSortie.getTableHeader();
+        Enumeration columns = TableArticleSortie.getColumnModel().getColumns();
+ 
+        TableArticleSortie.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        while(columns.hasMoreElements()){                            // longueur maximum du texte ou du titre d'une colonne
+            TableColumn column = (TableColumn)columns.nextElement();
+            col = header.getColumnModel().getColumnIndex(column.getIdentifier());
+            width = (int)TableArticleSortie.getTableHeader().getDefaultRenderer()
+                    .getTableCellRendererComponent(TableArticleSortie, column.getIdentifier()
+                            , false, false, -1, col).getPreferredSize().getWidth();
+            for(row = 0; row<TableArticleSortie.getRowCount(); row++){
+                int preferedWidth =
+                        (int)TableArticleSortie.getCellRenderer(row, col).getTableCellRendererComponent(TableArticleSortie,
+                        TableArticleSortie.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
+                width = Math.max(width, preferedWidth);
+            }
+            header.setResizingColumn(column);                       // this line is very important
+            larg = width+TableArticleSortie.getIntercellSpacing().width;
+         //   larg = (larg*13)/10;                            // largeur de la colonne plus un peu pour desserrer
+            larg = larg+20;           // mais c'est mieux un ajout fixe, pas en %, 
+                                         // par ex. un blanc devant et derrière chaque donnée avant de l'écrire
+            largTotal += larg;                                  // largeur totale de la table si utile 
+            column.setWidth(larg);
+        } 
+    }
+    
+    private void ajusterTableSortie() {                                         
+        int col = 0, droiteMax = 0, larg = 0, largTotal = 0,
+                                    row = 0, tableX = 0, width = 0;
+        JTableHeader header = TableSortie.getTableHeader();
+        Enumeration columns = TableSortie.getColumnModel().getColumns();
+ 
+        TableSortie.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        while(columns.hasMoreElements()){                            // longueur maximum du texte ou du titre d'une colonne
+            TableColumn column = (TableColumn)columns.nextElement();
+            col = header.getColumnModel().getColumnIndex(column.getIdentifier());
+            width = (int)TableSortie.getTableHeader().getDefaultRenderer()
+                    .getTableCellRendererComponent(TableSortie, column.getIdentifier()
+                            , false, false, -1, col).getPreferredSize().getWidth();
+            for(row = 0; row<TableSortie.getRowCount(); row++){
+                int preferedWidth =
+                        (int)TableSortie.getCellRenderer(row, col).getTableCellRendererComponent(TableSortie,
+                        TableSortie.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
+                width = Math.max(width, preferedWidth);
+            }
+            header.setResizingColumn(column);                       // this line is very important
+            larg = width+TableSortie.getIntercellSpacing().width;
+         //   larg = (larg*13)/10;                            // largeur de la colonne plus un peu pour desserrer
+            larg = larg+20;           // mais c'est mieux un ajout fixe, pas en %, 
+                                         // par ex. un blanc devant et derrière chaque donnée avant de l'écrire
+            largTotal += larg;                                  // largeur totale de la table si utile 
+            column.setWidth(larg);
+        } 
+    }
+    
+    private void ajusterTableLigneSortie() {                                         
+        int col = 0, droiteMax = 0, larg = 0, largTotal = 0,
+                                    row = 0, tableX = 0, width = 0;
+        JTableHeader header = TableLigneSortie.getTableHeader();
+        Enumeration columns = TableLigneSortie.getColumnModel().getColumns();
+ 
+        TableLigneSortie.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        while(columns.hasMoreElements()){                            // longueur maximum du texte ou du titre d'une colonne
+            TableColumn column = (TableColumn)columns.nextElement();
+            col = header.getColumnModel().getColumnIndex(column.getIdentifier());
+            width = (int)TableLigneSortie.getTableHeader().getDefaultRenderer()
+                    .getTableCellRendererComponent(TableLigneSortie, column.getIdentifier()
+                            , false, false, -1, col).getPreferredSize().getWidth();
+            for(row = 0; row<TableLigneSortie.getRowCount(); row++){
+                int preferedWidth =
+                        (int)TableLigneSortie.getCellRenderer(row, col).getTableCellRendererComponent(TableLigneSortie,
+                        TableLigneSortie.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
+                width = Math.max(width, preferedWidth);
+            }
+            header.setResizingColumn(column);                       // this line is very important
+            larg = width+TableLigneSortie.getIntercellSpacing().width;
+         //   larg = (larg*13)/10;                            // largeur de la colonne plus un peu pour desserrer
+            larg = larg+20;           // mais c'est mieux un ajout fixe, pas en %, 
+                                         // par ex. un blanc devant et derrière chaque donnée avant de l'écrire
+            largTotal += larg;                                  // largeur totale de la table si utile 
+            column.setWidth(larg);
+        } 
     }
 
     public void DeplaceLigneSortie() {

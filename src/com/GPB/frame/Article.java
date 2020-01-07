@@ -12,11 +12,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.Enumeration;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -80,6 +83,65 @@ public class Article extends javax.swing.JInternalFrame {
         ((BasicInternalFrameUI) this.getUI()).setNorthPane(null);
         this.setBorder(null);
     }
+    
+    private void ajusterTableCategorie() {                                         
+        int col = 0, droiteMax = 0, larg = 0, largTotal = 0,
+                                    row = 0, tableX = 0, width = 0;
+        JTableHeader header = TableCategorie.getTableHeader();
+        Enumeration columns = TableCategorie.getColumnModel().getColumns();
+ 
+        TableCategorie.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        while(columns.hasMoreElements()){                            // longueur maximum du texte ou du titre d'une colonne
+            TableColumn column = (TableColumn)columns.nextElement();
+            col = header.getColumnModel().getColumnIndex(column.getIdentifier());
+            width = (int)TableCategorie.getTableHeader().getDefaultRenderer()
+                    .getTableCellRendererComponent(TableCategorie, column.getIdentifier()
+                            , false, false, -1, col).getPreferredSize().getWidth();
+            for(row = 0; row<TableCategorie.getRowCount(); row++){
+                int preferedWidth =
+                        (int)TableCategorie.getCellRenderer(row, col).getTableCellRendererComponent(TableCategorie,
+                        TableCategorie.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
+                width = Math.max(width, preferedWidth);
+            }
+            header.setResizingColumn(column);                       // this line is very important
+            larg = width+TableCategorie.getIntercellSpacing().width;
+         //   larg = (larg*13)/10;                            // largeur de la colonne plus un peu pour desserrer
+            larg = larg+20;           // mais c'est mieux un ajout fixe, pas en %, 
+                                         // par ex. un blanc devant et derrière chaque donnée avant de l'écrire
+            largTotal += larg;                                  // largeur totale de la table si utile 
+            column.setWidth(larg);
+        } 
+    }
+    
+    private void ajusterTableArticle() {                                         
+        int col = 0, droiteMax = 0, larg = 0, largTotal = 0,
+                                    row = 0, tableX = 0, width = 0;
+        JTableHeader header = TableArticle.getTableHeader();
+        Enumeration columns = TableArticle.getColumnModel().getColumns();
+ 
+        TableArticle.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        while(columns.hasMoreElements()){                            // longueur maximum du texte ou du titre d'une colonne
+            TableColumn column = (TableColumn)columns.nextElement();
+            col = header.getColumnModel().getColumnIndex(column.getIdentifier());
+            width = (int)TableArticle.getTableHeader().getDefaultRenderer()
+                    .getTableCellRendererComponent(TableArticle, column.getIdentifier()
+                            , false, false, -1, col).getPreferredSize().getWidth();
+            for(row = 0; row<TableArticle.getRowCount(); row++){
+                int preferedWidth =
+                        (int)TableArticle.getCellRenderer(row, col).getTableCellRendererComponent(TableArticle,
+                        TableArticle.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
+                width = Math.max(width, preferedWidth);
+            }
+            header.setResizingColumn(column);                       // this line is very important
+            larg = width+TableArticle.getIntercellSpacing().width;
+         //   larg = (larg*13)/10;                            // largeur de la colonne plus un peu pour desserrer
+            larg = larg+20;           // mais c'est mieux un ajout fixe, pas en %, 
+                                         // par ex. un blanc devant et derrière chaque donnée avant de l'écrire
+            largTotal += larg;                                  // largeur totale de la table si utile 
+            column.setWidth(larg);
+        } 
+    }
+
 
     private void AffichageCategorie() {
         try {
@@ -87,6 +149,7 @@ public class Article extends javax.swing.JInternalFrame {
             ps = conn.prepareStatement(requete);
             rs = ps.executeQuery();
             TableCategorie.setModel(DbUtils.resultSetToTableModel(rs));
+            ajusterTableCategorie();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -133,6 +196,7 @@ public class Article extends javax.swing.JInternalFrame {
             ps = conn.prepareStatement(requete);
             rs = ps.executeQuery();
             TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
+            ajusterTableArticle();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -2135,7 +2199,7 @@ public class Article extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> ComboCategorie;
     private javax.swing.JTextField DesignationArticle;
     private javax.swing.JTable TableArticle;
-    private javax.swing.JTable TableCategorie;
+    public javax.swing.JTable TableCategorie;
     private javax.swing.JButton btnenregistrerArticle;
     private javax.swing.JButton btnenregistrerCategorie;
     public javax.swing.JButton btnmodifierArticle;
