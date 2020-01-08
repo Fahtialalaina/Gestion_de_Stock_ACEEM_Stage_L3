@@ -1532,16 +1532,16 @@ public final class Entree extends javax.swing.JInternalFrame {
                 ps.setString(2, num);
                 ps.setString(3, nbr.getText());
                 ps.setString(4, puFournisseur.getText());
-                int mtn = Integer.parseInt(nbr.getText()) * Integer.parseInt(puFournisseur.getText());
+                double mtn = Double.parseDouble(nbr.getText()) * Double.parseDouble(puFournisseur.getText());
                 ps.setString(5, String.valueOf(mtn));
                 ps.execute();
 
                 String requete3 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + num + "'";
                 ps3 = conn.prepareStatement(requete3);
 
-                int qte = Integer.parseInt(nbr.getText()) + Integer.parseInt(ancienQte);
+                double qte = Double.parseDouble(nbr.getText()) + Double.parseDouble(ancienQte);
                 ps3.setString(1, String.valueOf(qte));
-                int pu = (mtn + Integer.parseInt(ancienMtn)) / qte;
+                double pu = (mtn + Double.parseDouble(ancienMtn)) / qte;
                 //int NvMtn = mtn + Integer.parseInt(ancienMtn);
                 ps3.setString(2, String.valueOf(pu));
                 ps3.setString(3, String.valueOf(pu * qte));
@@ -1676,7 +1676,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             String AncienMtn = rs7.getString("MontantStock");
             
             
-            String requete8 = "select * from LigneEntree where  NumEntree ='" + numeroEntree.getText() + "' and NumArticle ='" + NumArticle + "'";
+            String requete8 = "select * from LigneEntree where  NumEntree ='" + numeroEntree.getText() + "' and NumArticle ='" + article.getText() + "'";
             ps8 = conn.prepareStatement(requete8);
             rs8 = ps8.executeQuery();
             
@@ -1684,18 +1684,18 @@ public final class Entree extends javax.swing.JInternalFrame {
                 ps2 = conn.prepareStatement(requete2);
                 rs2 = ps2.executeQuery();
                 String num = rs2.getString("NumArticle");
-            
-            if(rs8.next()&&(NumArticle == null ? num != null : !NumArticle.equals(num))){
+                
+            if(rs8.next()&&(!NumArticle.equals(num))){
                 JOptionPane.showMessageDialog(null, "Cet article est deja utilisé dans une ligne, veuillez modifier cette ligne");
             }else{
                 String requete6 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + NumArticle + "'";
                 ps6 = conn.prepareStatement(requete6);
 
-                int qte = Integer.parseInt(AncienQte) - Integer.parseInt(NbrEntree);
+                double qte = Double.parseDouble(AncienQte) - Double.parseDouble(NbrEntree);
                 ps6.setString(1, String.valueOf(qte));
-                int MtnRet = Integer.parseInt(AncienMtn) - Integer.parseInt(MontantEntree);
+                double MtnRet = Double.parseDouble(AncienMtn) - Double.parseDouble(MontantEntree);
                 if (qte != 0) {
-                    int pu = MtnRet / qte;
+                    double pu = MtnRet / qte;
                     ps6.setString(2, String.valueOf(pu));
                 } else {
                     ps6.setString(2, String.valueOf(0));
@@ -1709,7 +1709,7 @@ public final class Entree extends javax.swing.JInternalFrame {
                 ps.setString(2, num);
                 ps.setString(3, nbr.getText());
                 ps.setString(4, puFournisseur.getText());
-                int mtn = Integer.parseInt(nbr.getText()) * Integer.parseInt(puFournisseur.getText());
+                double mtn = Double.parseDouble(nbr.getText()) * Double.parseDouble(puFournisseur.getText());
                 ps.setString(5, String.valueOf(mtn));
                 ps.execute();
 
@@ -1723,9 +1723,9 @@ public final class Entree extends javax.swing.JInternalFrame {
                  String requete3 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + num + "'";
                 ps3 = conn.prepareStatement(requete3);
 
-                int qte2 = Integer.parseInt(nbr.getText()) + Integer.parseInt(ancienQte);
+                double qte2 = Double.parseDouble(nbr.getText()) + Double.parseDouble(ancienQte);
                 ps3.setString(1, String.valueOf(qte2));
-                int pu2 = (mtn + Integer.parseInt(ancienMtn)) / qte2;
+                double pu2 = (mtn + Double.parseDouble(ancienMtn)) / qte2;
                 ps3.setString(2, String.valueOf(pu2));
                 ps3.setString(3, String.valueOf(pu2 * qte2));
                 ps3.execute();
@@ -1793,8 +1793,8 @@ public final class Entree extends javax.swing.JInternalFrame {
                 String NomArticle = rs7.getString("NomArticle");
 
                 
-                int qte = Integer.parseInt(AncienQte) - Integer.parseInt(NbrEntree);
-                int MtnRet = Integer.parseInt(AncienMtn) - Integer.parseInt(MontantEntree);
+                double qte = Double.parseDouble(AncienQte) - Double.parseDouble(NbrEntree);
+                double MtnRet = Double.parseDouble(AncienMtn) - Double.parseDouble(MontantEntree);
                 
                 if (qte < 0 || MtnRet < 0) {
                     JOptionPane.showMessageDialog(null, "Erreur de suppression de: "+ NomArticle +", car le stock est insuffisant!");
@@ -1804,7 +1804,7 @@ public final class Entree extends javax.swing.JInternalFrame {
 
                     ps6.setString(1, String.valueOf(qte));
                     if (qte != 0) {
-                        int pu = MtnRet / qte;
+                        double pu = MtnRet / qte;
                         ps6.setString(2, String.valueOf(pu));
                     } else {
                         ps6.setString(2, String.valueOf(0));
@@ -2051,8 +2051,8 @@ public final class Entree extends javax.swing.JInternalFrame {
                             String NomArticle = rs4.getString("NomArticle");
 
 
-                            int qte = Integer.parseInt(AncienQte) - Integer.parseInt(NbrEntree);
-                            int MtnRet = Integer.parseInt(AncienMtn) - Integer.parseInt(MontantEntree);
+                            double qte = Double.parseDouble(AncienQte) - Double.parseDouble(NbrEntree);
+                            double MtnRet = Double.parseDouble(AncienMtn) - Double.parseDouble(MontantEntree);
 
                             if (qte < 0 || MtnRet < 0) {
                                 ok = "non";
@@ -2086,8 +2086,8 @@ public final class Entree extends javax.swing.JInternalFrame {
                                     String NomArticle1 = rs3.getString("NomArticle");
 
 
-                                    int qte = Integer.parseInt(AncienQte1) - Integer.parseInt(NbrEntree1);
-                                    int MtnRet = Integer.parseInt(AncienMtn1) - Integer.parseInt(MontantEntree1);
+                                    double qte = Double.parseDouble(AncienQte1) - Double.parseDouble(NbrEntree1);
+                                    double MtnRet = Double.parseDouble(AncienMtn1) - Double.parseDouble(MontantEntree1);
 
                                     if (qte < 0 || MtnRet < 0) {
                                         JOptionPane.showMessageDialog(null, "Erreur de suppression de: "+ NomArticle1 +", car le stock est insuffisant!");
@@ -2097,7 +2097,7 @@ public final class Entree extends javax.swing.JInternalFrame {
 
                                         ps2.setString(1, String.valueOf(qte));
                                         if (qte != 0) {
-                                            int pu = MtnRet / qte;
+                                            double pu = MtnRet / qte;
                                             ps2.setString(2, String.valueOf(pu));
                                         } else {
                                             ps2.setString(2, String.valueOf(0));

@@ -252,7 +252,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
             }
         }
     }
-    
+
     public void CloseRsPs8() {
         if (rs8 != null) {
             try {
@@ -327,92 +327,92 @@ public final class Sortie extends javax.swing.JInternalFrame {
         //txtrechercherarticle.setText("Tapez Numero ou Nom Article");
 
     }
-    
-    private void ajusterTableArticleSortie() {                                         
+
+    private void ajusterTableArticleSortie() {
         int col = 0, droiteMax = 0, larg = 0, largTotal = 0,
-                                    row = 0, tableX = 0, width = 0;
+                row = 0, tableX = 0, width = 0;
         JTableHeader header = TableArticleSortie.getTableHeader();
         Enumeration columns = TableArticleSortie.getColumnModel().getColumns();
- 
+
         TableArticleSortie.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        while(columns.hasMoreElements()){                            // longueur maximum du texte ou du titre d'une colonne
-            TableColumn column = (TableColumn)columns.nextElement();
+        while (columns.hasMoreElements()) {                            // longueur maximum du texte ou du titre d'une colonne
+            TableColumn column = (TableColumn) columns.nextElement();
             col = header.getColumnModel().getColumnIndex(column.getIdentifier());
-            width = (int)TableArticleSortie.getTableHeader().getDefaultRenderer()
-                    .getTableCellRendererComponent(TableArticleSortie, column.getIdentifier()
-                            , false, false, -1, col).getPreferredSize().getWidth();
-            for(row = 0; row<TableArticleSortie.getRowCount(); row++){
-                int preferedWidth =
-                        (int)TableArticleSortie.getCellRenderer(row, col).getTableCellRendererComponent(TableArticleSortie,
-                        TableArticleSortie.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
+            width = (int) TableArticleSortie.getTableHeader().getDefaultRenderer()
+                    .getTableCellRendererComponent(TableArticleSortie, column.getIdentifier(),
+                            false, false, -1, col).getPreferredSize().getWidth();
+            for (row = 0; row < TableArticleSortie.getRowCount(); row++) {
+                int preferedWidth
+                        = (int) TableArticleSortie.getCellRenderer(row, col).getTableCellRendererComponent(TableArticleSortie,
+                                TableArticleSortie.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
                 width = Math.max(width, preferedWidth);
             }
             header.setResizingColumn(column);                       // this line is very important
-            larg = width+TableArticleSortie.getIntercellSpacing().width;
-         //   larg = (larg*13)/10;                            // largeur de la colonne plus un peu pour desserrer
-            larg = larg+20;           // mais c'est mieux un ajout fixe, pas en %, 
-                                         // par ex. un blanc devant et derrière chaque donnée avant de l'écrire
+            larg = width + TableArticleSortie.getIntercellSpacing().width;
+            //   larg = (larg*13)/10;                            // largeur de la colonne plus un peu pour desserrer
+            larg = larg + 20;           // mais c'est mieux un ajout fixe, pas en %, 
+            // par ex. un blanc devant et derrière chaque donnée avant de l'écrire
             largTotal += larg;                                  // largeur totale de la table si utile 
             column.setWidth(larg);
-        } 
+        }
     }
-    
-    private void ajusterTableSortie() {                                         
+
+    private void ajusterTableSortie() {
         int col = 0, droiteMax = 0, larg = 0, largTotal = 0,
-                                    row = 0, tableX = 0, width = 0;
+                row = 0, tableX = 0, width = 0;
         JTableHeader header = TableSortie.getTableHeader();
         Enumeration columns = TableSortie.getColumnModel().getColumns();
- 
+
         TableSortie.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        while(columns.hasMoreElements()){                            // longueur maximum du texte ou du titre d'une colonne
-            TableColumn column = (TableColumn)columns.nextElement();
+        while (columns.hasMoreElements()) {                            // longueur maximum du texte ou du titre d'une colonne
+            TableColumn column = (TableColumn) columns.nextElement();
             col = header.getColumnModel().getColumnIndex(column.getIdentifier());
-            width = (int)TableSortie.getTableHeader().getDefaultRenderer()
-                    .getTableCellRendererComponent(TableSortie, column.getIdentifier()
-                            , false, false, -1, col).getPreferredSize().getWidth();
-            for(row = 0; row<TableSortie.getRowCount(); row++){
-                int preferedWidth =
-                        (int)TableSortie.getCellRenderer(row, col).getTableCellRendererComponent(TableSortie,
-                        TableSortie.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
+            width = (int) TableSortie.getTableHeader().getDefaultRenderer()
+                    .getTableCellRendererComponent(TableSortie, column.getIdentifier(),
+                            false, false, -1, col).getPreferredSize().getWidth();
+            for (row = 0; row < TableSortie.getRowCount(); row++) {
+                int preferedWidth
+                        = (int) TableSortie.getCellRenderer(row, col).getTableCellRendererComponent(TableSortie,
+                                TableSortie.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
                 width = Math.max(width, preferedWidth);
             }
             header.setResizingColumn(column);                       // this line is very important
-            larg = width+TableSortie.getIntercellSpacing().width;
-         //   larg = (larg*13)/10;                            // largeur de la colonne plus un peu pour desserrer
-            larg = larg+20;           // mais c'est mieux un ajout fixe, pas en %, 
-                                         // par ex. un blanc devant et derrière chaque donnée avant de l'écrire
+            larg = width + TableSortie.getIntercellSpacing().width;
+            //   larg = (larg*13)/10;                            // largeur de la colonne plus un peu pour desserrer
+            larg = larg + 20;           // mais c'est mieux un ajout fixe, pas en %, 
+            // par ex. un blanc devant et derrière chaque donnée avant de l'écrire
             largTotal += larg;                                  // largeur totale de la table si utile 
             column.setWidth(larg);
-        } 
+        }
     }
-    
-    private void ajusterTableLigneSortie() {                                         
+
+    private void ajusterTableLigneSortie() {
         int col = 0, droiteMax = 0, larg = 0, largTotal = 0,
-                                    row = 0, tableX = 0, width = 0;
+                row = 0, tableX = 0, width = 0;
         JTableHeader header = TableLigneSortie.getTableHeader();
         Enumeration columns = TableLigneSortie.getColumnModel().getColumns();
- 
+
         TableLigneSortie.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        while(columns.hasMoreElements()){                            // longueur maximum du texte ou du titre d'une colonne
-            TableColumn column = (TableColumn)columns.nextElement();
+        while (columns.hasMoreElements()) {                            // longueur maximum du texte ou du titre d'une colonne
+            TableColumn column = (TableColumn) columns.nextElement();
             col = header.getColumnModel().getColumnIndex(column.getIdentifier());
-            width = (int)TableLigneSortie.getTableHeader().getDefaultRenderer()
-                    .getTableCellRendererComponent(TableLigneSortie, column.getIdentifier()
-                            , false, false, -1, col).getPreferredSize().getWidth();
-            for(row = 0; row<TableLigneSortie.getRowCount(); row++){
-                int preferedWidth =
-                        (int)TableLigneSortie.getCellRenderer(row, col).getTableCellRendererComponent(TableLigneSortie,
-                        TableLigneSortie.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
+            width = (int) TableLigneSortie.getTableHeader().getDefaultRenderer()
+                    .getTableCellRendererComponent(TableLigneSortie, column.getIdentifier(),
+                            false, false, -1, col).getPreferredSize().getWidth();
+            for (row = 0; row < TableLigneSortie.getRowCount(); row++) {
+                int preferedWidth
+                        = (int) TableLigneSortie.getCellRenderer(row, col).getTableCellRendererComponent(TableLigneSortie,
+                                TableLigneSortie.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
                 width = Math.max(width, preferedWidth);
             }
             header.setResizingColumn(column);                       // this line is very important
-            larg = width+TableLigneSortie.getIntercellSpacing().width;
-         //   larg = (larg*13)/10;                            // largeur de la colonne plus un peu pour desserrer
-            larg = larg+20;           // mais c'est mieux un ajout fixe, pas en %, 
-                                         // par ex. un blanc devant et derrière chaque donnée avant de l'écrire
+            larg = width + TableLigneSortie.getIntercellSpacing().width;
+            //   larg = (larg*13)/10;                            // largeur de la colonne plus un peu pour desserrer
+            larg = larg + 20;           // mais c'est mieux un ajout fixe, pas en %, 
+            // par ex. un blanc devant et derrière chaque donnée avant de l'écrire
             largTotal += larg;                                  // largeur totale de la table si utile 
             column.setWidth(larg);
-        } 
+        }
     }
 
     public void DeplaceLigneSortie() {
@@ -1547,13 +1547,13 @@ public final class Sortie extends javax.swing.JInternalFrame {
             rs5 = ps5.executeQuery();
             String ancienQte1 = rs5.getString("QteStock");
 
-            if (Integer.parseInt(ancienQte1) < Integer.parseInt(nbr.getText())) {
+            if (Double.parseDouble(ancienQte1) < Double.parseDouble(nbr.getText())) {
                 JOptionPane.showMessageDialog(null, "Stock insuffisant");
             } else {
                 String requete = "insert into LigneSortie (NumSortie,NumArticle,NbrSortie,puSortie,MontantSortie) values (?,?,?,?,?)";
                 ps = conn.prepareStatement(requete);
 
-                String requete2 = "select * from  article where NomArticle = '" + article.getText() + "'";
+                String requete2 = "select * from article where NomArticle = '" + article.getText() + "'";
 
                 ps2 = conn.prepareStatement(requete2);
                 rs2 = ps2.executeQuery();
@@ -1564,28 +1564,29 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 rs4 = ps4.executeQuery();
                 String ancienQte = rs4.getString("QteStock");
                 String ancienPU = rs4.getString("pu");
-                
-                String requete7 = "select * from LigneSortie where  NumSortie ='" + numeroSortie.getText() + "' and NumArticle ='" + num + "'";
+
+                String requete7 = "select * from LigneSortie where NumSortie ='" + numeroSortie.getText() + "' and NumArticle ='" + num + "'";
                 ps7 = conn.prepareStatement(requete7);
                 rs7 = ps7.executeQuery();
 
-                if(rs7.next()){
+                if (rs7.next()) {
                     JOptionPane.showMessageDialog(null, "Cet article est deja utilisé dans une ligne, veuillez modifier cette ligne");
-                }else{
+                } else {
+
                     ps.setString(1, numeroSortie.getText());
                     ps.setString(2, num);
                     ps.setString(3, nbr.getText());
                     ps.setString(4, puSortie.getText());
-                    int mtn = Integer.parseInt(nbr.getText()) * Integer.parseInt(puSortie.getText());
+                    double mtn = Double.parseDouble(nbr.getText()) * Double.parseDouble(puSortie.getText());
                     ps.setString(5, String.valueOf(mtn));
                     ps.execute();
 
                     String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
                     ps3 = conn.prepareStatement(requete3);
 
-                    int qte = Integer.parseInt(ancienQte) - Integer.parseInt(nbr.getText());
+                    double qte = Double.parseDouble(ancienQte) - Double.parseDouble(nbr.getText());
                     ps3.setString(1, String.valueOf(qte));
-                    ps3.setString(2, String.valueOf(Integer.parseInt(ancienPU)*qte));
+                    ps3.setString(2, String.valueOf(Double.parseDouble(ancienPU) * qte));
                     ps3.execute();
 
                     JOptionPane.showMessageDialog(null, "Enregistrement succes");
@@ -1700,11 +1701,11 @@ public final class Sortie extends javax.swing.JInternalFrame {
             String requete6 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + NumArticle + "'";
             ps6 = conn.prepareStatement(requete6);
 
-            int qte = Integer.parseInt(AncienQte) + Integer.parseInt(NbrSortie);
+            double qte = Double.parseDouble(AncienQte) + Double.parseDouble(NbrSortie);
             ps6.setString(1, String.valueOf(qte));
-            int MtnRet = Integer.parseInt(AncienMtn) + Integer.parseInt(MontantSortie);
+            double MtnRet = Double.parseDouble(AncienMtn) + Double.parseDouble(MontantSortie);
             if (qte != 0) {
-                int pu = MtnRet / qte;
+                double pu = MtnRet / qte;
                 ps6.setString(2, String.valueOf(pu));
             } else {
                 ps6.setString(2, String.valueOf(0));
@@ -1724,33 +1725,54 @@ public final class Sortie extends javax.swing.JInternalFrame {
             ps4 = conn.prepareStatement(requete4);
             rs4 = ps4.executeQuery();
             String ancienQte = rs4.getString("QteStock");
-            
-                String requete8 = "select * from LigneSortie where  NumSortie ='" + numeroSortie.getText() + "' and NumArticle ='" + num + "'";
-                ps8 = conn.prepareStatement(requete8);
-                rs8 = ps8.executeQuery();
 
-                if(rs8.next()&&(NumArticle == null ? num != null : !NumArticle.equals(num))){
+            String requete8 = "select * from LigneSortie where  NumSortie ='" + numeroSortie.getText() + "' and NumArticle ='" + num + "'";
+            ps8 = conn.prepareStatement(requete8);
+            rs8 = ps8.executeQuery();
+
+            if (!NumArticle.equals(num)) {
+                if (rs8.next()) {
                     JOptionPane.showMessageDialog(null, "Cet article est deja utilisé dans une ligne, veuillez modifier cette ligne");
-                }else{
+                } else {
                     ps.setString(1, numeroSortie.getText());
                     ps.setString(2, num);
                     ps.setString(3, nbr.getText());
                     ps.setString(4, puSortie.getText());
-                    long mtn = Integer.parseInt(nbr.getText()) * Integer.parseInt(puSortie.getText());
+                    double mtn = Double.parseDouble(nbr.getText()) * Double.parseDouble(puSortie.getText());
                     ps.setString(5, String.valueOf(mtn));
                     ps.execute();
 
                     String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
                     ps3 = conn.prepareStatement(requete3);
 
-                    int Qte = Integer.parseInt(ancienQte) - Integer.parseInt(nbr.getText());
+                    double Qte = Double.parseDouble(ancienQte) - Double.parseDouble(nbr.getText());
                     ps3.setString(1, String.valueOf(Qte));
-                    ps3.setString(2, String.valueOf(Integer.parseInt(ancienPU)*Qte));
+                    ps3.setString(2, String.valueOf(Double.parseDouble(ancienPU) * Qte));
                     ps3.execute();
                     AffichageLigneSortie(numeroSortie.getText());
                     clearLS();
                     JOptionPane.showMessageDialog(null, "Modification succes");
                 }
+            } else {
+                ps.setString(1, numeroSortie.getText());
+                ps.setString(2, num);
+                ps.setString(3, nbr.getText());
+                ps.setString(4, puSortie.getText());
+                double mtn = Double.parseDouble(nbr.getText()) * Double.parseDouble(puSortie.getText());
+                ps.setString(5, String.valueOf(mtn));
+                ps.execute();
+
+                String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
+                ps3 = conn.prepareStatement(requete3);
+
+                double Qte = Double.parseDouble(ancienQte) - Double.parseDouble(nbr.getText());
+                ps3.setString(1, String.valueOf(Qte));
+                ps3.setString(2, String.valueOf(Double.parseDouble(ancienPU) * Qte));
+                ps3.execute();
+                AffichageLigneSortie(numeroSortie.getText());
+                clearLS();
+                JOptionPane.showMessageDialog(null, "Modification succes");
+            }
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
@@ -1825,10 +1847,10 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
                 String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
                 ps3 = conn.prepareStatement(requete3);
-                int qte = Integer.parseInt(ancienQte) + Integer.parseInt(nbr.getText());
+                double qte = Double.parseDouble(ancienQte) + Double.parseDouble(nbr.getText());
                 ps3.setString(1, String.valueOf(qte));
-                int mtn = Integer.parseInt(nbr.getText()) * Integer.parseInt(puSortie.getText());
-                ps3.setString(2, String.valueOf(Integer.parseInt(ancienMtn) + mtn));
+                double mtn = Double.parseDouble(nbr.getText()) * Double.parseDouble(puSortie.getText());
+                ps3.setString(2, String.valueOf(Double.parseDouble(ancienMtn) + mtn));
                 ps3.execute();
 
                 String requete = "delete from LigneSortie where NumLigneSortie = '" + numeroLigneSortie.getText() + "'";
@@ -1925,7 +1947,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
         clearSortie();
         masquerArticle();
         masquerLigneSortie();
-        conn = ConexionBD.Conexion(); 
+        conn = ConexionBD.Conexion();
         AffichageSortie();
         CloseConnexion();
     }//GEN-LAST:event_btnnvSortieMouseReleased
@@ -2052,33 +2074,32 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
                 while (rs7.next()) {
                     try {
-                            String num = rs7.getString("NumArticle");
-                            String NumLigneSortie = rs7.getString("NumLigneSortie");
-                            String Nbr = rs7.getString("NbrSortie");
-                            String puSortie = rs7.getString("puSortie");
-                            
-                            /*String requete7 = "select * from  article where NomArticle = '" + NomArticle + "'";
+                        String num = rs7.getString("NumArticle");
+                        String NumLigneSortie = rs7.getString("NumLigneSortie");
+                        String Nbr = rs7.getString("NbrSortie");
+                        String puSortie = rs7.getString("puSortie");
+
+                        /*String requete7 = "select * from  article where NomArticle = '" + NomArticle + "'";
                             ps2 = conn.prepareStatement(requete7);
                             rs2 = ps2.executeQuery();
                             String num = rs2.getString("NumArticle");*/
+                        String requete4 = "select * from article where  NumArticle ='" + num + "'";
+                        ps4 = conn.prepareStatement(requete4);
+                        rs4 = ps4.executeQuery();
+                        String ancienQte = rs4.getString("QteStock");
+                        String ancienMtn = rs4.getString("MontantStock");
 
-                            String requete4 = "select * from article where  NumArticle ='" + num + "'";
-                            ps4 = conn.prepareStatement(requete4);
-                            rs4 = ps4.executeQuery();
-                            String ancienQte = rs4.getString("QteStock");
-                            String ancienMtn = rs4.getString("MontantStock");
+                        String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
+                        ps3 = conn.prepareStatement(requete3);
+                        double qte = Double.parseDouble(ancienQte) + Double.parseDouble(Nbr);
+                        ps3.setString(1, String.valueOf(qte));
+                        double mtn = Double.parseDouble(Nbr) * Double.parseDouble(puSortie);
+                        ps3.setString(2, String.valueOf(Double.parseDouble(ancienMtn) + mtn));
+                        ps3.execute();
 
-                            String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
-                            ps3 = conn.prepareStatement(requete3);
-                            int qte = Integer.parseInt(ancienQte) + Integer.parseInt(Nbr);
-                            ps3.setString(1, String.valueOf(qte));
-                            int mtn = Integer.parseInt(Nbr) * Integer.parseInt(puSortie);
-                            ps3.setString(2, String.valueOf(Integer.parseInt(ancienMtn) + mtn));
-                            ps3.execute();
-
-                            String requete = "delete from LigneSortie where NumLigneSortie = '" + NumLigneSortie + "'";
-                            ps = conn.prepareStatement(requete);
-                            ps.execute();
+                        String requete = "delete from LigneSortie where NumLigneSortie = '" + NumLigneSortie + "'";
+                        ps = conn.prepareStatement(requete);
+                        ps.execute();
 
                     } catch (HeadlessException | SQLException e) {
                         System.out.println(e);
@@ -2097,7 +2118,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 String requete = "delete from Sortie where NumSortie = '" + numeroSortie.getText() + "'";
                 ps6 = conn.prepareStatement(requete);
                 ps6.execute();
-                
+
                 JOptionPane.showMessageDialog(null, "Suppression succes");
             }
         } catch (HeadlessException | SQLException e) {
@@ -2327,11 +2348,11 @@ public final class Sortie extends javax.swing.JInternalFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbachground.setIcon(img);
-        txtrechercherEntree.setText("Tapez Numero Entree");
+        txtrechercherEntree.setText("Tapez Numero Sortie");
 
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
-        txtrechercher1Entree.setText("Tapez Reference Entree");
+        txtrechercher1Entree.setText("Tapez Reference Sortie");
 
         conn = ConexionBD.Conexion();
         AffichageSortie();
