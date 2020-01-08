@@ -1541,10 +1541,16 @@ public final class Entree extends javax.swing.JInternalFrame {
 
                 double qte = Double.parseDouble(nbr.getText()) + Double.parseDouble(ancienQte);
                 ps3.setString(1, String.valueOf(qte));
-                double pu = (mtn + Double.parseDouble(ancienMtn)) / qte;
-                //int NvMtn = mtn + Integer.parseInt(ancienMtn);
-                ps3.setString(2, String.valueOf(pu));
-                ps3.setString(3, String.valueOf(pu * qte));
+                double Mtn = mtn + Double.parseDouble(ancienMtn);
+                
+                if (qte >= 0) {
+                        double NewPU = Mtn / qte;
+                        ps3.setString(2, String.valueOf(NewPU));
+                    } else {
+                        ps3.setString(2, String.valueOf(0));
+                    }
+                
+                ps3.setString(3, String.valueOf(Mtn));
                 ps3.execute();
 
                 JOptionPane.showMessageDialog(null, "Enregistrement succes");
@@ -1685,54 +1691,115 @@ public final class Entree extends javax.swing.JInternalFrame {
                 rs2 = ps2.executeQuery();
                 String num = rs2.getString("NumArticle");
                 
-            if(rs8.next()&&(!NumArticle.equals(num))){
-                JOptionPane.showMessageDialog(null, "Cet article est deja utilisé dans une ligne, veuillez modifier cette ligne");
-            }else{
-                String requete6 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + NumArticle + "'";
-                ps6 = conn.prepareStatement(requete6);
+            if(!NumArticle.equals(num)){
+                
+                if(rs8.next()){
+                    JOptionPane.showMessageDialog(null, "Cet article est deja utilisé dans une ligne, veuillez modifier cette ligne");
+                }else{
+                    double testQte = Double.parseDouble(AncienQte) - Double.parseDouble(NbrEntree);
+                
+                    if(testQte<0){
+                        JOptionPane.showMessageDialog(null, "Stock Insuffisant en le remplacant");
+                    }else{
+                        String requete6 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + NumArticle + "'";
+                        ps6 = conn.prepareStatement(requete6);
 
-                double qte = Double.parseDouble(AncienQte) - Double.parseDouble(NbrEntree);
-                ps6.setString(1, String.valueOf(qte));
-                double MtnRet = Double.parseDouble(AncienMtn) - Double.parseDouble(MontantEntree);
-                if (qte != 0) {
-                    double pu = MtnRet / qte;
-                    ps6.setString(2, String.valueOf(pu));
-                } else {
-                    ps6.setString(2, String.valueOf(0));
+                        double qte = Double.parseDouble(AncienQte) - Double.parseDouble(NbrEntree);
+                        ps6.setString(1, String.valueOf(qte));
+                        double MtnRet = Double.parseDouble(AncienMtn) - Double.parseDouble(MontantEntree);
+                        if (qte != 0) {
+                            double pu = MtnRet / qte;
+                            ps6.setString(2, String.valueOf(pu));
+                        } else {
+                            ps6.setString(2, String.valueOf(0));
+                        }
+                        ps6.setString(3, String.valueOf(MtnRet));
+                        ps6.execute();
+
+                        String requete = "update LigneEntree set NumEntree =?,NumArticle=?,NbrEntree=?,puFournisseur=?,MontantEntree=? where  NumLigneEntree ='" + numeroLigneEntree.getText() + "'";
+                        ps = conn.prepareStatement(requete);
+                        ps.setString(1, numeroEntree.getText());
+                        ps.setString(2, num);
+                        ps.setString(3, nbr.getText());
+                        ps.setString(4, puFournisseur.getText());
+                        double mtn = Double.parseDouble(nbr.getText()) * Double.parseDouble(puFournisseur.getText());
+                        ps.setString(5, String.valueOf(mtn));
+                        ps.execute();
+
+
+                        String requete4 = "select * from article where  NumArticle ='" + num + "'";
+                        ps4 = conn.prepareStatement(requete4);
+                        rs4 = ps4.executeQuery();
+                        String ancienQte = rs4.getString("QteStock");
+                        String ancienMtn = rs4.getString("MontantStock");
+
+                         String requete3 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + num + "'";
+                        ps3 = conn.prepareStatement(requete3);
+
+                        double qte2 = Double.parseDouble(nbr.getText()) + Double.parseDouble(ancienQte);
+                        ps3.setString(1, String.valueOf(qte2));
+                        double pu2 = (mtn + Double.parseDouble(ancienMtn)) / qte2;
+                        ps3.setString(2, String.valueOf(pu2));
+                        ps3.setString(3, String.valueOf(pu2 * qte2));
+                        ps3.execute();
+
+                        JOptionPane.showMessageDialog(null, "Modification succes");
+                    }
+                    
                 }
-                ps6.setString(3, String.valueOf(MtnRet));
-                ps6.execute();
+                    
+            }else{
+                
+                double testQte = Double.parseDouble(AncienQte) - Double.parseDouble(NbrEntree) + Double.parseDouble(nbr.getText());
+                
+                if(testQte<0){
+                    JOptionPane.showMessageDialog(null, "Stock Insuffisant");
+                }else{
+                    String requete6 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + NumArticle + "'";
+                    ps6 = conn.prepareStatement(requete6);
 
-                String requete = "update LigneEntree set NumEntree =?,NumArticle=?,NbrEntree=?,puFournisseur=?,MontantEntree=? where  NumLigneEntree ='" + numeroLigneEntree.getText() + "'";
-                ps = conn.prepareStatement(requete);
-                ps.setString(1, numeroEntree.getText());
-                ps.setString(2, num);
-                ps.setString(3, nbr.getText());
-                ps.setString(4, puFournisseur.getText());
-                double mtn = Double.parseDouble(nbr.getText()) * Double.parseDouble(puFournisseur.getText());
-                ps.setString(5, String.valueOf(mtn));
-                ps.execute();
+                    double qte = Double.parseDouble(AncienQte) - Double.parseDouble(NbrEntree);
+                    ps6.setString(1, String.valueOf(qte));
+                    double MtnRet = Double.parseDouble(AncienMtn) - Double.parseDouble(MontantEntree);
+                    if (qte != 0) {
+                        double pu = MtnRet / qte;
+                        ps6.setString(2, String.valueOf(pu));
+                    } else {
+                        ps6.setString(2, String.valueOf(0));
+                    }
+                    ps6.setString(3, String.valueOf(MtnRet));
+                    ps6.execute();
 
+                    String requete = "update LigneEntree set NumEntree =?,NumArticle=?,NbrEntree=?,puFournisseur=?,MontantEntree=? where  NumLigneEntree ='" + numeroLigneEntree.getText() + "'";
+                    ps = conn.prepareStatement(requete);
+                    ps.setString(1, numeroEntree.getText());
+                    ps.setString(2, num);
+                    ps.setString(3, nbr.getText());
+                    ps.setString(4, puFournisseur.getText());
+                    double mtn = Double.parseDouble(nbr.getText()) * Double.parseDouble(puFournisseur.getText());
+                    ps.setString(5, String.valueOf(mtn));
+                    ps.execute();
 
-                String requete4 = "select * from article where  NumArticle ='" + num + "'";
-                ps4 = conn.prepareStatement(requete4);
-                rs4 = ps4.executeQuery();
-                String ancienQte = rs4.getString("QteStock");
-                String ancienMtn = rs4.getString("MontantStock");
+                    String requete4 = "select * from article where  NumArticle ='" + num + "'";
+                    ps4 = conn.prepareStatement(requete4);
+                    rs4 = ps4.executeQuery();
+                    String ancienQte = rs4.getString("QteStock");
+                    String ancienMtn = rs4.getString("MontantStock");
 
-                 String requete3 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + num + "'";
-                ps3 = conn.prepareStatement(requete3);
+                     String requete3 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + num + "'";
+                    ps3 = conn.prepareStatement(requete3);
 
-                double qte2 = Double.parseDouble(nbr.getText()) + Double.parseDouble(ancienQte);
-                ps3.setString(1, String.valueOf(qte2));
-                double pu2 = (mtn + Double.parseDouble(ancienMtn)) / qte2;
-                ps3.setString(2, String.valueOf(pu2));
-                ps3.setString(3, String.valueOf(pu2 * qte2));
-                ps3.execute();
+                    double qte2 = Double.parseDouble(nbr.getText()) + Double.parseDouble(ancienQte);
+                    ps3.setString(1, String.valueOf(qte2));
+                    double pu2 = (mtn + Double.parseDouble(ancienMtn)) / qte2;
+                    ps3.setString(2, String.valueOf(pu2));
+                    ps3.setString(3, String.valueOf(pu2 * qte2));
+                    ps3.execute();
 
-
-                JOptionPane.showMessageDialog(null, "Modification succes");
-            }
+                    JOptionPane.showMessageDialog(null, "Modification succes");
+                }
+                
+                }
             
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
@@ -1803,7 +1870,7 @@ public final class Entree extends javax.swing.JInternalFrame {
                     ps6 = conn.prepareStatement(requete6);
 
                     ps6.setString(1, String.valueOf(qte));
-                    if (qte != 0) {
+                    if (qte >= 0) {
                         double pu = MtnRet / qte;
                         ps6.setString(2, String.valueOf(pu));
                     } else {

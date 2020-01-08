@@ -27,7 +27,9 @@ public class Fournisseur extends javax.swing.JInternalFrame {
 
     Connection conn4 = null;
     ResultSet rs = null;
+    ResultSet rs2 = null;
     PreparedStatement ps = null;
+    PreparedStatement ps2 = null;
     static String test;
 
     /**
@@ -843,9 +845,15 @@ public class Fournisseur extends javax.swing.JInternalFrame {
                     "Supprimer Section", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
 
                 String requete = "delete from Fournisseur where NumFournisseur = '" + numero.getText() + "'";
+                String requete2 = "select * from Entree where NumFournisseur = '" + numero.getText() + "'";
+                ps2 = conn4.prepareStatement(requete2);
+                rs2 = ps2.executeQuery();
+                if(rs2.next()){
+                    JOptionPane.showMessageDialog(null, "Erreur de suppression car il existe encore des Mouvements pour cette article");
+                } else{
                 ps = conn4.prepareStatement(requete);
-
                 ps.execute();
+                }
             }
         } catch (HeadlessException | SQLException e) {
             System.out.println(e);
@@ -854,6 +862,8 @@ public class Fournisseur extends javax.swing.JInternalFrame {
             try {
                 ps.close();
                 rs.close();
+                ps2.close();
+                rs2.close();
 
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "erreur BD");

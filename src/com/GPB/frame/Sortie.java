@@ -39,6 +39,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
     ResultSet rs6 = null;
     ResultSet rs7 = null;
     ResultSet rs8 = null;
+    ResultSet rs9 = null;
     PreparedStatement ps = null;
     PreparedStatement ps2 = null;
     PreparedStatement ps3 = null;
@@ -47,6 +48,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
     PreparedStatement ps6 = null;
     PreparedStatement ps7 = null;
     PreparedStatement ps8 = null;
+    PreparedStatement ps9 = null;
     static String test;
 
     /**
@@ -65,14 +67,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
         txtrechercher1Entree.setText("Taper Reference Sortie");
-        CloseRsPs1();
-        CloseRsPs2();
-        CloseRsPs3();
-        CloseRsPs4();
-        CloseRsPs5();
-        CloseRsPs6();
-        CloseRsPs7();
-        CloseRsPs8();
         CloseConnexion();
         conn = ConexionBD.Conexion();
         AffichageSortie();
@@ -264,6 +258,23 @@ public final class Sortie extends javax.swing.JInternalFrame {
         if (ps8 != null) {
             try {
                 ps8.close();
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+    }
+    
+    public void CloseRsPs9() {
+        if (rs9 != null) {
+            try {
+                rs9.close();
+            } catch (SQLException e) {
+                /* ignored */
+            }
+        }
+        if (ps9 != null) {
+            try {
+                ps9.close();
             } catch (SQLException e) {
                 /* ignored */
             }
@@ -1564,6 +1575,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 rs4 = ps4.executeQuery();
                 String ancienQte = rs4.getString("QteStock");
                 String ancienPU = rs4.getString("pu");
+                String ancienMtn = rs4.getString("MontantStock");
 
                 String requete7 = "select * from LigneSortie where NumSortie ='" + numeroSortie.getText() + "' and NumArticle ='" + num + "'";
                 ps7 = conn.prepareStatement(requete7);
@@ -1581,12 +1593,19 @@ public final class Sortie extends javax.swing.JInternalFrame {
                     ps.setString(5, String.valueOf(mtn));
                     ps.execute();
 
-                    String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
+                    String requete3 = "update article set QteStock =? ,pu=? ,MontantStock =? where  NumArticle ='" + num + "'";
                     ps3 = conn.prepareStatement(requete3);
 
                     double qte = Double.parseDouble(ancienQte) - Double.parseDouble(nbr.getText());
                     ps3.setString(1, String.valueOf(qte));
-                    ps3.setString(2, String.valueOf(Double.parseDouble(ancienPU) * qte));
+                    double Mtn = Double.parseDouble(ancienMtn)-mtn;
+                    if (qte >= 0) {
+                        double NewPU = Mtn / qte;
+                        ps3.setString(2, String.valueOf(NewPU));
+                    } else {
+                        ps3.setString(2, String.valueOf(0));
+                    }
+                    ps3.setString(3, String.valueOf(Mtn));
                     ps3.execute();
 
                     JOptionPane.showMessageDialog(null, "Enregistrement succes");
@@ -1681,59 +1700,59 @@ public final class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnmodifierLSMouseMoved
 
     private void btnmodifierLSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierLSActionPerformed
+        
         conn = ConexionBD.Conexion();
         try {
-
-            String requete1 = "select * from LigneSortie where  NumLigneSortie ='" + numeroLigneSortie.getText() + "'";
+            String requete1 = "select * from LigneSortie where NumLigneSortie ='" + numeroLigneSortie.getText() + "'";
             ps5 = conn.prepareStatement(requete1);
             rs5 = ps5.executeQuery();
             String NumArticle = rs5.getString("NumArticle");
             String NbrSortie = rs5.getString("NbrSortie");
             String MontantSortie = rs5.getString("MontantSortie");
+            
+            //System.out.println("1 ok \n "+ NumArticle +"\n "+ NbrSortie +"\n "+ MontantSortie);
 
-            String requete7 = "select * from  article where NumArticle = '" + NumArticle + "'";
+            String requete7 = "select * from article where NumArticle = '" + NumArticle + "'";
             ps7 = conn.prepareStatement(requete7);
             rs7 = ps7.executeQuery();
             String AncienQte = rs7.getString("QteStock");
-            String ancienPU = rs4.getString("pu");
+            String AncienPU = rs7.getString("pu");
             String AncienMtn = rs7.getString("MontantStock");
 
-            String requete6 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + NumArticle + "'";
-            ps6 = conn.prepareStatement(requete6);
-
-            double qte = Double.parseDouble(AncienQte) + Double.parseDouble(NbrSortie);
-            ps6.setString(1, String.valueOf(qte));
-            double MtnRet = Double.parseDouble(AncienMtn) + Double.parseDouble(MontantSortie);
-            if (qte != 0) {
-                double pu = MtnRet / qte;
-                ps6.setString(2, String.valueOf(pu));
-            } else {
-                ps6.setString(2, String.valueOf(0));
-            }
-            ps6.setString(3, String.valueOf(MtnRet));
-            ps6.execute();
-
-            String requete = "update LigneSortie set NumSortie =?,NumArticle=?,NbrSortie=?,puSortie=?,MontantSortie=? where  NumLigneSortie ='" + numeroLigneSortie.getText() + "'";
-            ps = conn.prepareStatement(requete);
-
-            String requete2 = "select * from  article where NomArticle = '" + article.getText() + "'";
+            String requete2 = "select * from article where NomArticle = '" + article.getText() + "'";
             ps2 = conn.prepareStatement(requete2);
             rs2 = ps2.executeQuery();
             String num = rs2.getString("NumArticle");
-
-            String requete4 = "select * from article where  NumArticle ='" + num + "'";
-            ps4 = conn.prepareStatement(requete4);
-            rs4 = ps4.executeQuery();
-            String ancienQte = rs4.getString("QteStock");
-
-            String requete8 = "select * from LigneSortie where  NumSortie ='" + numeroSortie.getText() + "' and NumArticle ='" + num + "'";
-            ps8 = conn.prepareStatement(requete8);
-            rs8 = ps8.executeQuery();
+            String ancienQte = rs2.getString("QteStock");
 
             if (!NumArticle.equals(num)) {
+                String requete8 = "select * from LigneSortie where  NumSortie ='" + numeroSortie.getText() + "' and NumArticle ='" + num + "'";
+                ps8 = conn.prepareStatement(requete8);
+                rs8 = ps8.executeQuery();
+                
                 if (rs8.next()) {
                     JOptionPane.showMessageDialog(null, "Cet article est deja utilisé dans une ligne, veuillez modifier cette ligne");
+                } else if (Double.parseDouble(ancienQte)<Double.parseDouble(nbr.getText())){
+                    JOptionPane.showMessageDialog(null, "Stock Insuffisant");
                 } else {
+                    String requete6 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + NumArticle + "'";
+                    ps6 = conn.prepareStatement(requete6);
+
+                    double qte = Double.parseDouble(AncienQte) + Double.parseDouble(NbrSortie);
+                    ps6.setString(1, String.valueOf(qte));
+                    double MtnRet = Double.parseDouble(AncienMtn) + Double.parseDouble(MontantSortie);
+                    if (qte >= 0) {
+                        double pu = MtnRet / qte;
+                        ps6.setString(2, String.valueOf(pu));
+                    } else {
+                        ps6.setString(2, String.valueOf(0));
+                    }
+                    ps6.setString(3, String.valueOf(MtnRet));
+                    ps6.execute();
+                    
+                    String requete = "update LigneSortie set NumSortie =?,NumArticle=?,NbrSortie=?,puSortie=?,MontantSortie=? where  NumLigneSortie ='" + numeroLigneSortie.getText() + "'";
+                    ps = conn.prepareStatement(requete);
+                    
                     ps.setString(1, numeroSortie.getText());
                     ps.setString(2, num);
                     ps.setString(3, nbr.getText());
@@ -1747,13 +1766,35 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
                     double Qte = Double.parseDouble(ancienQte) - Double.parseDouble(nbr.getText());
                     ps3.setString(1, String.valueOf(Qte));
-                    ps3.setString(2, String.valueOf(Double.parseDouble(ancienPU) * Qte));
+                    ps3.setString(2, String.valueOf(Double.parseDouble(AncienPU) * Qte));
                     ps3.execute();
                     AffichageLigneSortie(numeroSortie.getText());
                     clearLS();
                     JOptionPane.showMessageDialog(null, "Modification succes");
                 }
             } else {
+                
+                String requete6 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + NumArticle + "'";
+                ps6 = conn.prepareStatement(requete6);
+
+                double qte = Double.parseDouble(AncienQte) + Double.parseDouble(NbrSortie);
+                ps6.setString(1, String.valueOf(qte));
+                double MtnRet = Double.parseDouble(AncienMtn) + Double.parseDouble(MontantSortie);
+                if (qte >= 0) {
+                    double pu = MtnRet / qte;
+                    ps6.setString(2, String.valueOf(pu));
+                } else {
+                    ps6.setString(2, String.valueOf(0));
+                }
+                ps6.setString(2, String.valueOf(MtnRet));
+                ps6.execute();
+                
+                System.out.println("qte : "+ qte);
+                System.out.println("MtnRet : "+ MtnRet);
+                
+                String requete = "update LigneSortie set NumSortie =?,NumArticle=?,NbrSortie=?,puSortie=?,MontantSortie=? where  NumLigneSortie ='" + numeroLigneSortie.getText() + "'";
+                ps = conn.prepareStatement(requete);
+                
                 ps.setString(1, numeroSortie.getText());
                 ps.setString(2, num);
                 ps.setString(3, nbr.getText());
@@ -1762,12 +1803,25 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 ps.setString(5, String.valueOf(mtn));
                 ps.execute();
 
-                String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
+                String requete4 = "select * from article where NumArticle ='" + NumArticle + "'";
+                ps4 = conn.prepareStatement(requete4);
+                rs4 = ps4.executeQuery();
+                String NewQte = rs4.getString("QteStock");
+                String NewMontant = rs4.getString("MontantStock");
+                
+                String requete3 = "update article set QteStock =? ,pu=? ,MontantStock =? where  NumArticle ='" + num + "'";
                 ps3 = conn.prepareStatement(requete3);
 
-                double Qte = Double.parseDouble(ancienQte) - Double.parseDouble(nbr.getText());
+                double Qte = Double.parseDouble(NewQte) - Double.parseDouble(nbr.getText());
                 ps3.setString(1, String.valueOf(Qte));
-                ps3.setString(2, String.valueOf(Double.parseDouble(ancienPU) * Qte));
+                double Montant = Double.parseDouble(NewMontant) - (Double.parseDouble(puSortie.getText()) * Double.parseDouble(nbr.getText()));
+                if (Qte >= 0) {
+                        double NewPU = Montant / Qte;
+                        ps3.setString(2, String.valueOf(NewPU));
+                    } else {
+                        ps3.setString(2, String.valueOf(0));
+                    }
+                ps3.setString(3, String.valueOf(Montant));
                 ps3.execute();
                 AffichageLigneSortie(numeroSortie.getText());
                 clearLS();
@@ -1780,11 +1834,11 @@ public final class Sortie extends javax.swing.JInternalFrame {
             CloseRsPs1();
             CloseRsPs2();
             CloseRsPs3();
-            CloseRsPs4();
             CloseRsPs5();
             CloseRsPs6();
             CloseRsPs7();
             CloseRsPs8();
+            CloseRsPs9();
             CloseConnexion();
         }
         conn = ConexionBD.Conexion();
@@ -1845,12 +1899,18 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 String ancienQte = rs4.getString("QteStock");
                 String ancienMtn = rs4.getString("MontantStock");
 
-                String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
+                String requete3 = "update article set QteStock =? ,pu=? ,MontantStock =? where  NumArticle ='" + num + "'";
                 ps3 = conn.prepareStatement(requete3);
                 double qte = Double.parseDouble(ancienQte) + Double.parseDouble(nbr.getText());
                 ps3.setString(1, String.valueOf(qte));
                 double mtn = Double.parseDouble(nbr.getText()) * Double.parseDouble(puSortie.getText());
-                ps3.setString(2, String.valueOf(Double.parseDouble(ancienMtn) + mtn));
+                if (qte >= 0) {
+                        double NewPU = (Double.parseDouble(ancienMtn) + mtn) / qte;
+                        ps3.setString(2, String.valueOf(NewPU));
+                    } else {
+                        ps3.setString(2, String.valueOf(0));
+                    }
+                ps3.setString(3, String.valueOf(Double.parseDouble(ancienMtn) + mtn));
                 ps3.execute();
 
                 String requete = "delete from LigneSortie where NumLigneSortie = '" + numeroLigneSortie.getText() + "'";
@@ -2072,60 +2132,106 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 ps7 = conn.prepareStatement(requete2);
                 rs7 = ps7.executeQuery();
 
+                String Nom = null;
+                String ok = "ok";
+
                 while (rs7.next()) {
                     try {
-                        String num = rs7.getString("NumArticle");
-                        String NumLigneSortie = rs7.getString("NumLigneSortie");
-                        String Nbr = rs7.getString("NbrSortie");
-                        String puSortie = rs7.getString("puSortie");
+                            String NumArticle = rs7.getString("NumArticle");
+                            String NbrSortie = rs7.getString("NbrSortie");
+                            String MontantSortie = rs7.getString("MontantSortie");
 
-                        /*String requete7 = "select * from  article where NomArticle = '" + NomArticle + "'";
-                            ps2 = conn.prepareStatement(requete7);
-                            rs2 = ps2.executeQuery();
-                            String num = rs2.getString("NumArticle");*/
-                        String requete4 = "select * from article where  NumArticle ='" + num + "'";
-                        ps4 = conn.prepareStatement(requete4);
-                        rs4 = ps4.executeQuery();
-                        String ancienQte = rs4.getString("QteStock");
-                        String ancienMtn = rs4.getString("MontantStock");
+                            String requete7 = "select * from  article where NumArticle = '" + NumArticle + "'";
+                            ps4 = conn.prepareStatement(requete7);
+                            rs4 = ps4.executeQuery();
+                            String AncienQte = rs4.getString("QteStock");
+                            String AncienMtn = rs4.getString("MontantStock");
+                            String NomArticle = rs4.getString("NomArticle");
 
-                        String requete3 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + num + "'";
-                        ps3 = conn.prepareStatement(requete3);
-                        double qte = Double.parseDouble(ancienQte) + Double.parseDouble(Nbr);
-                        ps3.setString(1, String.valueOf(qte));
-                        double mtn = Double.parseDouble(Nbr) * Double.parseDouble(puSortie);
-                        ps3.setString(2, String.valueOf(Double.parseDouble(ancienMtn) + mtn));
-                        ps3.execute();
 
-                        String requete = "delete from LigneSortie where NumLigneSortie = '" + NumLigneSortie + "'";
-                        ps = conn.prepareStatement(requete);
-                        ps.execute();
+                            double qte = Double.parseDouble(AncienQte) + Double.parseDouble(NbrSortie);
+                            double MtnRet = Double.parseDouble(AncienMtn) + Double.parseDouble(MontantSortie);
 
+                            if (qte < 0 || MtnRet < 0) {
+                                ok = "non";
+                                Nom = NomArticle;
+                            } 
                     } catch (HeadlessException | SQLException e) {
                         System.out.println(e);
-                        JOptionPane.showMessageDialog(null, "erreur de suppression" + e.getMessage());
+                        JOptionPane.showMessageDialog(null, "erreur de suppression" + e.getMessage() + "\n Peut être que le stock est vide!");
                     } finally {
-                        CloseRsPs1();
-                        CloseRsPs2();
-                        CloseRsPs3();
                         CloseRsPs4();
                     }
                 }
-                /*String requete6 = "delete from LigneSortie where NumSortie = '" + numeroSortie.getText() + "'";
-                ps5 = conn.prepareStatement(requete6);
-                ps5.execute();*/
+                
+                if(ok.equalsIgnoreCase("ok")){
+                    String requete5 = "select * from LigneSortie where NumSortie = '" + numeroSortie.getText() + "'";
+                    ps5 = conn.prepareStatement(requete5);
+                    rs5 = ps5.executeQuery();
+                    
+                    while (rs5.next()) {
+                           try {
+                                    String NumeroLigneSortie1 = rs5.getString("NumLigneSortie");
+                                    String NumArticle1 = rs5.getString("NumArticle");
+                                    String NbrSortie1 = rs5.getString("NbrSortie");
+                                    String MontantSortie1 = rs5.getString("MontantSortie");
 
-                String requete = "delete from Sortie where NumSortie = '" + numeroSortie.getText() + "'";
-                ps6 = conn.prepareStatement(requete);
-                ps6.execute();
+                                    String requete10 = "select * from  article where NumArticle = '" + NumArticle1 + "'";
+                                    ps3 = conn.prepareStatement(requete10);
+                                    rs3 = ps3.executeQuery();
+                                    String AncienQte1 = rs3.getString("QteStock");
+                                    String AncienMtn1 = rs3.getString("MontantStock");
+                                    String NomArticle1 = rs3.getString("NomArticle");
 
-                JOptionPane.showMessageDialog(null, "Suppression succes");
+
+                                    double qte = Double.parseDouble(AncienQte1) + Double.parseDouble(NbrSortie1);
+                                    double MtnRet = Double.parseDouble(AncienMtn1) + Double.parseDouble(MontantSortie1);
+
+                                    if (qte < 0 || MtnRet < 0) {
+                                        JOptionPane.showMessageDialog(null, "Erreur de suppression de: "+ NomArticle1 +", car le stock est insuffisant!");
+                                    } else {
+                                        String requete6 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + NumArticle1 + "'";
+                                        ps2 = conn.prepareStatement(requete6);
+
+                                        ps2.setString(1, String.valueOf(qte));
+                                        if (qte != 0) {
+                                            double pu = MtnRet / qte;
+                                            ps2.setString(2, String.valueOf(pu));
+                                        } else {
+                                            ps2.setString(2, String.valueOf(0));
+                                        }
+                                        ps2.setString(3, String.valueOf(MtnRet));
+                                        ps2.execute();
+
+                                        String requete = "delete from LigneSortie where NumLigneSortie = '" + NumeroLigneSortie1 + "'";
+                                        ps = conn.prepareStatement(requete);
+
+                                        ps.execute();
+                                    }
+                            } catch (HeadlessException | SQLException e) {
+                                System.out.println(e);
+                                JOptionPane.showMessageDialog(null, "erreur de suppression" + e.getMessage() + "\n Peut être que le stock est vide!");
+                            } finally {
+                                CloseRsPs1();
+                                CloseRsPs2();
+                                CloseRsPs2();
+                            }
+                        }
+
+                    String requete = "delete from Sortie where NumSortie = '" + numeroSortie.getText() + "'";
+                    ps6 = conn.prepareStatement(requete);
+                    ps6.execute();
+
+                    JOptionPane.showMessageDialog(null, "Suppression succes");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Erreur de suppression de: "+ Nom +", car le stock est insuffisant!");
+                }
             }
         } catch (HeadlessException | SQLException e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "erreur de suppression" + e.getMessage());
         } finally {
-            //CloseRsPs5();
+            CloseRsPs5();
             CloseRsPs6();
             CloseRsPs7();
         }

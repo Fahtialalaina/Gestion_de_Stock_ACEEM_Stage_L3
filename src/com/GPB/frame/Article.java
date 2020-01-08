@@ -1954,7 +1954,7 @@ public class Article extends javax.swing.JInternalFrame {
                 ps2 = conn.prepareStatement(requete2);
                 rs2 = ps2.executeQuery();
                 if(rs2.next()){
-                    JOptionPane.showMessageDialog(null, "Erreur de suppression car il existe des Entrée pour cette article");
+                    JOptionPane.showMessageDialog(null, "Erreur de suppression car il existe encore des Mouvements pour cette article");
                 } else{
                 ps = conn.prepareStatement(requete);
                 ps.execute();
