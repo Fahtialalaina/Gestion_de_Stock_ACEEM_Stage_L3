@@ -533,7 +533,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         jLabel10.setBackground(new java.awt.Color(0, 102, 255));
         jLabel10.setFont(new java.awt.Font("Advent Pro", 0, 40)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("GESTION DES SECTIONS");
+        jLabel10.setText("GESTION DES FOURNISSEURS");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -541,8 +541,8 @@ public class Fournisseur extends javax.swing.JInternalFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(648, Short.MAX_VALUE))
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 684, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(470, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -870,7 +870,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
             }
         }
         Affichage();
-
+        clear();
     }//GEN-LAST:event_btnsupprimerActionPerformed
 
     private void printbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseEntered

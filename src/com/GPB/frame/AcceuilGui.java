@@ -138,7 +138,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         pretbtn = new javax.swing.JButton();
         utlisateurbtn = new javax.swing.JButton();
-        Clientbtn = new javax.swing.JButton();
+        Journalbtn = new javax.swing.JButton();
         Effectifbtn = new javax.swing.JButton();
         Section = new javax.swing.JButton();
         article = new javax.swing.JButton();
@@ -263,29 +263,29 @@ public class AcceuilGui extends javax.swing.JFrame {
             }
         });
 
-        Clientbtn.setBackground(new java.awt.Color(153, 153, 153));
-        Clientbtn.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
-        Clientbtn.setForeground(new java.awt.Color(255, 255, 255));
-        Clientbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/multiple-users-silhouette.png"))); // NOI18N
-        Clientbtn.setText("ClientS");
-        Clientbtn.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
-        Clientbtn.setContentAreaFilled(false);
-        Clientbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        Clientbtn.setOpaque(true);
-        Clientbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        Journalbtn.setBackground(new java.awt.Color(153, 153, 153));
+        Journalbtn.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
+        Journalbtn.setForeground(new java.awt.Color(255, 255, 255));
+        Journalbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/multiple-users-silhouette.png"))); // NOI18N
+        Journalbtn.setText("Journal");
+        Journalbtn.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
+        Journalbtn.setContentAreaFilled(false);
+        Journalbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Journalbtn.setOpaque(true);
+        Journalbtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ClientbtnMouseEntered(evt);
+                JournalbtnMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                ClientbtnMouseExited(evt);
+                JournalbtnMouseExited(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ClientbtnMouseReleased(evt);
+                JournalbtnMouseReleased(evt);
             }
         });
-        Clientbtn.addActionListener(new java.awt.event.ActionListener() {
+        Journalbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClientbtnActionPerformed(evt);
+                JournalbtnActionPerformed(evt);
             }
         });
 
@@ -412,7 +412,7 @@ public class AcceuilGui extends javax.swing.JFrame {
 
         jDesktopPane1.setLayer(pretbtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(utlisateurbtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(Clientbtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(Journalbtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(Effectifbtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(Section, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(article, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -433,7 +433,7 @@ public class AcceuilGui extends javax.swing.JFrame {
                     .addComponent(article, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Section, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Entree, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Clientbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Journalbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Fournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Sortie, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(152, Short.MAX_VALUE))
@@ -452,7 +452,7 @@ public class AcceuilGui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Sortie, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addComponent(Clientbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Journalbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pretbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -485,13 +485,13 @@ public class AcceuilGui extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ClientbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientbtnActionPerformed
+    private void JournalbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JournalbtnActionPerformed
         this.desk.removeAll();
         this.desk.repaint();
 
-        Liste_des_Sections lc = null;
+        Journal lc = null;
         try {
-            lc = new Liste_des_Sections();
+            lc = new Journal();
         } catch (SQLException ex) {
             Logger.getLogger(AcceuilGui.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -502,7 +502,7 @@ public class AcceuilGui extends javax.swing.JFrame {
             Logger.getLogger(AcceuilGui.class.getName()).log(Level.SEVERE, null, ex);
         }
         lc.show();
-    }//GEN-LAST:event_ClientbtnActionPerformed
+    }//GEN-LAST:event_JournalbtnActionPerformed
 
     private void EffectifbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EffectifbtnActionPerformed
         this.desk.removeAll();
@@ -569,33 +569,33 @@ public class AcceuilGui extends javax.swing.JFrame {
         ex.show();
     }//GEN-LAST:event_utlisateurbtnActionPerformed
 
-    private void ClientbtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientbtnMouseReleased
-        Clientbtn.setBackground(new java.awt.Color(0, 153, 153));
+    private void JournalbtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JournalbtnMouseReleased
+        Journalbtn.setBackground(new java.awt.Color(0, 153, 153));
         Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
         Section.setBackground(new java.awt.Color(153, 153, 153));
         pretbtn.setBackground(new java.awt.Color(153, 153, 153));
         utlisateurbtn.setBackground(new java.awt.Color(153, 153, 153));
-    }//GEN-LAST:event_ClientbtnMouseReleased
+    }//GEN-LAST:event_JournalbtnMouseReleased
 
     private void EffectifbtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EffectifbtnMouseReleased
-        Clientbtn.setBackground(new java.awt.Color(153, 153, 153));
+        Journalbtn.setBackground(new java.awt.Color(153, 153, 153));
         Effectifbtn.setBackground(new java.awt.Color(0, 153, 153));
         Section.setBackground(new java.awt.Color(153, 153, 153));
         pretbtn.setBackground(new java.awt.Color(153, 153, 153));
         utlisateurbtn.setBackground(new java.awt.Color(153, 153, 153));
     }//GEN-LAST:event_EffectifbtnMouseReleased
 
-    private void ClientbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientbtnMouseEntered
+    private void JournalbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JournalbtnMouseEntered
 //     candidatbtn.setBackground(new java.awt.Color(51,2,255));
-    }//GEN-LAST:event_ClientbtnMouseEntered
+    }//GEN-LAST:event_JournalbtnMouseEntered
 
-    private void ClientbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientbtnMouseExited
+    private void JournalbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JournalbtnMouseExited
 //        candidatbtn.setBackground(new java.awt.Color(204,204,204));
-    }//GEN-LAST:event_ClientbtnMouseExited
+    }//GEN-LAST:event_JournalbtnMouseExited
 
     private void SectionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SectionMouseReleased
         Section.setBackground(new java.awt.Color(0, 153, 153));
-        Clientbtn.setBackground(new java.awt.Color(153, 153, 153));
+        Journalbtn.setBackground(new java.awt.Color(153, 153, 153));
         Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
         pretbtn.setBackground(new java.awt.Color(153, 153, 153));
         utlisateurbtn.setBackground(new java.awt.Color(153, 153, 153));
@@ -603,7 +603,7 @@ public class AcceuilGui extends javax.swing.JFrame {
 
     private void pretbtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pretbtnMouseReleased
         Section.setBackground(new java.awt.Color(153, 153, 153));
-        Clientbtn.setBackground(new java.awt.Color(153, 153, 153));
+        Journalbtn.setBackground(new java.awt.Color(153, 153, 153));
         Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
         pretbtn.setBackground(new java.awt.Color(0, 153, 153));
         utlisateurbtn.setBackground(new java.awt.Color(153, 153, 153));
@@ -611,7 +611,7 @@ public class AcceuilGui extends javax.swing.JFrame {
 
     private void utlisateurbtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_utlisateurbtnMouseReleased
         Section.setBackground(new java.awt.Color(153, 153, 153));
-        Clientbtn.setBackground(new java.awt.Color(153, 153, 153));
+        Journalbtn.setBackground(new java.awt.Color(153, 153, 153));
         Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
         pretbtn.setBackground(new java.awt.Color(153, 153, 153));
         utlisateurbtn.setBackground(new java.awt.Color(0, 153, 153));
@@ -633,7 +633,7 @@ public class AcceuilGui extends javax.swing.JFrame {
 
     private void articleMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_articleMouseReleased
         article.setBackground(new java.awt.Color(0, 153, 153));
-        Clientbtn.setBackground(new java.awt.Color(153, 153, 153));
+        Journalbtn.setBackground(new java.awt.Color(153, 153, 153));
         Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
         Section.setBackground(new java.awt.Color(153, 153, 153));
         pretbtn.setBackground(new java.awt.Color(153, 153, 153));
@@ -766,10 +766,10 @@ public class AcceuilGui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Clientbtn;
     private javax.swing.JButton Effectifbtn;
     private javax.swing.JButton Entree;
     private javax.swing.JButton Fournisseur;
+    private javax.swing.JButton Journalbtn;
     private javax.swing.JButton Section;
     private javax.swing.JButton Sortie;
     private javax.swing.JButton article;

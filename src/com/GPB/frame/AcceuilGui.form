@@ -202,7 +202,7 @@
                       <Component id="article" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
                       <Component id="Section" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
                       <Component id="Entree" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
-                      <Component id="Clientbtn" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
+                      <Component id="Journalbtn" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
                       <Component id="Fournisseur" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
                       <Component id="Sortie" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
                   </Group>
@@ -224,7 +224,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="Sortie" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace pref="15" max="32767" attributes="0"/>
-                  <Component id="Clientbtn" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="Journalbtn" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="pretbtn" min="-2" pref="48" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -303,7 +303,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="utlisateurbtnActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="Clientbtn">
+        <Component class="javax.swing.JButton" name="Journalbtn">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="99" green="99" red="99" type="rgb"/>
@@ -317,7 +317,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/com/GPB/images/multiple-users-silhouette.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="ClientS"/>
+            <Property name="text" type="java.lang.String" value="Journal"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
                 <MatteColorBorder bottom="5" left="0" right="1" top="0">
@@ -332,10 +332,10 @@
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="ClientbtnMouseEntered"/>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="ClientbtnMouseExited"/>
-            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="ClientbtnMouseReleased"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ClientbtnActionPerformed"/>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="JournalbtnMouseEntered"/>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="JournalbtnMouseExited"/>
+            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="JournalbtnMouseReleased"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JournalbtnActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="Effectifbtn">

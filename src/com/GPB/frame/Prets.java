@@ -678,7 +678,7 @@ public class Prets extends javax.swing.JInternalFrame {
         );
 
         getContentPane().add(Panelinfo);
-        Panelinfo.setBounds(430, 70, 300, 250);
+        Panelinfo.setBounds(430, 40, 300, 280);
 
         suppPret.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         suppPret.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (1).png"))); // NOI18N

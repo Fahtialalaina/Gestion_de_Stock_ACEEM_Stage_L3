@@ -12,11 +12,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.Enumeration;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -27,7 +30,9 @@ public class Section extends javax.swing.JInternalFrame {
 
     Connection conn4 = null;
     ResultSet rs = null;
+    ResultSet rs2 = null;
     PreparedStatement ps = null;
+    PreparedStatement ps2 = null;
     static String test;
 
     /**
@@ -69,6 +74,7 @@ public class Section extends javax.swing.JInternalFrame {
             ps = conn4.prepareStatement(requete);
             rs = ps.executeQuery();
             Table.setModel(DbUtils.resultSetToTableModel(rs));
+            ajusterTable();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -120,6 +126,35 @@ public class Section extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+    
+    private void ajusterTable() {                                         
+        int col = 0, droiteMax = 0, larg = 0, largTotal = 0,
+                                    row = 0, tableX = 0, width = 0;
+        JTableHeader header = Table.getTableHeader();
+        Enumeration columns = Table.getColumnModel().getColumns();
+ 
+        Table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        while(columns.hasMoreElements()){                            // longueur maximum du texte ou du titre d'une colonne
+            TableColumn column = (TableColumn)columns.nextElement();
+            col = header.getColumnModel().getColumnIndex(column.getIdentifier());
+            width = (int)Table.getTableHeader().getDefaultRenderer()
+                    .getTableCellRendererComponent(Table, column.getIdentifier()
+                            , false, false, -1, col).getPreferredSize().getWidth();
+            for(row = 0; row<Table.getRowCount(); row++){
+                int preferedWidth =
+                        (int)Table.getCellRenderer(row, col).getTableCellRendererComponent(Table,
+                        Table.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
+                width = Math.max(width, preferedWidth);
+            }
+            header.setResizingColumn(column);                       // this line is very important
+            larg = width+Table.getIntercellSpacing().width;
+         //   larg = (larg*13)/10;                            // largeur de la colonne plus un peu pour desserrer
+            larg = larg+20;           // mais c'est mieux un ajout fixe, pas en %, 
+                                         // par ex. un blanc devant et derrière chaque donnée avant de l'écrire
+            largTotal += larg;                                  // largeur totale de la table si utile 
+            column.setWidth(larg);
+        } 
     }
 
     /**
@@ -850,10 +885,16 @@ public class Section extends javax.swing.JInternalFrame {
 
                 String requete = "delete from section where idSection = '" + numero.getText() + "'";
                 ps = conn4.prepareStatement(requete);
-
+                String requete2 = "select * from Sortie where NumSection = '" + numero.getText() + "'";
+                ps2 = conn4.prepareStatement(requete2);
+                rs2 = ps2.executeQuery();
+                if(rs2.next()){
+                    JOptionPane.showMessageDialog(null, "Erreur de suppression car il existe encore des Mouvements pour cette section");
+                } else{
                 ps.execute();
                 ps.close();
                 rs.close();
+                }
             }
         } catch (HeadlessException | SQLException e) {
             System.out.println(e);
@@ -863,13 +904,14 @@ public class Section extends javax.swing.JInternalFrame {
             try {
                 ps.close();
                 rs.close();
-
+                ps2.close();
+                rs2.close();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "erreur BD");
             }
         }
         Affichage();
-
+        clear();
     }//GEN-LAST:event_btnsupprimerActionPerformed
 
     private void printbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseEntered

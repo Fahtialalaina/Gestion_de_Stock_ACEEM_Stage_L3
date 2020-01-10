@@ -347,6 +347,7 @@ public class Article extends javax.swing.JInternalFrame {
     }
 
     public void remplirComboCategorie() {
+        ComboCategorie.removeAllItems();
         String requet = " select * from  categorie";
 
         try {
@@ -1299,12 +1300,23 @@ public class Article extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         AffichageCategorie();
+        clearCategorie();
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbachground.setIcon(img);
         txtrechercherCategorie.setText("Taper Numero Categorie");
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
         txtrechercher1Categorie.setText("Taper Nom Categorie");
+        
+        btnsupprimerCategorie.setEnabled(false);
+        btnmodifierCategorie.setEnabled(false);
+        btnenregistrerCategorie.setEnabled(false);
+        btnnvCategorie.setEnabled(true);
+        
+        btnsupprimerArticle.setEnabled(false);
+        btnmodifierArticle.setEnabled(false);
+        btnenregistrerArticle.setEnabled(false);
+        btnnvArticle.setEnabled(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtrechercher1CategorieMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercher1CategorieMouseClicked

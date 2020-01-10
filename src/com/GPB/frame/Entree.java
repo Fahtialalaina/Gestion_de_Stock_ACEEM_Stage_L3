@@ -11,7 +11,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,7 +61,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         
         initComponents();
         remove_title_bar();
-
+        clearEntree();
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbachground.setIcon(img);
         txtrechercherEntree.setText("Tapez Numero Entree");
@@ -434,7 +438,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         }
     }
 
-    public void DeplaceEntree() {
+    public void DeplaceEntree() throws ParseException {
         conn = ConexionBD.Conexion();
         try {
 
@@ -448,6 +452,8 @@ public final class Entree extends javax.swing.JInternalFrame {
                 String t2 = rs.getString("RefEntree");
                 String t3 = rs.getString("NumFournisseur");
                 String t4 = rs.getString("DateEntree");
+                
+                
                 String t5 = rs.getString("MontantTotalEntree");
                 String t6 = rs.getString("ObservationEntree");
                 String fournisseur = " select * from Fournisseur where NumFournisseur = '" + t3 + "'";
@@ -456,7 +462,12 @@ public final class Entree extends javax.swing.JInternalFrame {
                 numeroEntree.setText(t1);
                 //DesignationArticle.setText(t2);
                 ref.setText(t2);
-                date.setText(t4);
+                
+                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                Date date2 = dateFormat.parse(t4);
+
+                date.setDate(date2);
+                
                 MontantTotal.setText(t5);
                 obs.setText(t6);
                 ComboFournisseur.setSelectedItem(rs2.getString("NomFournisseur"));
@@ -475,6 +486,7 @@ public final class Entree extends javax.swing.JInternalFrame {
 
     public void remplirComboFournisseur() {
         conn = ConexionBD.Conexion();
+        ComboFournisseur.removeAllItems();
         String requet = " select * from  Fournisseur";
 
         try {
@@ -498,8 +510,14 @@ public final class Entree extends javax.swing.JInternalFrame {
         try {
             numeroEntree.setText("");
             ref.setText("");
-            date.setText("");
-            MontantTotal.setText("");
+            
+            Long millis = System.currentTimeMillis();
+            Date date3 = new Date(millis);
+            
+            //DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+            date.setDate(date3);
+            MontantTotal.setText("0");
             obs.setText("");
         } catch (Exception e) {
             System.out.println(e);
@@ -534,7 +552,6 @@ public final class Entree extends javax.swing.JInternalFrame {
         numeroEntree = new javax.swing.JLabel();
         ref = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        date = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         ComboFournisseur = new javax.swing.JComboBox<>();
@@ -549,6 +566,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         obs = new javax.swing.JTextArea();
         jPanel6 = new javax.swing.JPanel();
         printbtn1 = new javax.swing.JButton();
+        date = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableEntree = new javax.swing.JTable(){
             public boolean isCellEditable(int d , int c){
@@ -627,15 +645,6 @@ public final class Entree extends javax.swing.JInternalFrame {
         });
 
         jLabel5.setText("Reference : ");
-
-        date.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                dateMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                dateMouseExited(evt);
-            }
-        });
 
         jLabel6.setText("Date : ");
 
@@ -826,10 +835,16 @@ public final class Entree extends javax.swing.JInternalFrame {
             .addComponent(printbtn1, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
+        date.setDateFormatString("dd-MM-yyyy");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -843,22 +858,18 @@ public final class Entree extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ref)
-                            .addComponent(date, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
                             .addComponent(ComboFournisseur, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(MontantTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3)))
+                            .addComponent(jScrollPane3)
+                            .addComponent(date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 2, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(38, 38, 38)
                         .addComponent(numeroEntree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -875,23 +886,26 @@ public final class Entree extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ref, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(MontantTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
@@ -1473,7 +1487,11 @@ public final class Entree extends javax.swing.JInternalFrame {
         afficherArticle();
         AffichageArticle();
         clearLE();
-        DeplaceEntree();
+        try {
+            DeplaceEntree();
+        } catch (ParseException ex) {
+            Logger.getLogger(Entree.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbachground.setIcon(img);
@@ -1999,6 +2017,8 @@ public final class Entree extends javax.swing.JInternalFrame {
 
     private void btnenregistrerArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerArticleActionPerformed
         conn = ConexionBD.Conexion();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        
         try {
             String requete = "insert into Entree (refEntree,NumFournisseur,DateEntree,MontantTotalEntree,ObservationEntree) values (?,?,?,?,?)";
             ps = conn.prepareStatement(requete);
@@ -2010,7 +2030,10 @@ public final class Entree extends javax.swing.JInternalFrame {
             String num = rs2.getString("NumFournisseur");
             ps.setString(1, ref.getText());
             ps.setString(2, num);
-            ps.setString(3, date.getText());
+            
+            String dateEntree = dateFormat.format(date.getDate());
+            
+            ps.setString(3, dateEntree);
             ps.setString(4, MontantTotal.getText());
             ps.setString(5, obs.getText());
             ps.execute();
@@ -2049,6 +2072,7 @@ public final class Entree extends javax.swing.JInternalFrame {
 
     private void btnmodifierArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierArticleActionPerformed
         conn = ConexionBD.Conexion();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         try {
             String requete = "update Entree set refEntree =?,NumFournisseur=?,DateEntree=?,MontantTotalEntree=?,ObservationEntree=? where  NumEntree ='" + numeroEntree.getText() + "'";
             ps = conn.prepareStatement(requete);
@@ -2060,7 +2084,9 @@ public final class Entree extends javax.swing.JInternalFrame {
             String num = rs2.getString("NumFournisseur");
             ps.setString(1, ref.getText());
             ps.setString(2, num);
-            ps.setString(3, date.getText());
+            String dateEntree = dateFormat.format(date.getDate());
+            
+            ps.setString(3, dateEntree);
             ps.setString(4, MontantTotal.getText());
             ps.setString(5, obs.getText());
             ps.execute();
@@ -2235,14 +2261,6 @@ public final class Entree extends javax.swing.JInternalFrame {
     private void refMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refMouseExited
         // TODO add your handling code here:
     }//GEN-LAST:event_refMouseExited
-
-    private void dateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dateMouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dateMouseExited
-
-    private void dateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dateMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dateMouseEntered
 
     private void txtrechercherEntreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercherEntreeMouseClicked
         conn = ConexionBD.Conexion();
@@ -2458,7 +2476,7 @@ public final class Entree extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnsupprimerLE;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JTextField date;
+    private com.toedter.calendar.JDateChooser date;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonRefreshArticle;
     private javax.swing.JLabel jLabel1;
