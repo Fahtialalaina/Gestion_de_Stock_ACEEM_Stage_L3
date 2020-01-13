@@ -289,7 +289,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         try {
             String requete = "select NumArticle as 'Numero' ,NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' ,MontantStock as 'Montant en Stock' from article, categorie WHERE\n"
                     + "(categorie.NumCategorie=article.categorie)";
-            String requete2 = "select * from article";
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
             TableArticleSortie.setModel(DbUtils.resultSetToTableModel(rs5));
@@ -541,12 +540,11 @@ public final class Sortie extends javax.swing.JInternalFrame {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                String nom = rs.getString("NomSection").toString();
+                String nom = rs.getString("NomSection");
                 ComboSection.addItem(nom);
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             CloseRsPs1();
             CloseConnexion();
@@ -1623,12 +1621,31 @@ public final class Sortie extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Enregistrement succes");
 
                     AffichageLigneSortie(numeroSortie.getText());
-                    clearLS();
                     try {
                         SommeMontant();
                     } catch (SQLException ex) {
                         Logger.getLogger(Sortie.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    
+                    String requete9 = "insert into Journal (Date,TypeMouvement,Action,NumMouvement,NumArticle,NouveauQte,NouveauPU,NouveauMontant,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?)";
+                    ps9 = conn.prepareStatement(requete9);
+
+                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    Long millis = System.currentTimeMillis();
+                    Date date3 = new Date(millis);
+                    ps9.setString(1, dateFormat.format(date3));
+                    ps9.setString(2, "SORTIE");
+                    ps9.setString(3, "AJOUT");
+                    ps9.setString(4, ref.getText());
+                    ps9.setString(5, num);
+                    ps9.setString(6, nbr.getText());
+                    ps9.setString(7, puSortie.getText());
+                    ps9.setString(8, String.valueOf(mtn));
+                    ps9.setString(9, String.valueOf(qte));
+                    ps9.setString(10, String.valueOf(Mtn));
+                    ps9.execute();
+                
+                    clearLS();
                 }
             }
 
@@ -1720,6 +1737,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
             rs5 = ps5.executeQuery();
             String NumArticle = rs5.getString("NumArticle");
             String NbrSortie = rs5.getString("NbrSortie");
+            String PUSortie = rs5.getString("puSortie");
             String MontantSortie = rs5.getString("MontantSortie");
             
             //System.out.println("1 ok \n "+ NumArticle +"\n "+ NbrSortie +"\n "+ MontantSortie);
@@ -1781,8 +1799,44 @@ public final class Sortie extends javax.swing.JInternalFrame {
                     ps3.setString(2, String.valueOf(Double.parseDouble(AncienPU) * Qte));
                     ps3.execute();
                     AffichageLigneSortie(numeroSortie.getText());
-                    clearLS();
                     JOptionPane.showMessageDialog(null, "Modification succes");
+                    
+                    String requete10 = "insert into Journal (Date,TypeMouvement,Action,NumMouvement,NumArticle,AncienQte,AncienPU,AncienMontant,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?)";
+                    ps9 = conn.prepareStatement(requete10);
+
+                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    Long millis = System.currentTimeMillis();
+                    Date date3 = new Date(millis);
+                    ps9.setString(1, dateFormat.format(date3));
+                    ps9.setString(2, "SORTIE");
+                    ps9.setString(3, "SUPPR/MODIF");
+                    ps9.setString(4, ref.getText());
+                    ps9.setString(5, NumArticle);
+                    ps9.setString(6, NbrSortie);
+                    ps9.setString(7, PUSortie);
+                    ps9.setString(8, MontantSortie);
+                    ps9.setString(9, String.valueOf(qte));
+                    ps9.setString(10, String.valueOf(MtnRet));
+                    ps9.execute();
+                    CloseRsPs9();
+
+                    String requete9 = "insert into Journal (Date,TypeMouvement,Action,NumMouvement,NumArticle,NouveauQte,NouveauPU,NouveauMontant,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?)";
+                    ps9 = conn.prepareStatement(requete9);
+
+                    ps9.setString(1, dateFormat.format(date3));
+                    ps9.setString(2, "SORTIE");
+                    ps9.setString(3, "AJOUT/MODIF");
+                    ps9.setString(4, ref.getText());
+                    ps9.setString(5, num);
+                    ps9.setString(6, nbr.getText());
+                    ps9.setString(7, puSortie.getText());
+                    ps9.setString(8, String.valueOf(mtn));
+                    ps9.setString(9, String.valueOf(Qte));
+                    ps9.setString(10, String.valueOf(Double.parseDouble(AncienPU) * Qte));
+                    ps9.execute();
+                    CloseRsPs9();
+                    
+                    clearLS();
                 }
             } else {
                 
@@ -1836,8 +1890,31 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 ps3.setString(3, String.valueOf(Montant));
                 ps3.execute();
                 AffichageLigneSortie(numeroSortie.getText());
-                clearLS();
                 JOptionPane.showMessageDialog(null, "Modification succes");
+                
+                String requete10 = "insert into Journal (Date,TypeMouvement,Action,NumMouvement,NumArticle,AncienQte,NouveauQte,AncienPU,NouveauPU,AncienMontant,NouveauMontant,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                ps9 = conn.prepareStatement(requete10);
+
+                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                Long millis = System.currentTimeMillis();
+                Date date3 = new Date(millis);
+                ps9.setString(1, dateFormat.format(date3));
+                ps9.setString(2, "SORTIE");
+                ps9.setString(3, "MODIF");
+                ps9.setString(4, ref.getText());
+                ps9.setString(5, NumArticle);
+                ps9.setString(6, NbrSortie);
+                ps9.setString(7, nbr.getText());
+                ps9.setString(8, PUSortie);
+                ps9.setString(9, puSortie.getText());
+                ps9.setString(10, MontantSortie);
+                ps9.setString(11, String.valueOf(mtn));
+                ps9.setString(12, String.valueOf(Qte));
+                ps9.setString(13, String.valueOf(Montant));
+                ps9.execute();
+                CloseRsPs9();
+                
+                clearLS();
             }
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
@@ -1904,6 +1981,14 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 ps2 = conn.prepareStatement(requete2);
                 rs2 = ps2.executeQuery();
                 String num = rs2.getString("NumArticle");
+                
+                String requete1 = "select * from LigneSortie where  NumLigneSortie ='" + numeroLigneSortie.getText() + "'";
+                ps5 = conn.prepareStatement(requete1);
+                rs5 = ps5.executeQuery();
+                String NumArticle = rs5.getString("NumArticle");
+                String NbrSortie = rs5.getString("NbrSortie");
+                String PUSortie = rs5.getString("puSortie");
+                String MontantSortie = rs5.getString("MontantSortie");
 
                 String requete4 = "select * from article where  NumArticle ='" + num + "'";
                 ps4 = conn.prepareStatement(requete4);
@@ -1928,6 +2013,25 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 String requete = "delete from LigneSortie where NumLigneSortie = '" + numeroLigneSortie.getText() + "'";
                 ps = conn.prepareStatement(requete);
                 ps.execute();
+                
+                String requete10 = "insert into Journal (Date,TypeMouvement,Action,NumMouvement,NumArticle,AncienQte,AncienPU,AncienMontant,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?)";
+                ps9 = conn.prepareStatement(requete10);
+
+                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                Long millis = System.currentTimeMillis();
+                Date date3 = new Date(millis);
+                ps9.setString(1, dateFormat.format(date3));
+                ps9.setString(2, "SORTIE");
+                ps9.setString(3, "SUPPR");
+                ps9.setString(4, ref.getText());
+                ps9.setString(5, NumArticle);
+                ps9.setString(6, NbrSortie);
+                ps9.setString(7, PUSortie);
+                ps9.setString(8, MontantSortie);
+                ps9.setString(9, String.valueOf(qte));
+                ps9.setString(10, String.valueOf(mtn));
+                ps9.execute();
+                CloseRsPs9();
             }
         } catch (HeadlessException | SQLException e) {
             System.out.println(e);
