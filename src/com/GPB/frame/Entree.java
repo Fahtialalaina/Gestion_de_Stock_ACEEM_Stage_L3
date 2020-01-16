@@ -83,9 +83,9 @@ public final class Entree extends javax.swing.JInternalFrame {
         btnsupprimerLE.setEnabled(false);
         btnmodifierLE.setEnabled(false);
         btnenregistrerLE.setEnabled(false);
-        btnsupprimerArticle.setEnabled(false);
-        btnmodifierArticle.setEnabled(false);
-        btnenregistrerArticle.setEnabled(false);
+        btnsupprimerEntree.setEnabled(false);
+        btnmodifierEntree.setEnabled(false);
+        btnenregistrerEntree.setEnabled(false);
     }
 
     private void remove_title_bar() {
@@ -571,10 +571,10 @@ public final class Entree extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         ComboFournisseur = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
-        btnnvArticle = new javax.swing.JButton();
-        btnenregistrerArticle = new javax.swing.JButton();
-        btnmodifierArticle = new javax.swing.JButton();
-        btnsupprimerArticle = new javax.swing.JButton();
+        btnnvEntree = new javax.swing.JButton();
+        btnenregistrerEntree = new javax.swing.JButton();
+        btnmodifierEntree = new javax.swing.JButton();
+        btnsupprimerEntree = new javax.swing.JButton();
         MontantTotal = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -667,111 +667,111 @@ public final class Entree extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Action :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 3, 12))); // NOI18N
 
-        btnnvArticle.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnnvArticle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file.png"))); // NOI18N
-        btnnvArticle.setText("Nouveau");
-        btnnvArticle.setToolTipText("");
-        btnnvArticle.setAutoscrolls(true);
-        btnnvArticle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnnvArticle.setContentAreaFilled(false);
-        btnnvArticle.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnnvArticle.setOpaque(true);
-        btnnvArticle.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnnvEntree.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        btnnvEntree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file.png"))); // NOI18N
+        btnnvEntree.setText("Nouveau");
+        btnnvEntree.setToolTipText("");
+        btnnvEntree.setAutoscrolls(true);
+        btnnvEntree.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnnvEntree.setContentAreaFilled(false);
+        btnnvEntree.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnnvEntree.setOpaque(true);
+        btnnvEntree.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnnvArticleMouseEntered(evt);
+                btnnvEntreeMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnnvArticleMouseExited(evt);
+                btnnvEntreeMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnnvArticleMousePressed(evt);
+                btnnvEntreeMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnnvArticleMouseReleased(evt);
+                btnnvEntreeMouseReleased(evt);
             }
         });
-        btnnvArticle.addActionListener(new java.awt.event.ActionListener() {
+        btnnvEntree.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnnvArticleActionPerformed(evt);
+                btnnvEntreeActionPerformed(evt);
             }
         });
 
-        btnenregistrerArticle.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnenregistrerArticle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/save.png"))); // NOI18N
-        btnenregistrerArticle.setText("Enregistrer");
-        btnenregistrerArticle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnenregistrerArticle.setContentAreaFilled(false);
-        btnenregistrerArticle.setOpaque(true);
-        btnenregistrerArticle.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnenregistrerEntree.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        btnenregistrerEntree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/save.png"))); // NOI18N
+        btnenregistrerEntree.setText("Enregistrer");
+        btnenregistrerEntree.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnenregistrerEntree.setContentAreaFilled(false);
+        btnenregistrerEntree.setOpaque(true);
+        btnenregistrerEntree.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnenregistrerArticleMouseEntered(evt);
+                btnenregistrerEntreeMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnenregistrerArticleMouseExited(evt);
+                btnenregistrerEntreeMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnenregistrerArticleMousePressed(evt);
+                btnenregistrerEntreeMousePressed(evt);
             }
         });
-        btnenregistrerArticle.addActionListener(new java.awt.event.ActionListener() {
+        btnenregistrerEntree.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnenregistrerArticleActionPerformed(evt);
+                btnenregistrerEntreeActionPerformed(evt);
             }
         });
 
-        btnmodifierArticle.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnmodifierArticle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (2).png"))); // NOI18N
-        btnmodifierArticle.setText("Modifier");
-        btnmodifierArticle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnmodifierArticle.setContentAreaFilled(false);
-        btnmodifierArticle.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnmodifierArticle.setOpaque(true);
-        btnmodifierArticle.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+        btnmodifierEntree.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        btnmodifierEntree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (2).png"))); // NOI18N
+        btnmodifierEntree.setText("Modifier");
+        btnmodifierEntree.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnmodifierEntree.setContentAreaFilled(false);
+        btnmodifierEntree.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnmodifierEntree.setOpaque(true);
+        btnmodifierEntree.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
-                btnmodifierArticleMouseMoved(evt);
+                btnmodifierEntreeMouseMoved(evt);
             }
         });
-        btnmodifierArticle.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnmodifierEntree.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnmodifierArticleMouseEntered(evt);
+                btnmodifierEntreeMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnmodifierArticleMouseExited(evt);
+                btnmodifierEntreeMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnmodifierArticleMousePressed(evt);
+                btnmodifierEntreeMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnmodifierArticleMouseReleased(evt);
+                btnmodifierEntreeMouseReleased(evt);
             }
         });
-        btnmodifierArticle.addActionListener(new java.awt.event.ActionListener() {
+        btnmodifierEntree.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnmodifierArticleActionPerformed(evt);
+                btnmodifierEntreeActionPerformed(evt);
             }
         });
 
-        btnsupprimerArticle.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnsupprimerArticle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (1).png"))); // NOI18N
-        btnsupprimerArticle.setText("Supprimer");
-        btnsupprimerArticle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnsupprimerArticle.setContentAreaFilled(false);
-        btnsupprimerArticle.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnsupprimerArticle.setOpaque(true);
-        btnsupprimerArticle.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnsupprimerEntree.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        btnsupprimerEntree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (1).png"))); // NOI18N
+        btnsupprimerEntree.setText("Supprimer");
+        btnsupprimerEntree.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnsupprimerEntree.setContentAreaFilled(false);
+        btnsupprimerEntree.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnsupprimerEntree.setOpaque(true);
+        btnsupprimerEntree.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnsupprimerArticleMouseEntered(evt);
+                btnsupprimerEntreeMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnsupprimerArticleMouseExited(evt);
+                btnsupprimerEntreeMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnsupprimerArticleMousePressed(evt);
+                btnsupprimerEntreeMousePressed(evt);
             }
         });
-        btnsupprimerArticle.addActionListener(new java.awt.event.ActionListener() {
+        btnsupprimerEntree.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnsupprimerArticleActionPerformed(evt);
+                btnsupprimerEntreeActionPerformed(evt);
             }
         });
 
@@ -782,24 +782,24 @@ public final class Entree extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnsupprimerArticle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnnvArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnsupprimerEntree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnnvEntree, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnenregistrerArticle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnmodifierArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnenregistrerEntree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnmodifierEntree, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnnvArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnenregistrerArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnnvEntree, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnenregistrerEntree, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnsupprimerArticle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnmodifierArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnsupprimerEntree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnmodifierEntree, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 23, Short.MAX_VALUE))
         );
 
@@ -879,7 +879,7 @@ public final class Entree extends javax.swing.JInternalFrame {
                             .addComponent(date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 2, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(38, 38, 38)
@@ -1305,7 +1305,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         );
 
         getContentPane().add(jPanel4);
-        jPanel4.setBounds(1030, 60, 125, 50);
+        jPanel4.setBounds(1030, 60, 135, 54);
 
         txtrechercherEntree.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercherEntree.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -1516,9 +1516,16 @@ public final class Entree extends javax.swing.JInternalFrame {
         txtbackground1.setIcon(img2);
         txtrechercher1Entree.setText("Tapez Reference Entree");
         txtbackground1.setIcon(img2);
-        btnsupprimerArticle.setEnabled(true);
-        btnmodifierArticle.setEnabled(true);
-        btnenregistrerArticle.setEnabled(false);
+        
+        btnnvEntree.setEnabled(true);
+        btnsupprimerEntree.setEnabled(true);
+        btnmodifierEntree.setEnabled(true);
+        btnenregistrerEntree.setEnabled(false);
+        
+        btnnvLE.setEnabled(true);
+        btnsupprimerLE.setEnabled(false);
+        btnmodifierLE.setEnabled(false);
+        btnenregistrerLE.setEnabled(false);
         
 
     }//GEN-LAST:event_TableEntreeMouseReleased
@@ -1630,6 +1637,16 @@ public final class Entree extends javax.swing.JInternalFrame {
         
         RectifierMontantTotalEntree();
         
+        btnnvEntree.setEnabled(true);
+        btnsupprimerEntree.setEnabled(true);
+        btnmodifierEntree.setEnabled(true);
+        btnenregistrerEntree.setEnabled(false);
+        
+        btnnvLE.setEnabled(true);
+        btnsupprimerLE.setEnabled(false);
+        btnmodifierLE.setEnabled(false);
+        btnenregistrerLE.setEnabled(false);
+        
     }//GEN-LAST:event_btnenregistrerLEActionPerformed
 
     private void RectifierMontantTotalEntree(){
@@ -1678,9 +1695,6 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnnvLEActionPerformed
 
     private void btnnvLEMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvLEMouseReleased
-        btnenregistrerLE.setEnabled(true);
-        btnsupprimerLE.setEnabled(false);
-        btnmodifierLE.setEnabled(false);
         clearLE();
     }//GEN-LAST:event_btnnvLEMouseReleased
 
@@ -2080,56 +2094,63 @@ public final class Entree extends javax.swing.JInternalFrame {
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
         txtrechercher1Entree.setText("Taper Nom Entree");
+        
+        btnnvEntree.setEnabled(true);
+        btnsupprimerEntree.setEnabled(true);
+        btnmodifierEntree.setEnabled(true);
+        btnenregistrerEntree.setEnabled(false);
+        
+        btnnvLE.setEnabled(true);
         btnsupprimerLE.setEnabled(true);
         btnmodifierLE.setEnabled(true);
-        btnenregistrerLE.setEnabled(false);        // TODO add your handling code here:
+        btnenregistrerLE.setEnabled(false);
     }//GEN-LAST:event_TableLigneEntreeMouseReleased
 
     private void TableLigneEntreeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TableLigneEntreeKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_TableLigneEntreeKeyReleased
 
-    private void btnnvArticleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvArticleMouseEntered
+    private void btnnvEntreeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvEntreeMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnnvArticleMouseEntered
+    }//GEN-LAST:event_btnnvEntreeMouseEntered
 
-    private void btnnvArticleMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvArticleMouseExited
+    private void btnnvEntreeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvEntreeMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnnvArticleMouseExited
+    }//GEN-LAST:event_btnnvEntreeMouseExited
 
-    private void btnnvArticleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvArticleMousePressed
+    private void btnnvEntreeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvEntreeMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnnvArticleMousePressed
+    }//GEN-LAST:event_btnnvEntreeMousePressed
 
-    private void btnnvArticleMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvArticleMouseReleased
-        btnenregistrerArticle.setEnabled(true);
-        btnsupprimerArticle.setEnabled(false);
-        btnmodifierArticle.setEnabled(false);
+    private void btnnvEntreeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvEntreeMouseReleased
+        btnenregistrerEntree.setEnabled(true);
+        btnsupprimerEntree.setEnabled(false);
+        btnmodifierEntree.setEnabled(false);
         clearEntree();
         masquerArticle();
         masquerLigneEntree();
         conn = ConexionBD.Conexion(); 
         AffichageEntree();
         CloseConnexion();
-    }//GEN-LAST:event_btnnvArticleMouseReleased
+    }//GEN-LAST:event_btnnvEntreeMouseReleased
 
-    private void btnnvArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnvArticleActionPerformed
+    private void btnnvEntreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnvEntreeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnnvArticleActionPerformed
+    }//GEN-LAST:event_btnnvEntreeActionPerformed
 
-    private void btnenregistrerArticleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnenregistrerArticleMouseEntered
+    private void btnenregistrerEntreeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnenregistrerEntreeMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnenregistrerArticleMouseEntered
+    }//GEN-LAST:event_btnenregistrerEntreeMouseEntered
 
-    private void btnenregistrerArticleMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnenregistrerArticleMouseExited
+    private void btnenregistrerEntreeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnenregistrerEntreeMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnenregistrerArticleMouseExited
+    }//GEN-LAST:event_btnenregistrerEntreeMouseExited
 
-    private void btnenregistrerArticleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnenregistrerArticleMousePressed
+    private void btnenregistrerEntreeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnenregistrerEntreeMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnenregistrerArticleMousePressed
+    }//GEN-LAST:event_btnenregistrerEntreeMousePressed
 
-    private void btnenregistrerArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerArticleActionPerformed
+    private void btnenregistrerEntreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerEntreeActionPerformed
         conn = ConexionBD.Conexion();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         
@@ -2162,29 +2183,29 @@ public final class Entree extends javax.swing.JInternalFrame {
         AffichageEntree();
         clearEntree();
         CloseConnexion();
-    }//GEN-LAST:event_btnenregistrerArticleActionPerformed
+    }//GEN-LAST:event_btnenregistrerEntreeActionPerformed
 
-    private void btnmodifierArticleMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierArticleMouseMoved
+    private void btnmodifierEntreeMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierEntreeMouseMoved
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnmodifierArticleMouseMoved
+    }//GEN-LAST:event_btnmodifierEntreeMouseMoved
 
-    private void btnmodifierArticleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierArticleMouseEntered
+    private void btnmodifierEntreeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierEntreeMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnmodifierArticleMouseEntered
+    }//GEN-LAST:event_btnmodifierEntreeMouseEntered
 
-    private void btnmodifierArticleMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierArticleMouseExited
+    private void btnmodifierEntreeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierEntreeMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnmodifierArticleMouseExited
+    }//GEN-LAST:event_btnmodifierEntreeMouseExited
 
-    private void btnmodifierArticleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierArticleMousePressed
+    private void btnmodifierEntreeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierEntreeMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnmodifierArticleMousePressed
+    }//GEN-LAST:event_btnmodifierEntreeMousePressed
 
-    private void btnmodifierArticleMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierArticleMouseReleased
+    private void btnmodifierEntreeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierEntreeMouseReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnmodifierArticleMouseReleased
+    }//GEN-LAST:event_btnmodifierEntreeMouseReleased
 
-    private void btnmodifierArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierArticleActionPerformed
+    private void btnmodifierEntreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierEntreeActionPerformed
         conn = ConexionBD.Conexion();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         try {
@@ -2217,21 +2238,21 @@ public final class Entree extends javax.swing.JInternalFrame {
         masquerArticle();
         masquerLigneEntree();
         CloseConnexion();
-    }//GEN-LAST:event_btnmodifierArticleActionPerformed
+    }//GEN-LAST:event_btnmodifierEntreeActionPerformed
 
-    private void btnsupprimerArticleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerArticleMouseEntered
+    private void btnsupprimerEntreeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerEntreeMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnsupprimerArticleMouseEntered
+    }//GEN-LAST:event_btnsupprimerEntreeMouseEntered
 
-    private void btnsupprimerArticleMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerArticleMouseExited
+    private void btnsupprimerEntreeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerEntreeMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnsupprimerArticleMouseExited
+    }//GEN-LAST:event_btnsupprimerEntreeMouseExited
 
-    private void btnsupprimerArticleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerArticleMousePressed
+    private void btnsupprimerEntreeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerEntreeMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnsupprimerArticleMousePressed
+    }//GEN-LAST:event_btnsupprimerEntreeMousePressed
 
-    private void btnsupprimerArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsupprimerArticleActionPerformed
+    private void btnsupprimerEntreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsupprimerEntreeActionPerformed
         conn = ConexionBD.Conexion();
         try {
             if (JOptionPane.showConfirmDialog(null, "attention vous devez suprimer une Entree, Toute les Lignes Entree de ce Entree seront tous supprimées ,est ce que vous êtes sûre?",
@@ -2350,7 +2371,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         masquerArticle();
         masquerLigneEntree();
         clearEntree();
-    }//GEN-LAST:event_btnsupprimerArticleActionPerformed
+    }//GEN-LAST:event_btnsupprimerEntreeActionPerformed
 
     private void printbtn1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtn1MouseEntered
         // TODO add your handling code here:
@@ -2580,13 +2601,13 @@ public final class Entree extends javax.swing.JInternalFrame {
     private javax.swing.JTable TableEntree;
     private javax.swing.JTable TableLigneEntree;
     private javax.swing.JLabel article;
-    private javax.swing.JButton btnenregistrerArticle;
+    private javax.swing.JButton btnenregistrerEntree;
     private javax.swing.JButton btnenregistrerLE;
-    public javax.swing.JButton btnmodifierArticle;
+    public javax.swing.JButton btnmodifierEntree;
     public javax.swing.JButton btnmodifierLE;
-    private javax.swing.JButton btnnvArticle;
+    private javax.swing.JButton btnnvEntree;
     private javax.swing.JButton btnnvLE;
-    private javax.swing.JButton btnsupprimerArticle;
+    private javax.swing.JButton btnsupprimerEntree;
     private javax.swing.JButton btnsupprimerLE;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;

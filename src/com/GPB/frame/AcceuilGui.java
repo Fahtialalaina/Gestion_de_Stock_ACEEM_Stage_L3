@@ -136,12 +136,10 @@ public class AcceuilGui extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lnom = new javax.swing.JLabel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
-        pretbtn = new javax.swing.JButton();
-        utlisateurbtn = new javax.swing.JButton();
-        Journalbtn = new javax.swing.JButton();
-        Effectifbtn = new javax.swing.JButton();
+        Utilisateur = new javax.swing.JButton();
+        Journal = new javax.swing.JButton();
         Section = new javax.swing.JButton();
-        article = new javax.swing.JButton();
+        Article = new javax.swing.JButton();
         Entree = new javax.swing.JButton();
         Fournisseur = new javax.swing.JButton();
         Sortie = new javax.swing.JButton();
@@ -223,90 +221,49 @@ public class AcceuilGui extends javax.swing.JFrame {
 
         jDesktopPane1.setBackground(new java.awt.Color(240, 240, 240));
 
-        pretbtn.setBackground(new java.awt.Color(153, 153, 153));
-        pretbtn.setFont(new java.awt.Font("Bebas Neue Bold", 1, 18)); // NOI18N
-        pretbtn.setForeground(new java.awt.Color(255, 255, 255));
-        pretbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/icon.png"))); // NOI18N
-        pretbtn.setText("Prets");
-        pretbtn.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
-        pretbtn.setContentAreaFilled(false);
-        pretbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        pretbtn.setOpaque(true);
-        pretbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
+        Utilisateur.setFont(new java.awt.Font("Bebas Neue Bold", 1, 18)); // NOI18N
+        Utilisateur.setForeground(new java.awt.Color(255, 255, 255));
+        Utilisateur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/user.png"))); // NOI18N
+        Utilisateur.setText("Utilisateurs");
+        Utilisateur.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
+        Utilisateur.setContentAreaFilled(false);
+        Utilisateur.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Utilisateur.setOpaque(true);
+        Utilisateur.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                pretbtnMouseReleased(evt);
+                UtilisateurMouseReleased(evt);
             }
         });
-        pretbtn.addActionListener(new java.awt.event.ActionListener() {
+        Utilisateur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pretbtnActionPerformed(evt);
+                UtilisateurActionPerformed(evt);
             }
         });
 
-        utlisateurbtn.setBackground(new java.awt.Color(153, 153, 153));
-        utlisateurbtn.setFont(new java.awt.Font("Bebas Neue Bold", 1, 18)); // NOI18N
-        utlisateurbtn.setForeground(new java.awt.Color(255, 255, 255));
-        utlisateurbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/user.png"))); // NOI18N
-        utlisateurbtn.setText("Utilisateurs");
-        utlisateurbtn.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
-        utlisateurbtn.setContentAreaFilled(false);
-        utlisateurbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        utlisateurbtn.setOpaque(true);
-        utlisateurbtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                utlisateurbtnMouseReleased(evt);
-            }
-        });
-        utlisateurbtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                utlisateurbtnActionPerformed(evt);
-            }
-        });
-
-        Journalbtn.setBackground(new java.awt.Color(153, 153, 153));
-        Journalbtn.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
-        Journalbtn.setForeground(new java.awt.Color(255, 255, 255));
-        Journalbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/multiple-users-silhouette.png"))); // NOI18N
-        Journalbtn.setText("Journal");
-        Journalbtn.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
-        Journalbtn.setContentAreaFilled(false);
-        Journalbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        Journalbtn.setOpaque(true);
-        Journalbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        Journal.setBackground(new java.awt.Color(153, 153, 153));
+        Journal.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
+        Journal.setForeground(new java.awt.Color(255, 255, 255));
+        Journal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/multiple-users-silhouette.png"))); // NOI18N
+        Journal.setText("Journal");
+        Journal.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
+        Journal.setContentAreaFilled(false);
+        Journal.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Journal.setOpaque(true);
+        Journal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                JournalbtnMouseEntered(evt);
+                JournalMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                JournalbtnMouseExited(evt);
+                JournalMouseExited(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                JournalbtnMouseReleased(evt);
+                JournalMouseReleased(evt);
             }
         });
-        Journalbtn.addActionListener(new java.awt.event.ActionListener() {
+        Journal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JournalbtnActionPerformed(evt);
-            }
-        });
-
-        Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
-        Effectifbtn.setFont(new java.awt.Font("Bebas Neue Bold", 1, 18)); // NOI18N
-        Effectifbtn.setForeground(new java.awt.Color(255, 255, 255));
-        Effectifbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/diagram.png"))); // NOI18N
-        Effectifbtn.setText("Effectifs");
-        Effectifbtn.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
-        Effectifbtn.setContentAreaFilled(false);
-        Effectifbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        Effectifbtn.setMinimumSize(new java.awt.Dimension(69, 23));
-        Effectifbtn.setOpaque(true);
-        Effectifbtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                EffectifbtnMouseReleased(evt);
-            }
-        });
-        Effectifbtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EffectifbtnActionPerformed(evt);
+                JournalActionPerformed(evt);
             }
         });
 
@@ -330,23 +287,23 @@ public class AcceuilGui extends javax.swing.JFrame {
             }
         });
 
-        article.setBackground(new java.awt.Color(153, 153, 153));
-        article.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
-        article.setForeground(new java.awt.Color(255, 255, 255));
-        article.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
-        article.setText("Article");
-        article.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
-        article.setContentAreaFilled(false);
-        article.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        article.setOpaque(true);
-        article.addMouseListener(new java.awt.event.MouseAdapter() {
+        Article.setBackground(new java.awt.Color(153, 153, 153));
+        Article.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
+        Article.setForeground(new java.awt.Color(255, 255, 255));
+        Article.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
+        Article.setText("Article");
+        Article.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
+        Article.setContentAreaFilled(false);
+        Article.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Article.setOpaque(true);
+        Article.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                articleMouseReleased(evt);
+                ArticleMouseReleased(evt);
             }
         });
-        article.addActionListener(new java.awt.event.ActionListener() {
+        Article.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                articleActionPerformed(evt);
+                ArticleActionPerformed(evt);
             }
         });
 
@@ -410,12 +367,10 @@ public class AcceuilGui extends javax.swing.JFrame {
             }
         });
 
-        jDesktopPane1.setLayer(pretbtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(utlisateurbtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(Journalbtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(Effectifbtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(Utilisateur, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(Journal, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(Section, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(article, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(Article, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(Entree, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(Fournisseur, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(Sortie, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -427,13 +382,11 @@ public class AcceuilGui extends javax.swing.JFrame {
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Effectifbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pretbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(utlisateurbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(article, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Utilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Article, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Section, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Entree, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Journalbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Journal, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Fournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Sortie, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(152, Short.MAX_VALUE))
@@ -442,7 +395,7 @@ public class AcceuilGui extends javax.swing.JFrame {
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(article, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Article, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Section, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -451,19 +404,15 @@ public class AcceuilGui extends javax.swing.JFrame {
                 .addComponent(Fournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Sortie, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addComponent(Journalbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addComponent(Journal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pretbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Effectifbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(utlisateurbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(Utilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(124, 124, 124))
         );
 
         getContentPane().add(jDesktopPane1);
-        jDesktopPane1.setBounds(10, 120, 298, 520);
+        jDesktopPane1.setBounds(10, 120, 302, 520);
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -485,7 +434,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void JournalbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JournalbtnActionPerformed
+    private void JournalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JournalActionPerformed
         this.desk.removeAll();
         this.desk.repaint();
 
@@ -502,35 +451,7 @@ public class AcceuilGui extends javax.swing.JFrame {
             Logger.getLogger(AcceuilGui.class.getName()).log(Level.SEVERE, null, ex);
         }
         lc.show();
-    }//GEN-LAST:event_JournalbtnActionPerformed
-
-    private void EffectifbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EffectifbtnActionPerformed
-        this.desk.removeAll();
-        this.desk.repaint();
-
-        Effectif fr = new Effectif();
-        this.desk.add(fr);
-        try {
-            fr.setMaximum(true);
-        } catch (PropertyVetoException ex) {
-            Logger.getLogger(AcceuilGui.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        fr.show();
-    }//GEN-LAST:event_EffectifbtnActionPerformed
-
-    private void pretbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pretbtnActionPerformed
-        this.desk.removeAll();
-        this.desk.repaint();
-
-        Prets ex = new Prets();
-        this.desk.add(ex);
-        try {
-            ex.setMaximum(true);
-        } catch (PropertyVetoException ex1) {
-            Logger.getLogger(AcceuilGui.class.getName()).log(Level.SEVERE, null, ex1);
-        }
-        ex.show();
-    }//GEN-LAST:event_pretbtnActionPerformed
+    }//GEN-LAST:event_JournalActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
@@ -555,7 +476,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         ex.show();
     }//GEN-LAST:event_SectionActionPerformed
 
-    private void utlisateurbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_utlisateurbtnActionPerformed
+    private void UtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UtilisateurActionPerformed
         this.desk.removeAll();
         this.desk.repaint();
 
@@ -567,60 +488,50 @@ public class AcceuilGui extends javax.swing.JFrame {
             Logger.getLogger(AcceuilGui.class.getName()).log(Level.SEVERE, null, ex1);
         }
         ex.show();
-    }//GEN-LAST:event_utlisateurbtnActionPerformed
+    }//GEN-LAST:event_UtilisateurActionPerformed
 
-    private void JournalbtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JournalbtnMouseReleased
-        Journalbtn.setBackground(new java.awt.Color(0, 153, 153));
-        Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
+    private void JournalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JournalMouseReleased
+        Article.setBackground(new java.awt.Color(153, 153, 153));
         Section.setBackground(new java.awt.Color(153, 153, 153));
-        pretbtn.setBackground(new java.awt.Color(153, 153, 153));
-        utlisateurbtn.setBackground(new java.awt.Color(153, 153, 153));
-    }//GEN-LAST:event_JournalbtnMouseReleased
+        Entree.setBackground(new java.awt.Color(153, 153, 153));
+        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
+        Sortie.setBackground(new java.awt.Color(153, 153, 153));
+        Journal.setBackground(new java.awt.Color(0, 153, 153));
+        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
+    }//GEN-LAST:event_JournalMouseReleased
 
-    private void EffectifbtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EffectifbtnMouseReleased
-        Journalbtn.setBackground(new java.awt.Color(153, 153, 153));
-        Effectifbtn.setBackground(new java.awt.Color(0, 153, 153));
-        Section.setBackground(new java.awt.Color(153, 153, 153));
-        pretbtn.setBackground(new java.awt.Color(153, 153, 153));
-        utlisateurbtn.setBackground(new java.awt.Color(153, 153, 153));
-    }//GEN-LAST:event_EffectifbtnMouseReleased
-
-    private void JournalbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JournalbtnMouseEntered
+    private void JournalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JournalMouseEntered
 //     candidatbtn.setBackground(new java.awt.Color(51,2,255));
-    }//GEN-LAST:event_JournalbtnMouseEntered
+    }//GEN-LAST:event_JournalMouseEntered
 
-    private void JournalbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JournalbtnMouseExited
+    private void JournalMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JournalMouseExited
 //        candidatbtn.setBackground(new java.awt.Color(204,204,204));
-    }//GEN-LAST:event_JournalbtnMouseExited
+    }//GEN-LAST:event_JournalMouseExited
 
     private void SectionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SectionMouseReleased
+        Article.setBackground(new java.awt.Color(153, 153, 153));
         Section.setBackground(new java.awt.Color(0, 153, 153));
-        Journalbtn.setBackground(new java.awt.Color(153, 153, 153));
-        Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
-        pretbtn.setBackground(new java.awt.Color(153, 153, 153));
-        utlisateurbtn.setBackground(new java.awt.Color(153, 153, 153));
+        Entree.setBackground(new java.awt.Color(153, 153, 153));
+        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
+        Sortie.setBackground(new java.awt.Color(153, 153, 153));
+        Journal.setBackground(new java.awt.Color(153, 153, 153));
+        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
     }//GEN-LAST:event_SectionMouseReleased
 
-    private void pretbtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pretbtnMouseReleased
+    private void UtilisateurMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UtilisateurMouseReleased
+        Article.setBackground(new java.awt.Color(153, 153, 153));
         Section.setBackground(new java.awt.Color(153, 153, 153));
-        Journalbtn.setBackground(new java.awt.Color(153, 153, 153));
-        Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
-        pretbtn.setBackground(new java.awt.Color(0, 153, 153));
-        utlisateurbtn.setBackground(new java.awt.Color(153, 153, 153));
-    }//GEN-LAST:event_pretbtnMouseReleased
-
-    private void utlisateurbtnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_utlisateurbtnMouseReleased
-        Section.setBackground(new java.awt.Color(153, 153, 153));
-        Journalbtn.setBackground(new java.awt.Color(153, 153, 153));
-        Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
-        pretbtn.setBackground(new java.awt.Color(153, 153, 153));
-        utlisateurbtn.setBackground(new java.awt.Color(0, 153, 153));
-    }//GEN-LAST:event_utlisateurbtnMouseReleased
+        Entree.setBackground(new java.awt.Color(153, 153, 153));
+        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
+        Sortie.setBackground(new java.awt.Color(153, 153, 153));
+        Journal.setBackground(new java.awt.Color(153, 153, 153));
+        Utilisateur.setBackground(new java.awt.Color(0, 153, 153));
+    }//GEN-LAST:event_UtilisateurMouseReleased
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         String v = "<html><head></head><body><h3 color ='#2C4CCC'><center>"
-                + "<br><p><b><i>GESTION DES PRETS BANCAIRES</i></b>"
-                + "<br><p><b><i>Logiciel developpé par Team4</i></b><br></p><br>"
+                + "<br><p><b><i>GESTION DE STOCK ACEEM</i></b>"
+                + "<br><p><b><i>Logiciel developpé par Fandresena</i></b><br></p><br>"
                 + "<br><p ><b><i>Tous droit reservé</i></b></p><br>"
                 + "<br><p >2019</i></b></p><br>"
                 + "<br><p >---------<b><i>" + "</i></b></p><br></center></h3></p></body></html>";
@@ -631,16 +542,17 @@ public class AcceuilGui extends javax.swing.JFrame {
         d.setVisible(true);
     }//GEN-LAST:event_jLabel2MouseClicked
 
-    private void articleMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_articleMouseReleased
-        article.setBackground(new java.awt.Color(0, 153, 153));
-        Journalbtn.setBackground(new java.awt.Color(153, 153, 153));
-        Effectifbtn.setBackground(new java.awt.Color(153, 153, 153));
+    private void ArticleMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ArticleMouseReleased
+        Article.setBackground(new java.awt.Color(0, 153, 153));
         Section.setBackground(new java.awt.Color(153, 153, 153));
-        pretbtn.setBackground(new java.awt.Color(153, 153, 153));
-        utlisateurbtn.setBackground(new java.awt.Color(153, 153, 153));
-    }//GEN-LAST:event_articleMouseReleased
+        Entree.setBackground(new java.awt.Color(153, 153, 153));
+        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
+        Sortie.setBackground(new java.awt.Color(153, 153, 153));
+        Journal.setBackground(new java.awt.Color(153, 153, 153));
+        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
+    }//GEN-LAST:event_ArticleMouseReleased
 
-    private void articleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_articleActionPerformed
+    private void ArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ArticleActionPerformed
         try {                                        
             this.desk.removeAll();
             this.desk.repaint();
@@ -657,10 +569,16 @@ public class AcceuilGui extends javax.swing.JFrame {
         } catch (SQLException ex1) {
             Logger.getLogger(AcceuilGui.class.getName()).log(Level.SEVERE, null, ex1);
         }
-    }//GEN-LAST:event_articleActionPerformed
+    }//GEN-LAST:event_ArticleActionPerformed
 
     private void EntreeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EntreeMouseReleased
-        // TODO add your handling code here:
+        Article.setBackground(new java.awt.Color(153, 153, 153));
+        Section.setBackground(new java.awt.Color(153, 153, 153));
+        Entree.setBackground(new java.awt.Color(0, 153, 153));
+        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
+        Sortie.setBackground(new java.awt.Color(153, 153, 153));
+        Journal.setBackground(new java.awt.Color(153, 153, 153));
+        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
     }//GEN-LAST:event_EntreeMouseReleased
 
     private void EntreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntreeActionPerformed
@@ -683,7 +601,13 @@ public class AcceuilGui extends javax.swing.JFrame {
     }//GEN-LAST:event_EntreeActionPerformed
 
     private void FournisseurMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FournisseurMouseReleased
-        // TODO add your handling code here:
+        Article.setBackground(new java.awt.Color(153, 153, 153));
+        Section.setBackground(new java.awt.Color(153, 153, 153));
+        Entree.setBackground(new java.awt.Color(153, 153, 153));
+        Fournisseur.setBackground(new java.awt.Color(0, 153, 153));
+        Sortie.setBackground(new java.awt.Color(153, 153, 153));
+        Journal.setBackground(new java.awt.Color(153, 153, 153));
+        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
     }//GEN-LAST:event_FournisseurMouseReleased
 
     private void FournisseurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FournisseurActionPerformed
@@ -706,7 +630,13 @@ public class AcceuilGui extends javax.swing.JFrame {
     }//GEN-LAST:event_FournisseurActionPerformed
 
     private void SortieMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SortieMouseReleased
-        // TODO add your handling code here:
+        Article.setBackground(new java.awt.Color(153, 153, 153));
+        Section.setBackground(new java.awt.Color(153, 153, 153));
+        Entree.setBackground(new java.awt.Color(153, 153, 153));
+        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
+        Sortie.setBackground(new java.awt.Color(0, 153, 153));
+        Journal.setBackground(new java.awt.Color(153, 153, 153));
+        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
     }//GEN-LAST:event_SortieMouseReleased
 
     private void SortieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SortieActionPerformed
@@ -766,13 +696,13 @@ public class AcceuilGui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Effectifbtn;
+    private javax.swing.JButton Article;
     private javax.swing.JButton Entree;
     private javax.swing.JButton Fournisseur;
-    private javax.swing.JButton Journalbtn;
+    private javax.swing.JButton Journal;
     private javax.swing.JButton Section;
     private javax.swing.JButton Sortie;
-    private javax.swing.JButton article;
+    private javax.swing.JButton Utilisateur;
     private javax.swing.JDesktopPane desk;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
@@ -783,8 +713,6 @@ public class AcceuilGui extends javax.swing.JFrame {
     private javax.swing.JLabel lnom;
     private javax.swing.JLabel logomax;
     private javax.swing.JLabel menublanc;
-    private javax.swing.JButton pretbtn;
     private javax.swing.JLabel type;
-    private javax.swing.JButton utlisateurbtn;
     // End of variables declaration//GEN-END:variables
 }

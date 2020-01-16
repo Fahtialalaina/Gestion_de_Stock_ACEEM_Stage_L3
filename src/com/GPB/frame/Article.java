@@ -7,12 +7,18 @@ package com.GPB.frame;
 
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
@@ -21,6 +27,10 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import net.proteanit.sql.DbUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 /**
  *
@@ -1741,15 +1751,48 @@ public class Article extends javax.swing.JInternalFrame {
 
     private void printbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printbtnActionPerformed
 
-        MessageFormat header = new MessageFormat("Liste des Sections:");
+        DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        
+        MessageFormat header = new MessageFormat("Liste des Articles du "+dateFormat.format(date3));
+        
         MessageFormat footer = new MessageFormat("Page{0,number,integer}");
         try {
-            TableArticle.print(JTable.PrintMode.NORMAL, header, footer);
+            TableArticle.print(JTable.PrintMode.FIT_WIDTH, header, footer);
 
         } catch (java.awt.print.PrinterException e) {
             System.err.format("Erreur d'impression ", e.getMessage());
         }
 
+
+        
+
+
+        /*
+        try (PDDocument doc = new PDDocument()) {
+
+            PDPage myPage = new PDPage();
+            doc.addPage(myPage);
+
+            String imgFileName = "testLogo.jpg";
+            PDImageXObject pdImage = PDImageXObject.createFromFile(imgFileName, doc);
+            
+            int iw = 100;
+            int ih = 100;
+            
+            float offset = 20f;
+
+            try (PDPageContentStream cont = new PDPageContentStream(doc, myPage)) {
+                
+                cont.drawImage(pdImage, offset, offset, iw, ih);
+            }
+            
+            doc.save("test.pdf");
+        } catch (IOException ex) {
+            Logger.getLogger(Article.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+    
     }//GEN-LAST:event_printbtnActionPerformed
 
     private void TableCategorieMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableCategorieMouseClicked
