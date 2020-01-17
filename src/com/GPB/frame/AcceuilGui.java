@@ -5,6 +5,7 @@
  */
 package com.GPB.frame;
 
+import java.awt.event.ActionEvent;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -39,7 +40,16 @@ public class AcceuilGui extends javax.swing.JFrame {
         //this.setIconImage(new ImageIcon(getClass().getResource("logocar.png")).getImage());
         connAccueil = ConexionBD.Conexion();
         recuperutlisateur();
-
+        ActionEvent evt = null;
+        JournalActionPerformed(evt);
+        
+        Article.setBackground(new java.awt.Color(153, 153, 153));
+        Section.setBackground(new java.awt.Color(153, 153, 153));
+        Entree.setBackground(new java.awt.Color(153, 153, 153));
+        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
+        Sortie.setBackground(new java.awt.Color(153, 153, 153));
+        Journal.setBackground(new java.awt.Color(3, 91, 155));
+        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
     }
 
     private void datecourante() {
@@ -397,6 +407,8 @@ public class AcceuilGui extends javax.swing.JFrame {
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(Journal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Article, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Section, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -406,11 +418,9 @@ public class AcceuilGui extends javax.swing.JFrame {
                 .addComponent(Fournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Sortie, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Journal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Utilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(124, 124, 124))
+                .addGap(105, 105, 105))
         );
 
         getContentPane().add(jDesktopPane1);

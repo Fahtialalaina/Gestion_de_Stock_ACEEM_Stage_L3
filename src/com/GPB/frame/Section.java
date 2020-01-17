@@ -217,7 +217,7 @@ public class Section extends javax.swing.JInternalFrame {
 
         txtrechercher1.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercher1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercher1.setForeground(new java.awt.Color(0, 153, 153));
+        txtrechercher1.setForeground(new java.awt.Color(3, 91, 155));
         txtrechercher1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtrechercher1.setBorder(null);
         txtrechercher1.setDoubleBuffered(true);
@@ -319,7 +319,7 @@ public class Section extends javax.swing.JInternalFrame {
 
         txtrechercher.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercher.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercher.setForeground(new java.awt.Color(0, 153, 153));
+        txtrechercher.setForeground(new java.awt.Color(3, 91, 155));
         txtrechercher.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtrechercher.setBorder(null);
         txtrechercher.setDoubleBuffered(true);
