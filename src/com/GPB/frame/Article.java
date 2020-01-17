@@ -5,6 +5,8 @@
  */
 package com.GPB.frame;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -86,6 +88,24 @@ public class Article extends javax.swing.JInternalFrame {
             ps = conn.prepareStatement(requete4);
             ps.execute();*/
     }
+    
+    public void tabelArticle() {
+        
+        TableArticle.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        TableArticle.getTableHeader().setOpaque(false);
+        TableArticle.getTableHeader().setBackground(new Color(3, 91, 155));
+        TableArticle.getTableHeader().setForeground(new Color(255,255,255));
+        //TableArticle.setRowHeight(25);
+    }
+    
+    public void tabelCategorie() {
+        
+        TableCategorie.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        TableCategorie.getTableHeader().setOpaque(false);
+        TableCategorie.getTableHeader().setBackground(new Color(3, 91, 155));
+        TableCategorie.getTableHeader().setForeground(new Color(255,255,255));
+        //TableArticle.setRowHeight(25);
+    }
 
     private void remove_title_bar() {
         putClientProperty("Article.isPalette", Boolean.TRUE);
@@ -160,6 +180,7 @@ public class Article extends javax.swing.JInternalFrame {
             rs = ps.executeQuery();
             TableCategorie.setModel(DbUtils.resultSetToTableModel(rs));
             ajusterTableCategorie();
+            tabelCategorie();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -207,6 +228,7 @@ public class Article extends javax.swing.JInternalFrame {
             rs = ps.executeQuery();
             TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
             ajusterTableArticle();
+            tabelArticle();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -503,7 +525,7 @@ public class Article extends javax.swing.JInternalFrame {
 
         txtrechercher1Categorie.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercher1Categorie.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercher1Categorie.setForeground(new java.awt.Color(0, 153, 153));
+        txtrechercher1Categorie.setForeground(new java.awt.Color(3, 91, 155));
         txtrechercher1Categorie.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtrechercher1Categorie.setAlignmentX(0.0F);
         txtrechercher1Categorie.setAlignmentY(0.0F);
@@ -655,7 +677,7 @@ public class Article extends javax.swing.JInternalFrame {
 
         txtrechercherCategorie.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercherCategorie.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercherCategorie.setForeground(new java.awt.Color(0, 153, 153));
+        txtrechercherCategorie.setForeground(new java.awt.Color(3, 91, 155));
         txtrechercherCategorie.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtrechercherCategorie.setAlignmentX(0.0F);
         txtrechercherCategorie.setAlignmentY(0.0F);
@@ -707,7 +729,7 @@ public class Article extends javax.swing.JInternalFrame {
         ));
         TableArticle.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         TableArticle.setRowHeight(20);
-        TableArticle.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        TableArticle.setSelectionBackground(new java.awt.Color(3, 91, 155));
         TableArticle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableArticleMouseClicked(evt);
@@ -914,7 +936,7 @@ public class Article extends javax.swing.JInternalFrame {
         getContentPane().add(jPanel4);
         jPanel4.setBounds(430, 530, 140, 100);
 
-        jPanel5.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel5.setBackground(new java.awt.Color(3, 91, 155));
 
         jLabel10.setBackground(new java.awt.Color(0, 102, 255));
         jLabel10.setFont(new java.awt.Font("Advent Pro", 0, 40)); // NOI18N
@@ -953,7 +975,7 @@ public class Article extends javax.swing.JInternalFrame {
         ));
         TableCategorie.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         TableCategorie.setRowHeight(20);
-        TableCategorie.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        TableCategorie.setSelectionBackground(new java.awt.Color(3, 91, 155));
         TableCategorie.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableCategorieMouseClicked(evt);
@@ -1190,18 +1212,18 @@ public class Article extends javax.swing.JInternalFrame {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNomCategorie))
+                        .addComponent(txtNomCategorie, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(numeroCategorie)
-                        .addGap(0, 140, Short.MAX_VALUE)))
+                        .addComponent(numeroCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(numeroCategorie))
@@ -1217,7 +1239,7 @@ public class Article extends javax.swing.JInternalFrame {
 
         txtrechercher1Article.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercher1Article.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercher1Article.setForeground(new java.awt.Color(0, 153, 153));
+        txtrechercher1Article.setForeground(new java.awt.Color(3, 91, 155));
         txtrechercher1Article.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtrechercher1Article.setAlignmentX(0.0F);
         txtrechercher1Article.setAlignmentY(0.0F);
@@ -1268,7 +1290,7 @@ public class Article extends javax.swing.JInternalFrame {
 
         txtrechercherArticle.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercherArticle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercherArticle.setForeground(new java.awt.Color(0, 153, 153));
+        txtrechercherArticle.setForeground(new java.awt.Color(3, 91, 155));
         txtrechercherArticle.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtrechercherArticle.setAlignmentX(0.0F);
         txtrechercherArticle.setAlignmentY(0.0F);

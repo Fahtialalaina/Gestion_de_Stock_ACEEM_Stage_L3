@@ -70,7 +70,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
         txtrechercherEntree.setText("Taper Numero Sortie");
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
-        txtrechercher1Entree.setText("Taper Reference Sortie");
+        txtrechercher1Entree.setText("Tapez Reference Sortie");
         CloseConnexion();
         conn = ConexionBD.Conexion();
         AffichageSortie();
@@ -902,7 +902,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
                             .addComponent(date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 2, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(38, 38, 38)
@@ -968,7 +968,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
         ));
         TableSortie.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         TableSortie.setRowHeight(20);
-        TableSortie.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        TableSortie.setSelectionBackground(new java.awt.Color(3, 91, 155));
         TableSortie.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableSortieMouseClicked(evt);
@@ -990,7 +990,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(440, 110, 490, 200);
 
-        jPanel5.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel5.setBackground(new java.awt.Color(3, 91, 155));
 
         jLabel10.setBackground(new java.awt.Color(0, 102, 255));
         jLabel10.setFont(new java.awt.Font("Advent Pro", 0, 40)); // NOI18N
@@ -1031,7 +1031,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
         ));
         TableLigneSortie.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         TableLigneSortie.setRowHeight(20);
-        TableLigneSortie.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        TableLigneSortie.setSelectionBackground(new java.awt.Color(3, 91, 155));
         TableLigneSortie.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableLigneSortieMouseClicked(evt);
@@ -1332,11 +1332,11 @@ public final class Sortie extends javax.swing.JInternalFrame {
         );
 
         getContentPane().add(jPanel4);
-        jPanel4.setBounds(1030, 60, 125, 50);
+        jPanel4.setBounds(1030, 60, 135, 54);
 
         txtrechercherEntree.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercherEntree.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercherEntree.setForeground(new java.awt.Color(0, 153, 153));
+        txtrechercherEntree.setForeground(new java.awt.Color(3, 91, 155));
         txtrechercherEntree.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtrechercherEntree.setAlignmentX(0.0F);
         txtrechercherEntree.setAlignmentY(0.0F);
@@ -1387,7 +1387,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
         txtrechercher1Entree.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercher1Entree.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercher1Entree.setForeground(new java.awt.Color(0, 153, 153));
+        txtrechercher1Entree.setForeground(new java.awt.Color(3, 91, 155));
         txtrechercher1Entree.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtrechercher1Entree.setAlignmentX(0.0F);
         txtrechercher1Entree.setAlignmentY(0.0F);
@@ -1426,7 +1426,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
         txtrechercherarticle.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercherarticle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercherarticle.setForeground(new java.awt.Color(0, 153, 153));
+        txtrechercherarticle.setForeground(new java.awt.Color(3, 91, 155));
         txtrechercherarticle.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtrechercherarticle.setAlignmentX(0.0F);
         txtrechercherarticle.setAlignmentY(0.0F);
@@ -1478,7 +1478,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
         ));
         TableArticleSortie.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         TableArticleSortie.setRowHeight(20);
-        TableArticleSortie.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        TableArticleSortie.setSelectionBackground(new java.awt.Color(3, 91, 155));
         TableArticleSortie.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableArticleSortieMouseClicked(evt);
@@ -2393,7 +2393,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
         AffichageSortie();
         clearSortie();
 
-        ImageIcon img = new ImageIcon(getClass().getResource("txt1.png"));
+        ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbachground.setIcon(img);
         txtrechercherEntree.setText("");
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
@@ -2452,7 +2452,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
         AffichageSortie();
         clearSortie();
 
-        ImageIcon img = new ImageIcon(getClass().getResource("txt1.png"));
+        ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbachground.setIcon(img);
         txtrechercherEntree.setText("Taper Numero Sortie");
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));

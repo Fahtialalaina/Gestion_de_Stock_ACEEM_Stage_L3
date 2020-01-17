@@ -5,6 +5,8 @@
  */
 package com.GPB.frame;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -67,6 +69,15 @@ public class Section extends javax.swing.JInternalFrame {
         ((BasicInternalFrameUI) this.getUI()).setNorthPane(null);
         this.setBorder(null);
     }
+    
+    public void tabel() {
+        
+        Table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        Table.getTableHeader().setOpaque(false);
+        Table.getTableHeader().setBackground(new Color(3, 91, 155));
+        Table.getTableHeader().setForeground(new Color(255,255,255));
+        //TableArticle.setRowHeight(25);
+    }
 
     private void Affichage() {
         try {
@@ -75,6 +86,7 @@ public class Section extends javax.swing.JInternalFrame {
             rs = ps.executeQuery();
             Table.setModel(DbUtils.resultSetToTableModel(rs));
             ajusterTable();
+            tabel();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -304,7 +316,6 @@ public class Section extends javax.swing.JInternalFrame {
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(538, 115, 270, 110);
-        jPanel1.getAccessibleContext().setAccessibleName("Formulaire Section :");
 
         txtrechercher.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercher.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -358,7 +369,7 @@ public class Section extends javax.swing.JInternalFrame {
         ));
         Table.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         Table.setRowHeight(20);
-        Table.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        Table.setSelectionBackground(new java.awt.Color(3, 91, 155));
         Table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableMouseClicked(evt);
@@ -565,7 +576,7 @@ public class Section extends javax.swing.JInternalFrame {
         getContentPane().add(jPanel4);
         jPanel4.setBounds(390, 350, 140, 120);
 
-        jPanel5.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel5.setBackground(new java.awt.Color(3, 91, 155));
 
         jLabel10.setBackground(new java.awt.Color(0, 102, 255));
         jLabel10.setFont(new java.awt.Font("Advent Pro", 0, 40)); // NOI18N

@@ -7,7 +7,9 @@ package com.GPB.frame;
 
 import static com.GPB.frame.Entree.test;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -48,7 +50,7 @@ import org.jfree.ui.RefineryUtilities;
  *
  * @author anouer
  */
-public class Journal extends javax.swing.JInternalFrame {
+public final class Journal extends javax.swing.JInternalFrame {
 
     Connection conn = null;
     ResultSet rs = null;
@@ -78,10 +80,10 @@ public class Journal extends javax.swing.JInternalFrame {
         AffichageArticle();
         AffichageJournal();
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbachground2.setIcon(img);
+        //txtbachground2.setIcon(img);
         txtrechercherArticle.setText("Taper Numero Article");
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbackground3.setIcon(img2);
+        //txtbackground3.setIcon(img2);
         txtrechercher1Article.setText("Taper Nom Article");
                 
         //DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -254,7 +256,7 @@ public class Journal extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "erreur BD");
             }
         }
-
+        tabelArticle();
     }
     
     private void AffichageJournal() {
@@ -278,7 +280,7 @@ public class Journal extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "erreur BD");
             }
         }
-
+        tabelJournal();
     }
 
     public void Deplace() {
@@ -330,6 +332,7 @@ public class Journal extends javax.swing.JInternalFrame {
         } finally {
             CloseRsPs5();
         }
+        tabelJournal();
         //ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         //txtbackgroundarticle.setIcon(img);
         //txtrechercherarticle.setText("Tapez Numero ou Nom Article");
@@ -350,6 +353,7 @@ public class Journal extends javax.swing.JInternalFrame {
         } finally {
             CloseRsPs5();
         }
+        tabelJournal();
     }
     
     private void AffichageJournal2date(String date1, String date2) {
@@ -366,6 +370,26 @@ public class Journal extends javax.swing.JInternalFrame {
         } finally {
             CloseRsPs5();
         }
+        tabelJournal();
+    }
+    
+    
+    public void tabelArticle() {
+        
+        TableArticle.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        TableArticle.getTableHeader().setOpaque(false);
+        TableArticle.getTableHeader().setBackground(new Color(3, 91, 155));
+        TableArticle.getTableHeader().setForeground(new Color(255,255,255));
+        //TableArticle.setRowHeight(25);
+    }
+    
+    public void tabelJournal() {
+        
+        TableJournal.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        TableJournal.getTableHeader().setOpaque(false);
+        TableJournal.getTableHeader().setBackground(new Color(3, 91, 155));
+        TableJournal.getTableHeader().setForeground(new Color(255,255,255));
+        //TableJournal.setRowHeight(25);
     }
     
     private void ajusterTableArticle() {                                         
@@ -458,13 +482,7 @@ public class Journal extends javax.swing.JInternalFrame {
 
             }
         };
-        txtrechercherArticle = new javax.swing.JTextField();
-        txtbachground2 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        txtrechercher1Article = new javax.swing.JTextField();
-        txtbackground3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        numeroArticle = new javax.swing.JLabel();
         date1 = new com.toedter.calendar.JDateChooser();
         date2 = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
@@ -473,6 +491,12 @@ public class Journal extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         printbtn = new javax.swing.JButton();
         chartPanel = new javax.swing.JPanel();
+        txtrechercherArticle = new javax.swing.JTextField();
+        txtbachground2 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        txtrechercher1Article = new javax.swing.JTextField();
+        txtbackground3 = new javax.swing.JLabel();
+        numeroArticle = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -519,7 +543,7 @@ public class Journal extends javax.swing.JInternalFrame {
         ));
         TableJournal.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         TableJournal.setRowHeight(20);
-        TableJournal.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        TableJournal.setSelectionBackground(new java.awt.Color(3, 91, 155));
         TableJournal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableJournalMouseClicked(evt);
@@ -539,9 +563,9 @@ public class Journal extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(TableJournal);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(0, 350, 1200, 290);
+        jScrollPane1.setBounds(0, 350, 1190, 290);
 
-        jPanel5.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel5.setBackground(new java.awt.Color(3, 91, 155));
 
         jLabel10.setBackground(new java.awt.Color(0, 102, 255));
         jLabel10.setFont(new java.awt.Font("Advent Pro", 0, 40)); // NOI18N
@@ -553,9 +577,9 @@ public class Journal extends javax.swing.JInternalFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 962, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(228, Short.MAX_VALUE))
+                .addGap(24, 24, 24)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 861, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(315, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -580,7 +604,7 @@ public class Journal extends javax.swing.JInternalFrame {
         ));
         TableArticle.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         TableArticle.setRowHeight(20);
-        TableArticle.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        TableArticle.setSelectionBackground(new java.awt.Color(3, 91, 155));
         TableArticle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableArticleMouseClicked(evt);
@@ -600,121 +624,27 @@ public class Journal extends javax.swing.JInternalFrame {
         jScrollPane2.setViewportView(TableArticle);
 
         getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(0, 120, 380, 220);
-
-        txtrechercherArticle.setBackground(new java.awt.Color(240, 240, 240));
-        txtrechercherArticle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercherArticle.setForeground(new java.awt.Color(0, 153, 153));
-        txtrechercherArticle.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtrechercherArticle.setAlignmentX(0.0F);
-        txtrechercherArticle.setAlignmentY(0.0F);
-        txtrechercherArticle.setBorder(null);
-        txtrechercherArticle.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtrechercherArticleMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtrechercherArticleMouseEntered(evt);
-            }
-        });
-        txtrechercherArticle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtrechercherArticleActionPerformed(evt);
-            }
-        });
-        txtrechercherArticle.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtrechercherArticleKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtrechercherArticleKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtrechercherArticleKeyTyped(evt);
-            }
-        });
-        getContentPane().add(txtrechercherArticle);
-        txtrechercherArticle.setBounds(20, 80, 200, 10);
-
-        txtbachground2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/frame/txt2.png"))); // NOI18N
-        txtbachground2.setAlignmentY(0.0F);
-        getContentPane().add(txtbachground2);
-        txtbachground2.setBounds(10, 70, 220, 30);
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/interface.png"))); // NOI18N
-        jButton3.setAlignmentY(0.0F);
-        jButton3.setBorder(null);
-        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton3);
-        jButton3.setBounds(240, 60, 70, 40);
-
-        txtrechercher1Article.setBackground(new java.awt.Color(240, 240, 240));
-        txtrechercher1Article.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercher1Article.setForeground(new java.awt.Color(0, 153, 153));
-        txtrechercher1Article.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtrechercher1Article.setAlignmentX(0.0F);
-        txtrechercher1Article.setAlignmentY(0.0F);
-        txtrechercher1Article.setBorder(null);
-        txtrechercher1Article.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtrechercher1ArticleMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtrechercher1ArticleMouseEntered(evt);
-            }
-        });
-        txtrechercher1Article.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtrechercher1ArticleActionPerformed(evt);
-            }
-        });
-        txtrechercher1Article.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtrechercher1ArticleKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtrechercher1ArticleKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtrechercher1ArticleKeyTyped(evt);
-            }
-        });
-        getContentPane().add(txtrechercher1Article);
-        txtrechercher1Article.setBounds(330, 80, 200, 10);
-
-        txtbackground3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/frame/txt2.png"))); // NOI18N
-        txtbackground3.setAlignmentY(0.0F);
-        getContentPane().add(txtbackground3);
-        txtbackground3.setBounds(320, 70, 220, 30);
+        jScrollPane2.setBounds(0, 120, 530, 220);
 
         jLabel2.setText("Numero : ");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(580, 80, 60, 14);
-
-        numeroArticle.setText("                  ");
-        getContentPane().add(numeroArticle);
-        numeroArticle.setBounds(640, 80, 70, 14);
+        jLabel2.setBounds(560, 80, 60, 14);
 
         date1.setDateFormatString("dd-MM-yyyy");
         getContentPane().add(date1);
-        date1.setBounds(710, 80, 180, 20);
+        date1.setBounds(690, 80, 180, 20);
 
         date2.setDateFormatString("dd-MM-yyyy");
         getContentPane().add(date2);
-        date2.setBounds(920, 80, 180, 20);
+        date2.setBounds(900, 80, 180, 20);
 
         jLabel1.setText("Recherche entre :");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(710, 60, 180, 14);
+        jLabel1.setBounds(690, 60, 180, 14);
 
         jLabel3.setText("et");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(900, 80, 20, 14);
+        jLabel3.setBounds(880, 80, 20, 14);
 
         jButton1.setText("Rechercher");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -723,7 +653,7 @@ public class Journal extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(1110, 80, 90, 23);
+        jButton1.setBounds(1090, 80, 90, 23);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
 
@@ -766,21 +696,115 @@ public class Journal extends javax.swing.JInternalFrame {
         );
 
         getContentPane().add(jPanel4);
-        jPanel4.setBounds(390, 240, 140, 100);
+        jPanel4.setBounds(530, 240, 140, 100);
 
         javax.swing.GroupLayout chartPanelLayout = new javax.swing.GroupLayout(chartPanel);
         chartPanel.setLayout(chartPanelLayout);
         chartPanelLayout.setHorizontalGroup(
             chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 390, Short.MAX_VALUE)
+            .addGap(0, 510, Short.MAX_VALUE)
         );
         chartPanelLayout.setVerticalGroup(
             chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 210, Short.MAX_VALUE)
+            .addGap(0, 230, Short.MAX_VALUE)
         );
 
         getContentPane().add(chartPanel);
-        chartPanel.setBounds(540, 130, 390, 210);
+        chartPanel.setBounds(670, 110, 510, 230);
+
+        txtrechercherArticle.setBackground(new java.awt.Color(240, 240, 240));
+        txtrechercherArticle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txtrechercherArticle.setForeground(new java.awt.Color(3, 91, 155));
+        txtrechercherArticle.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtrechercherArticle.setAlignmentX(0.0F);
+        txtrechercherArticle.setAlignmentY(0.0F);
+        txtrechercherArticle.setBorder(null);
+        txtrechercherArticle.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtrechercherArticleMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtrechercherArticleMouseEntered(evt);
+            }
+        });
+        txtrechercherArticle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtrechercherArticleActionPerformed(evt);
+            }
+        });
+        txtrechercherArticle.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtrechercherArticleKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtrechercherArticleKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtrechercherArticleKeyTyped(evt);
+            }
+        });
+        getContentPane().add(txtrechercherArticle);
+        txtrechercherArticle.setBounds(20, 80, 200, 10);
+
+        txtbachground2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/frame/txt2.png"))); // NOI18N
+        txtbachground2.setAlignmentY(0.0F);
+        getContentPane().add(txtbachground2);
+        txtbachground2.setBounds(10, 70, 220, 30);
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/interface.png"))); // NOI18N
+        jButton2.setAlignmentY(0.0F);
+        jButton2.setBorder(null);
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2);
+        jButton2.setBounds(240, 60, 70, 40);
+
+        txtrechercher1Article.setBackground(new java.awt.Color(240, 240, 240));
+        txtrechercher1Article.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txtrechercher1Article.setForeground(new java.awt.Color(3, 91, 155));
+        txtrechercher1Article.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtrechercher1Article.setAlignmentX(0.0F);
+        txtrechercher1Article.setAlignmentY(0.0F);
+        txtrechercher1Article.setBorder(null);
+        txtrechercher1Article.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtrechercher1ArticleMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtrechercher1ArticleMouseEntered(evt);
+            }
+        });
+        txtrechercher1Article.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtrechercher1ArticleActionPerformed(evt);
+            }
+        });
+        txtrechercher1Article.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtrechercher1ArticleKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtrechercher1ArticleKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtrechercher1ArticleKeyTyped(evt);
+            }
+        });
+        getContentPane().add(txtrechercher1Article);
+        txtrechercher1Article.setBounds(330, 80, 200, 10);
+
+        txtbackground3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/frame/txt2.png"))); // NOI18N
+        txtbackground3.setAlignmentY(0.0F);
+        getContentPane().add(txtbackground3);
+        txtbackground3.setBounds(320, 70, 220, 30);
+
+        numeroArticle.setText(" ");
+        getContentPane().add(numeroArticle);
+        numeroArticle.setBounds(610, 80, 70, 14);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -827,186 +851,6 @@ public class Journal extends javax.swing.JInternalFrame {
     private void TableArticleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TableArticleKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_TableArticleKeyReleased
-
-    private void txtrechercherArticleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercherArticleMouseClicked
-        AffichageArticle();
-        numeroArticle.setText("");
-
-        ImageIcon img = new ImageIcon(getClass().getResource("txt1.png"));
-        txtbachground2.setIcon(img);
-        txtrechercherArticle.setText("");
-        ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbackground3.setIcon(img2);
-        txtrechercher1Article.setText("Taper Nom Article");
-        ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
-    }//GEN-LAST:event_txtrechercherArticleMouseClicked
-
-    private void txtrechercherArticleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercherArticleMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtrechercherArticleMouseEntered
-
-    private void txtrechercherArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtrechercherArticleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtrechercherArticleActionPerformed
-
-    private void txtrechercherArticleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherArticleKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtrechercherArticleKeyPressed
-
-    private void txtrechercherArticleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherArticleKeyReleased
-        conn = ConexionBD.Conexion();
-        try {
-            String requete = "select NumArticle as 'Numero' ,NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' from article, categorie WHERE\n"
-            + "(categorie.NumCategorie=article.categorie) and NumArticle LIKE ?";
-            ps = conn.prepareStatement(requete);
-            ps.setString(1, "%" + txtrechercherArticle.getText() + "%");
-            rs = ps.executeQuery();
-            TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
-            ajusterTableArticle();
-        } catch (SQLException e) {
-            System.out.println(e);
-        } finally {
-
-            try {
-                if(rs != null){
-                    rs.close();
-                }
-                if(ps != null){
-                    ps.close();
-                }
-                if(rs2 != null){
-                    rs2.close();
-                }
-                if(ps2 != null){
-                    ps2.close();
-                }
-                if(rs3 != null){
-                    rs3.close();
-                }
-                if(ps3 != null){
-                    ps3.close();
-                }
-                if(rs4 != null){
-                    rs4.close();
-                }
-                if(ps4 != null){
-                    ps4.close();
-                }
-                CloseConnexion();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
-        }
-    }//GEN-LAST:event_txtrechercherArticleKeyReleased
-
-    private void txtrechercherArticleKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherArticleKeyTyped
-        numeroArticle.setText("");
-        ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
-    }//GEN-LAST:event_txtrechercherArticleKeyTyped
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        /*AffichageArticle();
-        AffichageJournal();
-        ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbachground2.setIcon(img);
-        txtrechercherArticle.setText("Taper Numero Article");
-        ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbackground3.setIcon(img2);
-        txtrechercher1Article.setText("Taper Nom Article");*/
-        AffichageArticle();
-        AffichageJournal();
-        ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbachground2.setIcon(img);
-        txtrechercherArticle.setText("Taper Numero Article");
-        ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbackground3.setIcon(img2);
-        txtrechercher1Article.setText("Taper Nom Article");
-                
-        //DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Long millis = System.currentTimeMillis();
-        Date date3 = new Date(millis);
-        //dateFormat.format(date1.getDate());
-        date1.setDate(date3);
-        date2.setDate(date3);
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void txtrechercher1ArticleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercher1ArticleMouseClicked
-        AffichageArticle();
-        numeroArticle.setText("");
-
-        ImageIcon img = new ImageIcon(getClass().getResource("txt1.png"));
-        txtbackground3.setIcon(img);
-        txtrechercher1Article.setText("");
-        ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbachground2.setIcon(img2);
-        txtrechercherArticle.setText("Taper Numero Article");
-
-        ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
-    }//GEN-LAST:event_txtrechercher1ArticleMouseClicked
-
-    private void txtrechercher1ArticleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercher1ArticleMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtrechercher1ArticleMouseEntered
-
-    private void txtrechercher1ArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtrechercher1ArticleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtrechercher1ArticleActionPerformed
-
-    private void txtrechercher1ArticleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercher1ArticleKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtrechercher1ArticleKeyPressed
-
-    private void txtrechercher1ArticleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercher1ArticleKeyReleased
-        conn = ConexionBD.Conexion();
-        try {
-            String requete = "select NumArticle as 'Numero' ,NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' from article, categorie WHERE\n"
-            + "(categorie.NumCategorie=article.categorie) and NomArticle LIKE ?";
-            ps = conn.prepareStatement(requete);
-            ps.setString(1, "%" + txtrechercher1Article.getText() + "%");
-            rs = ps.executeQuery();
-            TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
-            ajusterTableArticle();
-        } catch (SQLException e) {
-            System.out.println(e);
-        } finally {
-
-            try {
-                if(rs != null){
-                    rs.close();
-                }
-                if(ps != null){
-                    ps.close();
-                }
-                if(rs2 != null){
-                    rs2.close();
-                }
-                if(ps2 != null){
-                    ps2.close();
-                }
-                if(rs3 != null){
-                    rs3.close();
-                }
-                if(ps3 != null){
-                    ps3.close();
-                }
-                if(rs4 != null){
-                    rs4.close();
-                }
-                if(ps4 != null){
-                    ps4.close();
-                };
-                CloseConnexion();
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
-        }
-    }//GEN-LAST:event_txtrechercher1ArticleKeyReleased
-
-    private void txtrechercher1ArticleKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercher1ArticleKeyTyped
-        numeroArticle.setText("");
-        ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
-    }//GEN-LAST:event_txtrechercher1ArticleKeyTyped
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         conn = ConexionBD.Conexion();
@@ -1119,6 +963,179 @@ public class Journal extends javax.swing.JInternalFrame {
         }*/
 
     }//GEN-LAST:event_printbtnActionPerformed
+
+    private void txtrechercherArticleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercherArticleMouseClicked
+        AffichageArticle();
+        numeroArticle.setText("");
+        
+
+        ImageIcon img = new ImageIcon(getClass().getResource("txt1.png"));
+        //txtbachground2.setIcon(img);
+        txtrechercherArticle.setText("");
+        ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
+        //txtbackground3.setIcon(img2);
+        txtrechercher1Article.setText("Taper Nom Article");
+        ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
+    }//GEN-LAST:event_txtrechercherArticleMouseClicked
+
+    private void txtrechercherArticleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercherArticleMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtrechercherArticleMouseEntered
+
+    private void txtrechercherArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtrechercherArticleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtrechercherArticleActionPerformed
+
+    private void txtrechercherArticleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherArticleKeyPressed
+
+    }//GEN-LAST:event_txtrechercherArticleKeyPressed
+
+    private void txtrechercherArticleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherArticleKeyReleased
+        conn = ConexionBD.Conexion();
+        try {
+            String requete = "select NumArticle as 'Numero' ,NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' from article, categorie WHERE\n"
+            + "(categorie.NumCategorie=article.categorie) and NumArticle LIKE ?";
+            ps = conn.prepareStatement(requete);
+            ps.setString(1, "%" + txtrechercherArticle.getText() + "%");
+            rs = ps.executeQuery();
+            TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
+            ajusterTableArticle();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+
+            try {
+                if(rs != null){
+                    rs.close();
+                }
+                if(ps != null){
+                    ps.close();
+                }
+                if(rs2 != null){
+                    rs2.close();
+                }
+                if(ps2 != null){
+                    ps2.close();
+                }
+                if(rs3 != null){
+                    rs3.close();
+                }
+                if(ps3 != null){
+                    ps3.close();
+                }
+                if(rs4 != null){
+                    rs4.close();
+                }
+                if(ps4 != null){
+                    ps4.close();
+                }
+                CloseConnexion();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "erreur BD");
+            }
+        }
+        tabelJournal();
+    }//GEN-LAST:event_txtrechercherArticleKeyReleased
+
+    private void txtrechercherArticleKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherArticleKeyTyped
+       numeroArticle.setText("");
+        ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
+    }//GEN-LAST:event_txtrechercherArticleKeyTyped
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        AffichageArticle();
+        AffichageJournal();
+        ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
+        //txtbachground2.setIcon(img);
+        txtrechercherArticle.setText("Taper Numero Article");
+        ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
+        //txtbackground3.setIcon(img2);
+        txtrechercher1Article.setText("Taper Nom Article");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        date1.setDate(date3);
+        date2.setDate(date3);
+        tabelJournal();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtrechercher1ArticleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercher1ArticleMouseClicked
+       AffichageArticle();
+        numeroArticle.setText("");
+
+        ImageIcon img = new ImageIcon(getClass().getResource("txt1.png"));
+        //txtbackground3.setIcon(img);
+        txtrechercher1Article.setText("");
+        ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
+        //txtbachground2.setIcon(img2);
+        txtrechercherArticle.setText("Taper Numero Article");
+
+        ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
+    }//GEN-LAST:event_txtrechercher1ArticleMouseClicked
+
+    private void txtrechercher1ArticleMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercher1ArticleMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtrechercher1ArticleMouseEntered
+
+    private void txtrechercher1ArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtrechercher1ArticleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtrechercher1ArticleActionPerformed
+
+    private void txtrechercher1ArticleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercher1ArticleKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtrechercher1ArticleKeyPressed
+
+    private void txtrechercher1ArticleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercher1ArticleKeyReleased
+        conn = ConexionBD.Conexion();
+        try {
+            String requete = "select NumArticle as 'Numero' ,NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' from article, categorie WHERE\n"
+            + "(categorie.NumCategorie=article.categorie) and NomArticle LIKE ?";
+            ps = conn.prepareStatement(requete);
+            ps.setString(1, "%" + txtrechercher1Article.getText() + "%");
+            rs = ps.executeQuery();
+            TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
+            ajusterTableArticle();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+
+            try {
+                if(rs != null){
+                    rs.close();
+                }
+                if(ps != null){
+                    ps.close();
+                }
+                if(rs2 != null){
+                    rs2.close();
+                }
+                if(ps2 != null){
+                    ps2.close();
+                }
+                if(rs3 != null){
+                    rs3.close();
+                }
+                if(ps3 != null){
+                    ps3.close();
+                }
+                if(rs4 != null){
+                    rs4.close();
+                }
+                if(ps4 != null){
+                    ps4.close();
+                };
+                CloseConnexion();
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "erreur BD");
+            }
+        }
+        tabelJournal();
+    }//GEN-LAST:event_txtrechercher1ArticleKeyReleased
+
+    private void txtrechercher1ArticleKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercher1ArticleKeyTyped
+        numeroArticle.setText("");
+        ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
+    }//GEN-LAST:event_txtrechercher1ArticleKeyTyped
 
     private static final long serialVersionUID = 1L;
 
@@ -1601,7 +1618,7 @@ public class Journal extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JDateChooser date1;
     private com.toedter.calendar.JDateChooser date2;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton2;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JLabel jLabel1;

@@ -5,6 +5,8 @@
  */
 package com.GPB.frame;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -12,11 +14,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.Enumeration;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -61,6 +66,44 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         ((BasicInternalFrameUI) this.getUI()).setNorthPane(null);
         this.setBorder(null);
     }
+    
+    private void ajusterTable() {                                         
+        int col = 0, droiteMax = 0, larg = 0, largTotal = 0,
+                                    row = 0, tableX = 0, width = 0;
+        JTableHeader header = Table.getTableHeader();
+        Enumeration columns = Table.getColumnModel().getColumns();
+ 
+        Table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        while(columns.hasMoreElements()){                            // longueur maximum du texte ou du titre d'une colonne
+            TableColumn column = (TableColumn)columns.nextElement();
+            col = header.getColumnModel().getColumnIndex(column.getIdentifier());
+            width = (int)Table.getTableHeader().getDefaultRenderer()
+                    .getTableCellRendererComponent(Table, column.getIdentifier()
+                            , false, false, -1, col).getPreferredSize().getWidth();
+            for(row = 0; row<Table.getRowCount(); row++){
+                int preferedWidth =
+                        (int)Table.getCellRenderer(row, col).getTableCellRendererComponent(Table,
+                        Table.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
+                width = Math.max(width, preferedWidth);
+            }
+            header.setResizingColumn(column);                       // this line is very important
+            larg = width+Table.getIntercellSpacing().width;
+         //   larg = (larg*13)/10;                            // largeur de la colonne plus un peu pour desserrer
+            larg = larg+20;           // mais c'est mieux un ajout fixe, pas en %, 
+                                         // par ex. un blanc devant et derrière chaque donnée avant de l'écrire
+            largTotal += larg;                                  // largeur totale de la table si utile 
+            column.setWidth(larg);
+        } 
+    }
+    
+    public void tabel() {
+        
+        Table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        Table.getTableHeader().setOpaque(false);
+        Table.getTableHeader().setBackground(new Color(3, 91, 155));
+        Table.getTableHeader().setForeground(new Color(255,255,255));
+        //TableArticle.setRowHeight(25);
+    }
 
     private void Affichage() {
         try {
@@ -68,6 +111,8 @@ public class Fournisseur extends javax.swing.JInternalFrame {
             ps = conn4.prepareStatement(requete);
             rs = ps.executeQuery();
             Table.setModel(DbUtils.resultSetToTableModel(rs));
+            ajusterTable();
+            tabel();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -169,7 +214,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
 
         txtrechercher1.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercher1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercher1.setForeground(new java.awt.Color(0, 153, 153));
+        txtrechercher1.setForeground(new java.awt.Color(3, 91, 155));
         txtrechercher1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtrechercher1.setBorder(null);
         txtrechercher1.setDoubleBuffered(true);
@@ -271,7 +316,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
 
         txtrechercher.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercher.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercher.setForeground(new java.awt.Color(0, 153, 153));
+        txtrechercher.setForeground(new java.awt.Color(3, 91, 155));
         txtrechercher.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtrechercher.setBorder(null);
         txtrechercher.setDoubleBuffered(true);
@@ -321,7 +366,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         ));
         Table.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         Table.setRowHeight(20);
-        Table.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        Table.setSelectionBackground(new java.awt.Color(3, 91, 155));
         Table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableMouseClicked(evt);
@@ -528,7 +573,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         getContentPane().add(jPanel4);
         jPanel4.setBounds(390, 350, 140, 120);
 
-        jPanel5.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel5.setBackground(new java.awt.Color(3, 91, 155));
 
         jLabel10.setBackground(new java.awt.Color(0, 102, 255));
         jLabel10.setFont(new java.awt.Font("Advent Pro", 0, 40)); // NOI18N

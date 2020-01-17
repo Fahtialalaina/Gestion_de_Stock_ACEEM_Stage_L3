@@ -5,6 +5,8 @@
  */
 package com.GPB.frame;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -118,6 +120,33 @@ public final class Entree extends javax.swing.JInternalFrame {
         jScrollPane4.setVisible(true);
         TableArticleEntree.setVisible(true);
     }
+    
+    public void tabelArticle() {
+        
+        TableArticleEntree.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        TableArticleEntree.getTableHeader().setOpaque(false);
+        TableArticleEntree.getTableHeader().setBackground(new Color(3, 91, 155));
+        TableArticleEntree.getTableHeader().setForeground(new Color(255,255,255));
+        //TableArticle.setRowHeight(25);
+    }
+    
+    public void tabelEntree() {
+        
+        TableEntree.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        TableEntree.getTableHeader().setOpaque(false);
+        TableEntree.getTableHeader().setBackground(new Color(3, 91, 155));
+        TableEntree.getTableHeader().setForeground(new Color(255,255,255));
+        //TableArticle.setRowHeight(25);
+    }
+    
+    public void tabelLE() {
+        
+        TableLigneEntree.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        TableLigneEntree.getTableHeader().setOpaque(false);
+        TableLigneEntree.getTableHeader().setBackground(new Color(3, 91, 155));
+        TableLigneEntree.getTableHeader().setForeground(new Color(255,255,255));
+        //TableArticle.setRowHeight(25);
+    }
 
     private void AffichageArticle() {
         try {
@@ -128,6 +157,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             rs5 = ps5.executeQuery();
  TableArticleEntree.setModel(DbUtils.resultSetToTableModel(rs5));
  ajusterTableArticleEntree();
+ tabelArticle();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -147,6 +177,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             rs5 = ps5.executeQuery();
             TableEntree.setModel(DbUtils.resultSetToTableModel(rs5));
             ajusterTableEntree();
+            tabelEntree();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -166,6 +197,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             rs5 = ps5.executeQuery();
             TableLigneEntree.setModel(DbUtils.resultSetToTableModel(rs5));
             ajusterTableLigneEntree();
+            tabelLE();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -941,7 +973,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         ));
         TableEntree.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         TableEntree.setRowHeight(20);
-        TableEntree.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        TableEntree.setSelectionBackground(new java.awt.Color(3, 91, 155));
         TableEntree.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableEntreeMouseClicked(evt);
@@ -963,7 +995,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(440, 110, 490, 200);
 
-        jPanel5.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel5.setBackground(new java.awt.Color(3, 91, 155));
 
         jLabel10.setBackground(new java.awt.Color(0, 102, 255));
         jLabel10.setFont(new java.awt.Font("Advent Pro", 0, 40)); // NOI18N
@@ -1004,7 +1036,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         ));
         TableLigneEntree.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         TableLigneEntree.setRowHeight(20);
-        TableLigneEntree.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        TableLigneEntree.setSelectionBackground(new java.awt.Color(3, 91, 155));
         TableLigneEntree.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableLigneEntreeMouseClicked(evt);
@@ -1309,7 +1341,7 @@ public final class Entree extends javax.swing.JInternalFrame {
 
         txtrechercherEntree.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercherEntree.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercherEntree.setForeground(new java.awt.Color(0, 153, 153));
+        txtrechercherEntree.setForeground(new java.awt.Color(3, 91, 155));
         txtrechercherEntree.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtrechercherEntree.setAlignmentX(0.0F);
         txtrechercherEntree.setAlignmentY(0.0F);
@@ -1360,7 +1392,7 @@ public final class Entree extends javax.swing.JInternalFrame {
 
         txtrechercher1Entree.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercher1Entree.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercher1Entree.setForeground(new java.awt.Color(0, 153, 153));
+        txtrechercher1Entree.setForeground(new java.awt.Color(3, 91, 155));
         txtrechercher1Entree.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtrechercher1Entree.setAlignmentX(0.0F);
         txtrechercher1Entree.setAlignmentY(0.0F);
@@ -1399,11 +1431,12 @@ public final class Entree extends javax.swing.JInternalFrame {
 
         txtrechercherarticle.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercherarticle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercherarticle.setForeground(new java.awt.Color(0, 153, 153));
+        txtrechercherarticle.setForeground(new java.awt.Color(3, 91, 155));
         txtrechercherarticle.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtrechercherarticle.setAlignmentX(0.0F);
         txtrechercherarticle.setAlignmentY(0.0F);
         txtrechercherarticle.setBorder(null);
+        txtrechercherarticle.setSelectionColor(new java.awt.Color(3, 91, 155));
         txtrechercherarticle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtrechercherarticleMouseClicked(evt);
@@ -1451,7 +1484,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         ));
         TableArticleEntree.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         TableArticleEntree.setRowHeight(20);
-        TableArticleEntree.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        TableArticleEntree.setSelectionBackground(new java.awt.Color(3, 91, 155));
         TableArticleEntree.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableArticleEntreeMouseClicked(evt);

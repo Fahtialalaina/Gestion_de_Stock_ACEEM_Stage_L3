@@ -144,8 +144,10 @@ public class AcceuilGui extends javax.swing.JFrame {
         Fournisseur = new javax.swing.JButton();
         Sortie = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Appli_Gestion_de_stock_ACEEM");
         setMinimumSize(new java.awt.Dimension(1024, 380));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -179,7 +181,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         labdate2.setBounds(730, 30, 140, 30);
 
         logomax.setFont(new java.awt.Font("Armalite Rifle", 1, 24)); // NOI18N
-        logomax.setForeground(new java.awt.Color(0, 153, 153));
+        logomax.setForeground(new java.awt.Color(3, 91, 155));
         logomax.setText("Gestion de Stock Aceem");
         getContentPane().add(logomax);
         logomax.setBounds(10, 0, 610, 30);
@@ -226,7 +228,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         Utilisateur.setForeground(new java.awt.Color(255, 255, 255));
         Utilisateur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/user.png"))); // NOI18N
         Utilisateur.setText("Utilisateurs");
-        Utilisateur.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
+        Utilisateur.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
         Utilisateur.setContentAreaFilled(false);
         Utilisateur.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Utilisateur.setOpaque(true);
@@ -246,7 +248,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         Journal.setForeground(new java.awt.Color(255, 255, 255));
         Journal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/multiple-users-silhouette.png"))); // NOI18N
         Journal.setText("Journal");
-        Journal.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
+        Journal.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
         Journal.setContentAreaFilled(false);
         Journal.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Journal.setOpaque(true);
@@ -272,7 +274,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         Section.setForeground(new java.awt.Color(255, 255, 255));
         Section.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
         Section.setText("Section");
-        Section.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
+        Section.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
         Section.setContentAreaFilled(false);
         Section.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Section.setOpaque(true);
@@ -292,7 +294,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         Article.setForeground(new java.awt.Color(255, 255, 255));
         Article.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
         Article.setText("Article");
-        Article.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
+        Article.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
         Article.setContentAreaFilled(false);
         Article.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Article.setOpaque(true);
@@ -312,7 +314,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         Entree.setForeground(new java.awt.Color(255, 255, 255));
         Entree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
         Entree.setText("Entrée");
-        Entree.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
+        Entree.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
         Entree.setContentAreaFilled(false);
         Entree.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Entree.setOpaque(true);
@@ -332,7 +334,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         Fournisseur.setForeground(new java.awt.Color(255, 255, 255));
         Fournisseur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
         Fournisseur.setText("Fournisseur");
-        Fournisseur.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
+        Fournisseur.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
         Fournisseur.setContentAreaFilled(false);
         Fournisseur.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Fournisseur.setOpaque(true);
@@ -352,7 +354,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         Sortie.setForeground(new java.awt.Color(255, 255, 255));
         Sortie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
         Sortie.setText("Sortie");
-        Sortie.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(0, 153, 153)));
+        Sortie.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
         Sortie.setContentAreaFilled(false);
         Sortie.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Sortie.setOpaque(true);
@@ -389,7 +391,7 @@ public class AcceuilGui extends javax.swing.JFrame {
                     .addComponent(Journal, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Fournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Sortie, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -404,7 +406,7 @@ public class AcceuilGui extends javax.swing.JFrame {
                 .addComponent(Fournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Sortie, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Journal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Utilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -412,9 +414,9 @@ public class AcceuilGui extends javax.swing.JFrame {
         );
 
         getContentPane().add(jDesktopPane1);
-        jDesktopPane1.setBounds(10, 120, 302, 520);
+        jDesktopPane1.setBounds(10, 140, 170, 500);
 
-        jPanel1.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel1.setBackground(new java.awt.Color(3, 91, 155));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -429,6 +431,10 @@ public class AcceuilGui extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 30, 1370, 30);
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/logo2.png"))); // NOI18N
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(10, 70, 140, 70);
 
         setSize(new java.awt.Dimension(1382, 759));
         setLocationRelativeTo(null);
@@ -496,7 +502,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         Entree.setBackground(new java.awt.Color(153, 153, 153));
         Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
         Sortie.setBackground(new java.awt.Color(153, 153, 153));
-        Journal.setBackground(new java.awt.Color(0, 153, 153));
+        Journal.setBackground(new java.awt.Color(3, 91, 155));
         Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
     }//GEN-LAST:event_JournalMouseReleased
 
@@ -510,7 +516,7 @@ public class AcceuilGui extends javax.swing.JFrame {
 
     private void SectionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SectionMouseReleased
         Article.setBackground(new java.awt.Color(153, 153, 153));
-        Section.setBackground(new java.awt.Color(0, 153, 153));
+        Section.setBackground(new java.awt.Color(3, 91, 155));
         Entree.setBackground(new java.awt.Color(153, 153, 153));
         Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
         Sortie.setBackground(new java.awt.Color(153, 153, 153));
@@ -525,16 +531,53 @@ public class AcceuilGui extends javax.swing.JFrame {
         Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
         Sortie.setBackground(new java.awt.Color(153, 153, 153));
         Journal.setBackground(new java.awt.Color(153, 153, 153));
-        Utilisateur.setBackground(new java.awt.Color(0, 153, 153));
+        Utilisateur.setBackground(new java.awt.Color(3, 91, 155));
     }//GEN-LAST:event_UtilisateurMouseReleased
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        String v = "<html><head></head><body><h3 color ='#2C4CCC'><center>"
-                + "<br><p><b><i>GESTION DE STOCK ACEEM</i></b>"
-                + "<br><p><b><i>Logiciel developpé par Fandresena</i></b><br></p><br>"
-                + "<br><p ><b><i>Tous droit reservé</i></b></p><br>"
-                + "<br><p >2019</i></b></p><br>"
-                + "<br><p >---------<b><i>" + "</i></b></p><br></center></h3></p></body></html>";
+        String v = "<html>\n" +
+"    <head></head>\n" +
+"    <body>\n" +
+"        <h3 color ='#2C4CCC'>\n" +
+"            <center>\n" +
+"                <br>\n" +
+"                <p>\n" +
+"                    <b>\n" +
+"                        <i>GESTION DE STOCK ACEEM</i>\n" +
+"                    </b>\n" +
+"                </p>  \n" +
+"                <br>\n" +
+"                <p>\n" +
+"                    <b>\n" +
+"                        <i>Logiciel developpé par Fandresena</i>\n" +
+"                    </b>\n" +
+"                </p>\n" +
+"                <br>\n" +
+"                <br>\n" +
+"                <br>\n" +
+"                <p>\n" +
+"                    <b>\n" +
+"                        <i>Tous droit reservé</i>\n" +
+"                    </b>\n" +
+"                </p>\n" +
+"                <br>\n" +
+"                <br>\n" +
+"                <p>\n" +
+"                    <b>\n" +
+"                        <i>2020</i>\n" +
+"                    </b>\n" +
+"                </p>\n" +
+"                <br>\n" +
+"                <br>\n" +
+"                <p>\n" +
+"                    <b>\n" +
+"                        <i>---------</i>\n" +
+"                    </b>\n" +
+"                </p>\n" +
+"            </center>\n" +
+"        </h3>\n" +
+"    </body>\n" +
+"</html>";
         JOptionPane p = new JOptionPane();
         p.setMessage(v);
         p.setMessageType(JOptionPane.INFORMATION_MESSAGE);
@@ -543,7 +586,7 @@ public class AcceuilGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void ArticleMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ArticleMouseReleased
-        Article.setBackground(new java.awt.Color(0, 153, 153));
+        Article.setBackground(new java.awt.Color(3, 91, 155));
         Section.setBackground(new java.awt.Color(153, 153, 153));
         Entree.setBackground(new java.awt.Color(153, 153, 153));
         Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
@@ -574,7 +617,7 @@ public class AcceuilGui extends javax.swing.JFrame {
     private void EntreeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EntreeMouseReleased
         Article.setBackground(new java.awt.Color(153, 153, 153));
         Section.setBackground(new java.awt.Color(153, 153, 153));
-        Entree.setBackground(new java.awt.Color(0, 153, 153));
+        Entree.setBackground(new java.awt.Color(3, 91, 155));
         Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
         Sortie.setBackground(new java.awt.Color(153, 153, 153));
         Journal.setBackground(new java.awt.Color(153, 153, 153));
@@ -604,7 +647,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         Article.setBackground(new java.awt.Color(153, 153, 153));
         Section.setBackground(new java.awt.Color(153, 153, 153));
         Entree.setBackground(new java.awt.Color(153, 153, 153));
-        Fournisseur.setBackground(new java.awt.Color(0, 153, 153));
+        Fournisseur.setBackground(new java.awt.Color(3, 91, 155));
         Sortie.setBackground(new java.awt.Color(153, 153, 153));
         Journal.setBackground(new java.awt.Color(153, 153, 153));
         Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
@@ -634,7 +677,7 @@ public class AcceuilGui extends javax.swing.JFrame {
         Section.setBackground(new java.awt.Color(153, 153, 153));
         Entree.setBackground(new java.awt.Color(153, 153, 153));
         Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
-        Sortie.setBackground(new java.awt.Color(0, 153, 153));
+        Sortie.setBackground(new java.awt.Color(3, 91, 155));
         Journal.setBackground(new java.awt.Color(153, 153, 153));
         Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
     }//GEN-LAST:event_SortieMouseReleased
@@ -707,6 +750,7 @@ public class AcceuilGui extends javax.swing.JFrame {
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labDate;
     private javax.swing.JLabel labdate2;
