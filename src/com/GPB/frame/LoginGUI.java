@@ -40,8 +40,6 @@ public class LoginGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         MouveJframe = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -59,16 +57,6 @@ public class LoginGUI extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(25, 131, 131));
-        jPanel1.setToolTipText("GESTION DE STOCK ACEEM");
-
-        jLabel3.setFont(new java.awt.Font("Trebuchet MS", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("GESTION DE STOCK ACEEM");
-        jPanel1.add(jLabel3);
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 390, 40));
-
         MouveJframe.setBackground(new java.awt.Color(0, 102, 102));
         MouveJframe.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -80,7 +68,7 @@ public class LoginGUI extends javax.swing.JFrame {
                 MouveJframeMousePressed(evt);
             }
         });
-        getContentPane().add(MouveJframe, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 0, 270, 40));
+        getContentPane().add(MouveJframe, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 40));
 
         jLabel1.setFont(new java.awt.Font("Baloo", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -92,7 +80,6 @@ public class LoginGUI extends javax.swing.JFrame {
         jLabel2.setText("Login");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 150, 80, 30));
 
-        btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/boutton_large.png"))); // NOI18N
         btn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnMouseClicked(evt);
@@ -110,18 +97,18 @@ public class LoginGUI extends javax.swing.JFrame {
                 btnMouseReleased(evt);
             }
         });
-        getContentPane().add(btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 320, 380, 50));
+        getContentPane().add(btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 330, 190, 40));
 
         Description.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        Description.setForeground(new java.awt.Color(51, 153, 0));
+        Description.setForeground(new java.awt.Color(3, 91, 155));
         Description.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(Description, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 430, 40));
+        getContentPane().add(Description, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 430, 40));
 
-        txtlogin.setBackground(new java.awt.Color(0, 128, 128));
-        txtlogin.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        txtlogin.setForeground(new java.awt.Color(255, 255, 255));
+        txtlogin.setBackground(new java.awt.Color(255, 255, 255));
+        txtlogin.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        txtlogin.setForeground(new java.awt.Color(3, 91, 155));
         txtlogin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtlogin.setBorder(null);
+        txtlogin.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(3, 91, 155)));
         txtlogin.setCaretColor(new java.awt.Color(204, 204, 255));
         txtlogin.setOpaque(false);
         txtlogin.setSelectionColor(new java.awt.Color(255, 204, 204));
@@ -145,15 +132,18 @@ public class LoginGUI extends javax.swing.JFrame {
                 txtloginKeyPressed(evt);
             }
         });
-        getContentPane().add(txtlogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, 220, 30));
+        getContentPane().add(txtlogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, 160, 20));
 
+        close.setBackground(new java.awt.Color(255, 255, 255));
+        close.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 24)); // NOI18N
+        close.setText("X");
         close.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         close.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 closeMouseClicked(evt);
             }
         });
-        getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 30, 40));
+        getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 0, 20, 30));
 
         resize.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         resize.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -163,11 +153,11 @@ public class LoginGUI extends javax.swing.JFrame {
         });
         getContentPane().add(resize, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 30, 40));
 
-        txtpassword.setBackground(new java.awt.Color(0, 128, 128));
-        txtpassword.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        txtpassword.setForeground(new java.awt.Color(255, 255, 255));
+        txtpassword.setBackground(new java.awt.Color(255, 255, 255));
+        txtpassword.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        txtpassword.setForeground(new java.awt.Color(3, 91, 155));
         txtpassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtpassword.setBorder(null);
+        txtpassword.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(3, 91, 155)));
         txtpassword.setCaretColor(new java.awt.Color(204, 204, 255));
         txtpassword.setSelectionColor(new java.awt.Color(255, 204, 204));
         txtpassword.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -193,12 +183,12 @@ public class LoginGUI extends javax.swing.JFrame {
                 txtpasswordKeyTyped(evt);
             }
         });
-        getContentPane().add(txtpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, 220, 30));
+        getContentPane().add(txtpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 240, 160, 20));
 
-        Background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/Automax.png"))); // NOI18N
-        getContentPane().add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, -1));
+        Background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/login.png"))); // NOI18N
+        getContentPane().add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 520));
 
-        setSize(new java.awt.Dimension(499, 450));
+        setSize(new java.awt.Dimension(700, 519));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -357,8 +347,6 @@ public class LoginGUI extends javax.swing.JFrame {
     private javax.swing.JLabel close;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel resize;
     private javax.swing.JTextField txtlogin;
     private javax.swing.JPasswordField txtpassword;

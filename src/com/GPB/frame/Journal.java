@@ -64,6 +64,7 @@ public final class Journal extends javax.swing.JInternalFrame {
     PreparedStatement ps4 = null;
     PreparedStatement ps5 = null;
     static String test;
+    static String test2;
     static String article;
     
 
@@ -85,6 +86,8 @@ public final class Journal extends javax.swing.JInternalFrame {
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         //txtbackground3.setIcon(img2);
         txtrechercher1Article.setText("Taper Nom Article");
+        
+        
                 
         //DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Long millis = System.currentTimeMillis();
@@ -128,6 +131,12 @@ public final class Journal extends javax.swing.JInternalFrame {
         pricevolumedemo1.pack();
         RefineryUtilities.centerFrameOnScreen(pricevolumedemo1);
         pricevolumedemo1.setVisible(true);*/
+        
+        btnInventaire.setEnabled(false);
+        btnSupprInventaire.setEnabled(false);
+        
+        TableColorCellRenderer renderer = new TableColorCellRenderer();
+        TableJournal.setDefaultRenderer(Object.class, renderer);
     }
 
     private void remove_title_bar() {
@@ -239,7 +248,8 @@ public final class Journal extends javax.swing.JInternalFrame {
         conn = ConexionBD.Conexion();
         try {
             numeroArticle.setText("");
-            String requete = "select * from Article";
+            String requete = "select NumArticle as 'Numero' ,NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' ,MontantStock as 'Montant en Stock' from article, categorie WHERE\n"
+                    + "(categorie.NumCategorie=article.categorie)";
             ps = conn.prepareStatement(requete);
             rs = ps.executeQuery();
             TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
@@ -262,7 +272,7 @@ public final class Journal extends javax.swing.JInternalFrame {
     private void AffichageJournal() {
         conn = ConexionBD.Conexion();
         try {
-            String requete = "select Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock from Journal, article WHERE\n"
+            String requete = "select NumJournal as 'Id' ,Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock from Journal, article WHERE\n"
                     + "article.NumArticle=Journal.NumArticle";
             ps = conn.prepareStatement(requete);
             rs = ps.executeQuery();
@@ -321,12 +331,15 @@ public final class Journal extends javax.swing.JInternalFrame {
     
     private void AffichageJournal(String numArticle) {
         try {
-            String requete = "select Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock from Journal, article WHERE\n"
+            String requete = "select NumJournal as 'Id' ,Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock from Journal, article WHERE\n"
                     + "article.NumArticle=Journal.NumArticle and Journal.NumArticle like '" + numArticle + "'";
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
             TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
             ajusterTableJournal();
+            /*TableColorCellRenderer renderer = new TableColorCellRenderer();
+            TableJournal.setDefaultRenderer(Object.class, renderer);
+            TableJournal.setSelectionForeground(Color.GREEN);*/
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -341,7 +354,7 @@ public final class Journal extends javax.swing.JInternalFrame {
     
     private void AffichageJournal2dateArticle(String numArticle, String date1, String date2) {
         try {
-            String requete = "select Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock from Journal, article WHERE\n"
+            String requete = "select NumJournal as 'Id' ,Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock from Journal, article WHERE\n"
                     + "article.NumArticle=Journal.NumArticle and Journal.NumArticle like '" + numArticle + "' and Date between '" + date1 + "' and '" + date2 + "' order by Date desc";
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
@@ -358,7 +371,7 @@ public final class Journal extends javax.swing.JInternalFrame {
     
     private void AffichageJournal2date(String date1, String date2) {
         try {
-            String requete = "select Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock from Journal, article WHERE\n"
+            String requete = "select NumJournal as 'Id' ,Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock from Journal, article WHERE\n"
                     + "article.NumArticle=Journal.NumArticle and Date between '" + date1 + "' and '" + date2 + "' order by Date desc";
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
@@ -497,6 +510,8 @@ public final class Journal extends javax.swing.JInternalFrame {
         txtrechercher1Article = new javax.swing.JTextField();
         txtbackground3 = new javax.swing.JLabel();
         numeroArticle = new javax.swing.JLabel();
+        btnInventaire = new javax.swing.JButton();
+        btnSupprInventaire = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -628,23 +643,23 @@ public final class Journal extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Numero : ");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(560, 80, 60, 14);
+        jLabel2.setBounds(560, 80, 60, 16);
 
         date1.setDateFormatString("dd-MM-yyyy");
         getContentPane().add(date1);
-        date1.setBounds(690, 80, 180, 20);
+        date1.setBounds(690, 80, 180, 29);
 
         date2.setDateFormatString("dd-MM-yyyy");
         getContentPane().add(date2);
-        date2.setBounds(900, 80, 180, 20);
+        date2.setBounds(900, 80, 180, 29);
 
         jLabel1.setText("Recherche entre :");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(690, 60, 180, 14);
+        jLabel1.setBounds(690, 60, 180, 16);
 
         jLabel3.setText("et");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(880, 80, 20, 14);
+        jLabel3.setBounds(880, 80, 20, 16);
 
         jButton1.setText("Rechercher");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -653,7 +668,7 @@ public final class Journal extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(1090, 80, 90, 23);
+        jButton1.setBounds(1090, 80, 90, 32);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
 
@@ -685,18 +700,20 @@ public final class Journal extends javax.swing.JInternalFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(printbtn, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(printbtn, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(printbtn, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         getContentPane().add(jPanel4);
-        jPanel4.setBounds(530, 240, 140, 100);
+        jPanel4.setBounds(530, 260, 140, 80);
 
         javax.swing.GroupLayout chartPanelLayout = new javax.swing.GroupLayout(chartPanel);
         chartPanel.setLayout(chartPanelLayout);
@@ -804,7 +821,59 @@ public final class Journal extends javax.swing.JInternalFrame {
 
         numeroArticle.setText(" ");
         getContentPane().add(numeroArticle);
-        numeroArticle.setBounds(610, 80, 70, 14);
+        numeroArticle.setBounds(610, 80, 70, 16);
+
+        btnInventaire.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnInventaire.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/printer.png"))); // NOI18N
+        btnInventaire.setText("Inventaire");
+        btnInventaire.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnInventaire.setContentAreaFilled(false);
+        btnInventaire.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnInventaire.setOpaque(true);
+        btnInventaire.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnInventaireMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnInventaireMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnInventaireMousePressed(evt);
+            }
+        });
+        btnInventaire.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInventaireActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnInventaire);
+        btnInventaire.setBounds(540, 130, 118, 35);
+
+        btnSupprInventaire.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnSupprInventaire.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/printer.png"))); // NOI18N
+        btnSupprInventaire.setText("Supprimer");
+        btnSupprInventaire.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnSupprInventaire.setContentAreaFilled(false);
+        btnSupprInventaire.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnSupprInventaire.setOpaque(true);
+        btnSupprInventaire.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnSupprInventaireMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnSupprInventaireMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnSupprInventaireMousePressed(evt);
+            }
+        });
+        btnSupprInventaire.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSupprInventaireActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnSupprInventaire);
+        btnSupprInventaire.setBounds(540, 180, 118, 50);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -818,7 +887,16 @@ public final class Journal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TableJournalMouseEntered
 
     private void TableJournalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableJournalMouseReleased
-
+        int row = TableJournal.getSelectedRow();
+        Journal.test = (TableJournal.getModel().getValueAt(row, 3).toString());
+        
+        if(test.equals("INVENTAIRE")){
+            btnInventaire.setEnabled(false);
+            btnSupprInventaire.setEnabled(true);
+        }else{
+            btnInventaire.setEnabled(false);
+            btnSupprInventaire.setEnabled(false);
+        }
     }//GEN-LAST:event_TableJournalMouseReleased
 
     private void TableJournalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TableJournalKeyReleased
@@ -846,6 +924,9 @@ public final class Journal extends javax.swing.JInternalFrame {
         CloseRsPs1();
         CloseRsPs2();
         CloseConnexion();
+        
+        btnInventaire.setEnabled(true);
+        btnSupprInventaire.setEnabled(false);
     }//GEN-LAST:event_TableArticleMouseReleased
 
     private void TableArticleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TableArticleKeyReleased
@@ -863,7 +944,8 @@ public final class Journal extends javax.swing.JInternalFrame {
         }else{
             AffichageJournal2dateArticle(numeroArticle.getText(),Date1,Date2);
         }
-        
+        btnInventaire.setEnabled(false);
+        btnSupprInventaire.setEnabled(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void printbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseEntered
@@ -967,7 +1049,8 @@ public final class Journal extends javax.swing.JInternalFrame {
     private void txtrechercherArticleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercherArticleMouseClicked
         AffichageArticle();
         numeroArticle.setText("");
-        
+        btnInventaire.setEnabled(false);
+        btnSupprInventaire.setEnabled(false);
 
         ImageIcon img = new ImageIcon(getClass().getResource("txt1.png"));
         //txtbachground2.setIcon(img);
@@ -1056,11 +1139,16 @@ public final class Journal extends javax.swing.JInternalFrame {
         date1.setDate(date3);
         date2.setDate(date3);
         tabelJournal();
+        
+        btnInventaire.setEnabled(false);
+        btnSupprInventaire.setEnabled(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtrechercher1ArticleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercher1ArticleMouseClicked
        AffichageArticle();
         numeroArticle.setText("");
+        btnInventaire.setEnabled(false);
+        btnSupprInventaire.setEnabled(false);
 
         ImageIcon img = new ImageIcon(getClass().getResource("txt1.png"));
         //txtbackground3.setIcon(img);
@@ -1136,6 +1224,92 @@ public final class Journal extends javax.swing.JInternalFrame {
         numeroArticle.setText("");
         ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
     }//GEN-LAST:event_txtrechercher1ArticleKeyTyped
+
+    private void btnInventaireMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInventaireMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInventaireMouseEntered
+
+    private void btnInventaireMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInventaireMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInventaireMouseExited
+
+    private void btnInventaireMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInventaireMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInventaireMousePressed
+
+    private void btnInventaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventaireActionPerformed
+        try {
+            conn = ConexionBD.Conexion();
+            String requete5 = "insert into Journal (Date,TypeMouvement,Action,NumMouvement,NumArticle) values (?,?,?,?,?)";
+            ps5 = conn.prepareStatement(requete5);
+            
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            Long millis = System.currentTimeMillis();
+            Date date3 = new Date(millis);
+            ps5.setString(1, dateFormat.format(date3));
+            ps5.setString(2, "STOCK");
+            ps5.setString(3, "INVENTAIRE");
+            ps5.setString(4, "OK");
+            ps5.setString(5, numeroArticle.getText());
+            ps5.execute();
+            
+            int row = TableArticle.getSelectedRow();
+            Journal.test = (TableArticle.getModel().getValueAt(row, 0).toString());
+            numeroArticle.setText(test);
+            AffichageJournal(test);
+            CloseRsPs5();
+            CloseConnexion();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_btnInventaireActionPerformed
+
+    private void btnSupprInventaireMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSupprInventaireMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSupprInventaireMouseEntered
+
+    private void btnSupprInventaireMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSupprInventaireMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSupprInventaireMouseExited
+
+    private void btnSupprInventaireMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSupprInventaireMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSupprInventaireMousePressed
+
+    private void btnSupprInventaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupprInventaireActionPerformed
+        conn = ConexionBD.Conexion();
+        try {
+            int row = TableJournal.getSelectedRow();
+            Journal.test2 = (TableJournal.getModel().getValueAt(row, 0).toString());
+            String requet = "delete from Journal where NumJournal = '" + test2 + "'";
+            ps = conn.prepareStatement(requet);
+            ps.execute();
+            
+            AffichageArticle();
+            AffichageJournal();
+            ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
+            //txtbachground2.setIcon(img);
+            txtrechercherArticle.setText("Taper Numero Article");
+            ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
+            //txtbackground3.setIcon(img2);
+            txtrechercher1Article.setText("Taper Nom Article");
+            Long millis = System.currentTimeMillis();
+            Date date3 = new Date(millis);
+            date1.setDate(date3);
+            date2.setDate(date3);
+            tabelJournal();
+
+            btnInventaire.setEnabled(false);
+            btnSupprInventaire.setEnabled(false);
+
+        } catch (SQLException e) {
+            System.out.println(e);
+
+        } finally {
+            CloseRsPs1();
+            CloseConnexion();
+        }
+    }//GEN-LAST:event_btnSupprInventaireActionPerformed
 
     private static final long serialVersionUID = 1L;
 
@@ -1612,6 +1786,8 @@ public final class Journal extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TableArticle;
     private javax.swing.JTable TableJournal;
+    private javax.swing.JButton btnInventaire;
+    private javax.swing.JButton btnSupprInventaire;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel chartPanel;
