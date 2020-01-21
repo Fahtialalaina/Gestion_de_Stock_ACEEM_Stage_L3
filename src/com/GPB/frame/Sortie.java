@@ -1839,7 +1839,9 @@ public final class Sortie extends javax.swing.JInternalFrame {
                     clearLS();
                 }
             } else {
-                
+                if (Double.parseDouble(ancienQte)<Double.parseDouble(nbr.getText())){
+                    JOptionPane.showMessageDialog(null, "Stock Insuffisant");
+                } else {
                 String requete6 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + NumArticle + "'";
                 ps6 = conn.prepareStatement(requete6);
 
@@ -1915,6 +1917,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 CloseRsPs9();
                 
                 clearLS();
+                }
             }
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);

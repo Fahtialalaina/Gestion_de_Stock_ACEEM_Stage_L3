@@ -2,8 +2,8 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>C:\Users\Fandresena\Documents\PROJET\Gestion_de_Stock_ACEEM_Stage_L3\dist\Projet_Java_L3_Gestion_des_Prets_Bancaires.jar</jar>
-  <outfile>C:\Users\Fandresena\Documents\PROJET\Gestion_de_Stock_ACEEM_Stage_L3\dist\test.exe</outfile>
+  <jar>C:\Users\Fandresena\Documents\PROJET\Gestion_de_Stock_ACEEM_Stage_L3\dist\Projet_Java_L3_Gestion_de_Stock_ACEEM.jar</jar>
+  <outfile>C:\Users\Fandresena\Documents\PROJET\Gestion_de_Stock_ACEEM_Stage_L3\dist\Gestion de stock ACEEM.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -39,7 +39,7 @@
     <path></path>
     <bundledJre64Bit>false</bundledJre64Bit>
     <bundledJreAsFallback>false</bundledJreAsFallback>
-    <minVersion>1.4.0</minVersion>
+    <minVersion>1.6.0</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>
     <runtimeBits>64/32</runtimeBits>
