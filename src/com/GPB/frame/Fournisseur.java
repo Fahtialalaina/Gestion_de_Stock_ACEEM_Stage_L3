@@ -391,7 +391,6 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Action :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 3, 12))); // NOI18N
 
         btnnv.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnnv.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file.png"))); // NOI18N
         btnnv.setText("Nouveau");
         btnnv.setToolTipText("");
         btnnv.setAutoscrolls(true);
@@ -420,7 +419,6 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         });
 
         btnenregistrer.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnenregistrer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/save.png"))); // NOI18N
         btnenregistrer.setText("Enregistrer");
         btnenregistrer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnenregistrer.setContentAreaFilled(false);
@@ -443,7 +441,6 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         });
 
         btnmodifier.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnmodifier.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (2).png"))); // NOI18N
         btnmodifier.setText("Modifier");
         btnmodifier.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnmodifier.setContentAreaFilled(false);
@@ -475,7 +472,6 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         });
 
         btnsupprimer.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnsupprimer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (1).png"))); // NOI18N
         btnsupprimer.setText("Supprimer");
         btnsupprimer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnsupprimer.setContentAreaFilled(false);
@@ -533,7 +529,6 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
 
         printbtn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        printbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/printer.png"))); // NOI18N
         printbtn.setText("Imprimer");
         printbtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         printbtn.setContentAreaFilled(false);
@@ -792,7 +787,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtNumBanqueMouseExited
 
     private void btnnvMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvMouseEntered
-        btnnv.setBackground(new java.awt.Color(0, 153, 153));
+   
     }//GEN-LAST:event_btnnvMouseEntered
 
     private void btnnvMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvMouseExited
@@ -823,11 +818,11 @@ public class Fournisseur extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnenregistrerMousePressed
 
     private void btnenregistrerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnenregistrerMouseEntered
-        btnenregistrer.setBackground(new java.awt.Color(0, 153, 153));
+        
     }//GEN-LAST:event_btnenregistrerMouseEntered
 
     private void btnmodifierMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierMouseEntered
-        btnmodifier.setBackground(new java.awt.Color(0, 153, 153));
+       
     }//GEN-LAST:event_btnmodifierMouseEntered
 
     private void btnmodifierMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierMouseExited
@@ -873,7 +868,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnmodifierActionPerformed
 
     private void btnsupprimerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerMouseEntered
-        btnsupprimer.setBackground(new java.awt.Color(0, 153, 153));
+        
     }//GEN-LAST:event_btnsupprimerMouseEntered
 
     private void btnsupprimerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerMouseExited
@@ -919,7 +914,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnsupprimerActionPerformed
 
     private void printbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseEntered
-        printbtn.setBackground(new java.awt.Color(0, 153, 153));
+       
     }//GEN-LAST:event_printbtnMouseEntered
 
     private void printbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseExited

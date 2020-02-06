@@ -102,9 +102,9 @@ public class AcceuilGui extends javax.swing.JFrame {
             ps = connAccueil.prepareStatement(requet);
             rs = ps.executeQuery();
             if (rs.next()) {
-                String t2 = rs.getString("prenom");
+                String t2 = rs.getString("login");
 //                lprenom.setText(t2);
-                String t1 = rs.getString("nom");
+                String t1 = rs.getString("login");
                 lnom.setText(t1 + " " + t2);
                 ps.close();
                 rs.close();
@@ -236,7 +236,6 @@ public class AcceuilGui extends javax.swing.JFrame {
         Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
         Utilisateur.setFont(new java.awt.Font("Bebas Neue Bold", 1, 18)); // NOI18N
         Utilisateur.setForeground(new java.awt.Color(255, 255, 255));
-        Utilisateur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/user.png"))); // NOI18N
         Utilisateur.setText("Utilisateurs");
         Utilisateur.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
         Utilisateur.setContentAreaFilled(false);
@@ -256,7 +255,6 @@ public class AcceuilGui extends javax.swing.JFrame {
         Journal.setBackground(new java.awt.Color(153, 153, 153));
         Journal.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
         Journal.setForeground(new java.awt.Color(255, 255, 255));
-        Journal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/multiple-users-silhouette.png"))); // NOI18N
         Journal.setText("Journal");
         Journal.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
         Journal.setContentAreaFilled(false);
@@ -282,7 +280,6 @@ public class AcceuilGui extends javax.swing.JFrame {
         Section.setBackground(new java.awt.Color(153, 153, 153));
         Section.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
         Section.setForeground(new java.awt.Color(255, 255, 255));
-        Section.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
         Section.setText("Section");
         Section.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
         Section.setContentAreaFilled(false);
@@ -302,7 +299,6 @@ public class AcceuilGui extends javax.swing.JFrame {
         Article.setBackground(new java.awt.Color(153, 153, 153));
         Article.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
         Article.setForeground(new java.awt.Color(255, 255, 255));
-        Article.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
         Article.setText("Article");
         Article.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
         Article.setContentAreaFilled(false);
@@ -322,7 +318,6 @@ public class AcceuilGui extends javax.swing.JFrame {
         Entree.setBackground(new java.awt.Color(153, 153, 153));
         Entree.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
         Entree.setForeground(new java.awt.Color(255, 255, 255));
-        Entree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
         Entree.setText("Entrée");
         Entree.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
         Entree.setContentAreaFilled(false);
@@ -342,7 +337,6 @@ public class AcceuilGui extends javax.swing.JFrame {
         Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
         Fournisseur.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
         Fournisseur.setForeground(new java.awt.Color(255, 255, 255));
-        Fournisseur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
         Fournisseur.setText("Fournisseur");
         Fournisseur.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
         Fournisseur.setContentAreaFilled(false);
@@ -362,7 +356,6 @@ public class AcceuilGui extends javax.swing.JFrame {
         Sortie.setBackground(new java.awt.Color(153, 153, 153));
         Sortie.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
         Sortie.setForeground(new java.awt.Color(255, 255, 255));
-        Sortie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/black-user-shape.png"))); // NOI18N
         Sortie.setText("Sortie");
         Sortie.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
         Sortie.setContentAreaFilled(false);
@@ -411,11 +404,11 @@ public class AcceuilGui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Article, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Section, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Fournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Entree, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Fournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Section, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Sortie, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

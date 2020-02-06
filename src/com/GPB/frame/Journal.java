@@ -643,23 +643,23 @@ public final class Journal extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Numero : ");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(560, 80, 60, 16);
+        jLabel2.setBounds(560, 80, 60, 14);
 
         date1.setDateFormatString("dd-MM-yyyy");
         getContentPane().add(date1);
-        date1.setBounds(690, 80, 180, 29);
+        date1.setBounds(690, 80, 180, 20);
 
         date2.setDateFormatString("dd-MM-yyyy");
         getContentPane().add(date2);
-        date2.setBounds(900, 80, 180, 29);
+        date2.setBounds(900, 80, 180, 20);
 
         jLabel1.setText("Recherche entre :");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(690, 60, 180, 16);
+        jLabel1.setBounds(690, 60, 180, 14);
 
         jLabel3.setText("et");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(880, 80, 20, 16);
+        jLabel3.setBounds(880, 80, 20, 14);
 
         jButton1.setText("Rechercher");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -668,12 +668,11 @@ public final class Journal extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(1090, 80, 90, 32);
+        jButton1.setBounds(1090, 80, 90, 23);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
 
         printbtn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        printbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/printer.png"))); // NOI18N
         printbtn.setText("Imprimer");
         printbtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         printbtn.setContentAreaFilled(false);
@@ -821,10 +820,9 @@ public final class Journal extends javax.swing.JInternalFrame {
 
         numeroArticle.setText(" ");
         getContentPane().add(numeroArticle);
-        numeroArticle.setBounds(610, 80, 70, 16);
+        numeroArticle.setBounds(610, 80, 70, 14);
 
         btnInventaire.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        btnInventaire.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/printer.png"))); // NOI18N
         btnInventaire.setText("Inventaire");
         btnInventaire.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnInventaire.setContentAreaFilled(false);
@@ -850,7 +848,6 @@ public final class Journal extends javax.swing.JInternalFrame {
         btnInventaire.setBounds(540, 130, 118, 35);
 
         btnSupprInventaire.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        btnSupprInventaire.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/printer.png"))); // NOI18N
         btnSupprInventaire.setText("Supprimer");
         btnSupprInventaire.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnSupprInventaire.setContentAreaFilled(false);
@@ -949,7 +946,7 @@ public final class Journal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void printbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseEntered
-        printbtn.setBackground(new java.awt.Color(0, 153, 153));
+   
     }//GEN-LAST:event_printbtnMouseEntered
 
     private void printbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseExited

@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,7 +30,7 @@ public class LoginGUI extends javax.swing.JFrame {
      */
     public LoginGUI() {
         initComponents();
-        conn = ConexionBD.Conexion();
+        
     }
 
     /**
@@ -245,6 +247,7 @@ public class LoginGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_MouveJframeMousePressed
 
     private void btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMouseClicked
+        conn = ConexionBD.Conexion();
         String requete = "select * from login_table where login = ? and password =? ";
         try {
 
@@ -258,12 +261,19 @@ public class LoginGUI extends javax.swing.JFrame {
 //          JOptionPane.showMessageDialog(null, t1);
                 dispose();
                 new AcceuilGui().setVisible(true);
-
             }
 
         } catch (Exception e) {
             System.out.println("--> Exception : " + e);
+        } finally {
 
+            try {
+                ps.close();
+                rs.close();
+                conn.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "erreur BD");
+            }
         }
         Description.setForeground(Color.red);
         Description.setText("Choix invalide");
@@ -272,7 +282,8 @@ public class LoginGUI extends javax.swing.JFrame {
         // txtlogin.setForeground(Color.red);
         txtlogin.setText("");
         txtpassword.setText("");
-        System.out.println(" login failed");
+        //System.out.println(" login failed");
+        
     }//GEN-LAST:event_btnMouseClicked
     public String utilisateur() {
         return t1;

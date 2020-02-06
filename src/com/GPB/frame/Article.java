@@ -5,6 +5,8 @@
  */
 package com.GPB.frame;
 
+import static com.GPB.frame.Journal.article;
+import static com.GPB.frame.Journal.test;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.HeadlessException;
@@ -50,6 +52,7 @@ public class Article extends javax.swing.JInternalFrame {
     PreparedStatement ps3 = null;
     PreparedStatement ps4 = null;
     static String test;
+    static String cat;
 
     /**
      * Creates new form Examen
@@ -71,8 +74,6 @@ public class Article extends javax.swing.JInternalFrame {
         txtbackground3.setIcon(img2);
         txtrechercher1Article.setText("Taper Nom Article");
 
-        conn = ConexionBD.Conexion();
-        conn = ConexionBD.Conexion();
         AffichageCategorie();
         AffichageArticle();
         remplirComboCategorie();
@@ -87,6 +88,67 @@ public class Article extends javax.swing.JInternalFrame {
         /*String requete4 = "delete from effectif";
             ps = conn.prepareStatement(requete4);
             ps.execute();*/
+    }
+    
+    public void CloseConnexion() {
+        if (conn != null) {
+            try {
+                conn.close();
+                System.out.println("Connexion fermée");
+            } catch (SQLException e) { /* ignored */}
+        }
+    }
+    
+    public void CloseRsPs1() {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+    }
+    
+    public void CloseRsPs2() {
+        if (rs2 != null) {
+            try {
+                rs2.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+        if (ps2 != null) {
+            try {
+                ps2.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+    }
+    
+    public void CloseRsPs3() {
+        if (rs3 != null) {
+            try {
+                rs3.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+        if (ps3 != null) {
+            try {
+                ps3.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+    }
+    
+    public void CloseRsPs4() {
+        if (rs4 != null) {
+            try {
+                rs4.close();
+            } catch (SQLException e) { /* ignored */}
+        }
+        if (ps4 != null) {
+            try {
+                ps4.close();
+            } catch (SQLException e) { /* ignored */}
+        }
     }
     
     public void tabelArticle() {
@@ -174,6 +236,7 @@ public class Article extends javax.swing.JInternalFrame {
 
 
     private void AffichageCategorie() {
+        conn = ConexionBD.Conexion();
         try {
             String requete = "select NumCategorie as 'Numero' ,NomCategorie as 'Nom de la Categorie' from categorie ";
             ps = conn.prepareStatement(requete);
@@ -184,40 +247,13 @@ public class Article extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
-
     }
 
     private void AffichageArticle() {
+        conn = ConexionBD.Conexion();
         try {
             String requete = "select NumArticle as 'Numero' ,NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' ,MontantStock as 'Montant en Stock' from article, categorie WHERE\n"
                     + "(categorie.NumCategorie=article.categorie)";
@@ -232,40 +268,35 @@ public class Article extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
+            CloseRsPs1();
+            CloseConnexion();
+        }
 
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+    }
+    
+    private void AffichageArticle(String a) {
+        conn = ConexionBD.Conexion();
+        try {
+            String requete = "select NumArticle as 'Numero' ,NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' ,MontantStock as 'Montant en Stock' from article, categorie WHERE\n"
+                    + "(categorie.NumCategorie=article.categorie) and categorie.NumCategorie like '" + a + "'";
+
+
+            ps = conn.prepareStatement(requete);
+            rs = ps.executeQuery();
+            TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
+            ajusterTableArticle();
+            tabelArticle();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            CloseRsPs1();
+            CloseConnexion();
         }
 
     }
 
     public void DeplaceCategorie() {
+        conn = ConexionBD.Conexion();
         try {
 
             int row = TableCategorie.getSelectedRow();
@@ -285,39 +316,13 @@ public class Article extends javax.swing.JInternalFrame {
             System.out.println(e);
 
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
     }
 
     public void DeplaceArticle() {
+        conn = ConexionBD.Conexion();
         try {
 
             int row = TableArticle.getSelectedRow();
@@ -346,39 +351,14 @@ public class Article extends javax.swing.JInternalFrame {
             System.out.println(e);
 
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseRsPs2();
+            CloseConnexion();
         }
     }
 
     public void remplirComboCategorie() {
+        conn = ConexionBD.Conexion();
         ComboCategorie.removeAllItems();
         String requet = " select * from  categorie";
 
@@ -394,35 +374,8 @@ public class Article extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
 
     }
@@ -502,8 +455,6 @@ public class Article extends javax.swing.JInternalFrame {
         btnenregistrerArticle = new javax.swing.JButton();
         btnmodifierArticle = new javax.swing.JButton();
         btnsupprimerArticle = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
-        printbtn1 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtNomCategorie = new javax.swing.JTextField();
@@ -643,7 +594,7 @@ public class Article extends javax.swing.JInternalFrame {
                             .addComponent(DesignationArticle)
                             .addComponent(puArticle)
                             .addComponent(qteStockArticle, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-                            .addComponent(ComboCategorie, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(ComboCategorie, 0, 149, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -673,7 +624,7 @@ public class Article extends javax.swing.JInternalFrame {
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(590, 410, 280, 220);
+        jPanel1.setBounds(640, 410, 280, 220);
 
         txtrechercherCategorie.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercherCategorie.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -714,7 +665,7 @@ public class Article extends javax.swing.JInternalFrame {
         getContentPane().add(txtbachground);
         txtbachground.setBounds(0, 70, 220, 30);
 
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Listes des Articles :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 3, 12))); // NOI18N
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Liste des Articles :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 3, 12))); // NOI18N
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -749,12 +700,11 @@ public class Article extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(TableArticle);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(10, 410, 570, 110);
+        jScrollPane1.setBounds(10, 410, 620, 220);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Action :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 3, 12))); // NOI18N
 
         btnnvCategorie.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnnvCategorie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file.png"))); // NOI18N
         btnnvCategorie.setText("Nouveau");
         btnnvCategorie.setToolTipText("");
         btnnvCategorie.setAutoscrolls(true);
@@ -783,7 +733,6 @@ public class Article extends javax.swing.JInternalFrame {
         });
 
         btnenregistrerCategorie.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnenregistrerCategorie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/save.png"))); // NOI18N
         btnenregistrerCategorie.setText("Enregistrer");
         btnenregistrerCategorie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnenregistrerCategorie.setContentAreaFilled(false);
@@ -806,7 +755,6 @@ public class Article extends javax.swing.JInternalFrame {
         });
 
         btnmodifierCategorie.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnmodifierCategorie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (2).png"))); // NOI18N
         btnmodifierCategorie.setText("Modifier");
         btnmodifierCategorie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnmodifierCategorie.setContentAreaFilled(false);
@@ -838,7 +786,6 @@ public class Article extends javax.swing.JInternalFrame {
         });
 
         btnsupprimerCategorie.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnsupprimerCategorie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (1).png"))); // NOI18N
         btnsupprimerCategorie.setText("Supprimer");
         btnsupprimerCategorie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnsupprimerCategorie.setContentAreaFilled(false);
@@ -896,7 +843,6 @@ public class Article extends javax.swing.JInternalFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
 
         printbtn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        printbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/printer.png"))); // NOI18N
         printbtn.setText("Imprimer");
         printbtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         printbtn.setContentAreaFilled(false);
@@ -925,7 +871,7 @@ public class Article extends javax.swing.JInternalFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(printbtn, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                .addComponent(printbtn, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -934,7 +880,7 @@ public class Article extends javax.swing.JInternalFrame {
         );
 
         getContentPane().add(jPanel4);
-        jPanel4.setBounds(430, 530, 140, 100);
+        jPanel4.setBounds(880, 240, 140, 100);
 
         jPanel5.setBackground(new java.awt.Color(3, 91, 155));
 
@@ -950,7 +896,7 @@ public class Article extends javax.swing.JInternalFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(652, Short.MAX_VALUE))
+                .addContainerGap(648, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -960,7 +906,7 @@ public class Article extends javax.swing.JInternalFrame {
         getContentPane().add(jPanel5);
         jPanel5.setBounds(0, 0, 1160, 50);
 
-        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Listes des Categories :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 3, 12))); // NOI18N
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Liste des Categories :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 3, 12))); // NOI18N
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -1000,7 +946,6 @@ public class Article extends javax.swing.JInternalFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Action :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 3, 12))); // NOI18N
 
         btnnvArticle.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnnvArticle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file.png"))); // NOI18N
         btnnvArticle.setText("Nouveau");
         btnnvArticle.setToolTipText("");
         btnnvArticle.setAutoscrolls(true);
@@ -1029,7 +974,6 @@ public class Article extends javax.swing.JInternalFrame {
         });
 
         btnenregistrerArticle.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnenregistrerArticle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/save.png"))); // NOI18N
         btnenregistrerArticle.setText("Enregistrer");
         btnenregistrerArticle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnenregistrerArticle.setContentAreaFilled(false);
@@ -1052,7 +996,6 @@ public class Article extends javax.swing.JInternalFrame {
         });
 
         btnmodifierArticle.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnmodifierArticle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (2).png"))); // NOI18N
         btnmodifierArticle.setText("Modifier");
         btnmodifierArticle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnmodifierArticle.setContentAreaFilled(false);
@@ -1084,7 +1027,6 @@ public class Article extends javax.swing.JInternalFrame {
         });
 
         btnsupprimerArticle.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnsupprimerArticle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (1).png"))); // NOI18N
         btnsupprimerArticle.setText("Supprimer");
         btnsupprimerArticle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnsupprimerArticle.setContentAreaFilled(false);
@@ -1112,75 +1054,29 @@ public class Article extends javax.swing.JInternalFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnsupprimerArticle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnnvArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnenregistrerArticle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnenregistrerArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnnvArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(btnsupprimerArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnmodifierArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnnvArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnenregistrerArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnsupprimerArticle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnmodifierArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnnvArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnenregistrerArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnmodifierArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addComponent(btnsupprimerArticle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getContentPane().add(jPanel3);
-        jPanel3.setBounds(10, 520, 390, 110);
-
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
-
-        printbtn1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        printbtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/printer.png"))); // NOI18N
-        printbtn1.setText("Imprimer");
-        printbtn1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        printbtn1.setContentAreaFilled(false);
-        printbtn1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        printbtn1.setOpaque(true);
-        printbtn1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                printbtn1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                printbtn1MouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                printbtn1MousePressed(evt);
-            }
-        });
-        printbtn1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                printbtn1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(printbtn1, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(printbtn1, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(jPanel6);
-        jPanel6.setBounds(730, 130, 140, 100);
+        jPanel3.setBounds(920, 420, 170, 200);
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true), "Formulaire Categorie :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 3, 12))); // NOI18N
         jPanel7.setForeground(new java.awt.Color(0, 0, 204));
@@ -1212,7 +1108,7 @@ public class Article extends javax.swing.JInternalFrame {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNomCategorie, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
+                        .addComponent(txtNomCategorie, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
@@ -1235,7 +1131,7 @@ public class Article extends javax.swing.JInternalFrame {
         );
 
         getContentPane().add(jPanel7);
-        jPanel7.setBounds(430, 120, 290, 110);
+        jPanel7.setBounds(430, 120, 390, 110);
 
         txtrechercher1Article.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercher1Article.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -1333,6 +1229,8 @@ public class Article extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         AffichageCategorie();
         clearCategorie();
+        AffichageArticle();
+        clearArticle();
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbachground.setIcon(img);
         txtrechercherCategorie.setText("Taper Numero Categorie");
@@ -1379,6 +1277,7 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtrechercher1CategorieKeyPressed
 
     private void txtrechercher1CategorieKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercher1CategorieKeyReleased
+        conn = ConexionBD.Conexion();
         try {
             String requete = "select NumCategorie as 'Numero' ,NomCategorie as 'Nom Categorie' from categorie  where NomCategorie LIKE ?";
             ps = conn.prepareStatement(requete);
@@ -1388,35 +1287,8 @@ public class Article extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
 
     }//GEN-LAST:event_txtrechercher1CategorieKeyReleased
@@ -1454,7 +1326,7 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtrechercherCategorieKeyPressed
 
     private void txtrechercherCategorieKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherCategorieKeyReleased
-
+        conn = ConexionBD.Conexion();
         try {
             String requete = "select NumCategorie as 'Numero' ,NomCategorie as 'Nom Categorie' from categorie  where NumCategorie LIKE ?";
             ps = conn.prepareStatement(requete);
@@ -1464,35 +1336,8 @@ public class Article extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
     }//GEN-LAST:event_txtrechercherCategorieKeyReleased
 
@@ -1526,6 +1371,7 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TableArticleMouseReleased
 
     private void btnenregistrerCategorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerCategorieActionPerformed
+        conn = ConexionBD.Conexion();
         try {
             String requete = "insert into  categorie (NomCategorie) values (?)";
             ps = conn.prepareStatement(requete);
@@ -1536,35 +1382,8 @@ public class Article extends javax.swing.JInternalFrame {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "deja inserre" + ex);
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
         AffichageCategorie();
         clearCategorie();
@@ -1592,7 +1411,7 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_DesignationArticleMouseExited
 
     private void btnnvCategorieMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvCategorieMouseEntered
-        btnnvCategorie.setBackground(new java.awt.Color(0, 153, 153));
+       
     }//GEN-LAST:event_btnnvCategorieMouseEntered
 
     private void btnnvCategorieMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvCategorieMouseExited
@@ -1623,11 +1442,11 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnenregistrerCategorieMousePressed
 
     private void btnenregistrerCategorieMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnenregistrerCategorieMouseEntered
-        btnenregistrerCategorie.setBackground(new java.awt.Color(0, 153, 153));
+        
     }//GEN-LAST:event_btnenregistrerCategorieMouseEntered
 
     private void btnmodifierCategorieMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierCategorieMouseEntered
-        btnmodifierCategorie.setBackground(new java.awt.Color(0, 153, 153));
+       
     }//GEN-LAST:event_btnmodifierCategorieMouseEntered
 
     private void btnmodifierCategorieMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierCategorieMouseExited
@@ -1647,6 +1466,7 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnmodifierCategorieMouseMoved
 
     private void btnmodifierCategorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierCategorieActionPerformed
+        conn = ConexionBD.Conexion();
         try {
 
             String requete = "update categorie set NomCategorie =? where  NumCategorie ='" + numeroCategorie.getText() + "'";
@@ -1658,35 +1478,8 @@ public class Article extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             System.out.println(ex);
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
 
         AffichageCategorie();
@@ -1695,7 +1488,7 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnmodifierCategorieActionPerformed
 
     private void btnsupprimerCategorieMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerCategorieMouseEntered
-        btnsupprimerCategorie.setBackground(new java.awt.Color(0, 153, 153));
+        
     }//GEN-LAST:event_btnsupprimerCategorieMouseEntered
 
     private void btnsupprimerCategorieMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerCategorieMouseExited
@@ -1707,6 +1500,7 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnsupprimerCategorieMousePressed
 
     private void btnsupprimerCategorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsupprimerCategorieActionPerformed
+        conn = ConexionBD.Conexion();
         try {
             if (JOptionPane.showConfirmDialog(null, "attention vous devez suprimer une Categorie, est ce que vous êtes sur?",
                     "Supprimer Categorie", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
@@ -1725,34 +1519,9 @@ public class Article extends javax.swing.JInternalFrame {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "erreur de suppression" + e.getMessage());
         } finally {
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseRsPs2();
+            CloseConnexion();
         }
         AffichageCategorie();
         clearCategorie();
@@ -1760,7 +1529,7 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnsupprimerCategorieActionPerformed
 
     private void printbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseEntered
-        printbtn.setBackground(new java.awt.Color(0, 153, 153));
+        
     }//GEN-LAST:event_printbtnMouseEntered
 
     private void printbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseExited
@@ -1772,20 +1541,62 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_printbtnMousePressed
 
     private void printbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printbtnActionPerformed
-
-        DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
-        Long millis = System.currentTimeMillis();
-        Date date3 = new Date(millis);
         
-        MessageFormat header = new MessageFormat("Liste des Articles du "+dateFormat.format(date3));
-        
-        MessageFormat footer = new MessageFormat("Page{0,number,integer}");
-        try {
-            TableArticle.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+        conn = ConexionBD.Conexion();
+        if(numeroCategorie.getText().equals("")){
+            DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+            Long millis = System.currentTimeMillis();
+            Date date3 = new Date(millis);
 
-        } catch (java.awt.print.PrinterException e) {
-            System.err.format("Erreur d'impression ", e.getMessage());
+            MessageFormat header = new MessageFormat("Liste des Articles du "+dateFormat.format(date3));
+
+            MessageFormat footer = new MessageFormat("Page{0,number,integer}");
+            try {
+                TableArticle.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+
+            } catch (java.awt.print.PrinterException e) {
+                System.err.format("Erreur d'impression ", e.getMessage());
+            }
+        }else{
+            
+            try {
+            String requete = "select * from Categorie where NumCategorie LIKE ?";
+            ps = conn.prepareStatement(requete);
+            ps.setString(1, "%" + numeroCategorie.getText() + "%");
+            rs = ps.executeQuery();
+            
+            cat = rs.getString("NomCategorie");
+            
+            
+            
+            } catch (SQLException e) {
+                System.out.println(e);
+            } finally {
+
+                try {
+                    ps.close();
+                    rs.close();
+                    CloseConnexion();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "erreur BD");
+                }
+            }
+            
+            DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+            Long millis = System.currentTimeMillis();
+            Date date3 = new Date(millis);
+
+            MessageFormat header = new MessageFormat("Categorie " + cat + " \n du "+dateFormat.format(date3));
+
+            MessageFormat footer = new MessageFormat("Page{0,number,integer}");
+            try {
+                TableArticle.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+
+            } catch (java.awt.print.PrinterException e) {
+                System.err.format("Erreur d'impression ", e.getMessage());
+            }
         }
+        
 
 
         
@@ -1826,6 +1637,12 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TableCategorieMouseEntered
 
     private void TableCategorieMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableCategorieMouseReleased
+        
+        int row = TableCategorie.getSelectedRow();
+        Article.test = (TableCategorie.getModel().getValueAt(row, 0).toString());
+        numeroCategorie.setText(test);
+        AffichageArticle(test);
+        
         ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
         DeplaceCategorie();
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
@@ -1879,6 +1696,7 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnenregistrerArticleMousePressed
 
     private void btnenregistrerArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerArticleActionPerformed
+        conn = ConexionBD.Conexion();
         try {
             String requete = "insert into  article (NomArticle, Categorie) values (?,?)";
 
@@ -1898,36 +1716,9 @@ public class Article extends javax.swing.JInternalFrame {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "deja inserre" + ex);
-            }
+            CloseRsPs1();
+            CloseRsPs2();
+            CloseConnexion();
         }
         AffichageArticle();
         clearArticle();
@@ -1954,6 +1745,7 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnmodifierArticleMouseReleased
 
     private void btnmodifierArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierArticleActionPerformed
+        conn = ConexionBD.Conexion();
         try {
 
             String requete = "update article set NomArticle =? ,categorie =? where  NumArticle ='" + numeroArticle.getText() + "'";
@@ -1968,41 +1760,15 @@ public class Article extends javax.swing.JInternalFrame {
             ps = conn.prepareStatement(requete);
             ps.setString(1, DesignationArticle.getText());
             ps.setString(2, num);
+            ps.execute();
             JOptionPane.showMessageDialog(null, "Modification succes");
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "deja inserre" + ex);
-            }
+            CloseRsPs1();
+            CloseRsPs2();
+            CloseConnexion();
         }
         AffichageArticle();
         clearArticle();
@@ -2021,6 +1787,7 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnsupprimerArticleMousePressed
 
     private void btnsupprimerArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsupprimerArticleActionPerformed
+        conn = ConexionBD.Conexion();
         try {
             if (JOptionPane.showConfirmDialog(null, "attention vous devez suprimer un Article, est ce que tu es sur?",
                     "Supprimer Article", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
@@ -2041,54 +1808,13 @@ public class Article extends javax.swing.JInternalFrame {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "erreur de supprimer car peut Ãªtre que cette article est en cours de mouvement /n erreur de suppression" + e.getMessage());
         } finally {
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseRsPs2();
+            CloseConnexion();
         }
         AffichageArticle();
         clearArticle();
     }//GEN-LAST:event_btnsupprimerArticleActionPerformed
-
-    private void printbtn1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtn1MouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_printbtn1MouseEntered
-
-    private void printbtn1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtn1MouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_printbtn1MouseExited
-
-    private void printbtn1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtn1MousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_printbtn1MousePressed
-
-    private void printbtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printbtn1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_printbtn1ActionPerformed
 
     private void txtNomCategorieMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNomCategorieMouseEntered
         // TODO add your handling code here:
@@ -2125,6 +1851,7 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtrechercher1ArticleKeyPressed
 
     private void txtrechercher1ArticleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercher1ArticleKeyReleased
+        conn = ConexionBD.Conexion();
         try {
             String requete = "select NumArticle as 'Numero' ,NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' from article, categorie WHERE\n"
                     + "(categorie.NumCategorie=article.categorie) and NomArticle LIKE ?";
@@ -2135,36 +1862,8 @@ public class Article extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-
-            try {
-               if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                };
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
     }//GEN-LAST:event_txtrechercher1ArticleKeyReleased
 
@@ -2174,7 +1873,10 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtrechercher1ArticleKeyTyped
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        AffichageCategorie();
+        clearCategorie();
         AffichageArticle();
+        clearArticle();
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbachground2.setIcon(img);
         txtrechercherArticle.setText("Taper Numero Article");
@@ -2209,6 +1911,7 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtrechercherArticleKeyPressed
 
     private void txtrechercherArticleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherArticleKeyReleased
+        conn = ConexionBD.Conexion();
         try {
             String requete = "select NumArticle as 'Numero' ,NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' from article, categorie WHERE\n"
                     + "(categorie.NumCategorie=article.categorie) and NumArticle LIKE ?";
@@ -2219,35 +1922,8 @@ public class Article extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-
-            try {
-                if(rs != null){
-                   rs.close();
-                }
-                if(ps != null){
-                   ps.close();
-                }
-                if(rs2 != null){
-                   rs2.close();
-                }
-                if(ps2 != null){
-                   ps2.close();
-                }
-                if(rs3 != null){
-                   rs3.close();
-                }
-                if(ps3 != null){
-                   ps3.close();
-                }
-                if(rs4 != null){
-                   rs4.close();
-                }
-                if(ps4 != null){
-                   ps4.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
+            CloseRsPs1();
+            CloseConnexion();
         }
     }//GEN-LAST:event_txtrechercherArticleKeyReleased
 
@@ -2302,14 +1978,12 @@ public class Article extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel numeroArticle;
     private javax.swing.JLabel numeroCategorie;
     private javax.swing.JButton printbtn;
-    private javax.swing.JButton printbtn1;
     private javax.swing.JTextField puArticle;
     private javax.swing.JTextField qteStockArticle;
     private javax.swing.JTextField txtNomCategorie;

@@ -643,7 +643,6 @@ public final class Entree extends javax.swing.JInternalFrame {
         jPanelActionLigneEntree = new javax.swing.JPanel();
         btnnvLE = new javax.swing.JButton();
         btnenregistrerLE = new javax.swing.JButton();
-        btnmodifierLE = new javax.swing.JButton();
         btnsupprimerLE = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         printbtn = new javax.swing.JButton();
@@ -700,7 +699,6 @@ public final class Entree extends javax.swing.JInternalFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Action :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 3, 12))); // NOI18N
 
         btnnvEntree.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnnvEntree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file.png"))); // NOI18N
         btnnvEntree.setText("Nouveau");
         btnnvEntree.setToolTipText("");
         btnnvEntree.setAutoscrolls(true);
@@ -729,7 +727,6 @@ public final class Entree extends javax.swing.JInternalFrame {
         });
 
         btnenregistrerEntree.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnenregistrerEntree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/save.png"))); // NOI18N
         btnenregistrerEntree.setText("Enregistrer");
         btnenregistrerEntree.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnenregistrerEntree.setContentAreaFilled(false);
@@ -752,7 +749,6 @@ public final class Entree extends javax.swing.JInternalFrame {
         });
 
         btnmodifierEntree.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnmodifierEntree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (2).png"))); // NOI18N
         btnmodifierEntree.setText("Modifier");
         btnmodifierEntree.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnmodifierEntree.setContentAreaFilled(false);
@@ -784,7 +780,6 @@ public final class Entree extends javax.swing.JInternalFrame {
         });
 
         btnsupprimerEntree.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnsupprimerEntree.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (1).png"))); // NOI18N
         btnsupprimerEntree.setText("Supprimer");
         btnsupprimerEntree.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnsupprimerEntree.setContentAreaFilled(false);
@@ -846,7 +841,6 @@ public final class Entree extends javax.swing.JInternalFrame {
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
 
         printbtn1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        printbtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/printer.png"))); // NOI18N
         printbtn1.setText("Imprimer");
         printbtn1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         printbtn1.setContentAreaFilled(false);
@@ -1134,7 +1128,6 @@ public final class Entree extends javax.swing.JInternalFrame {
         jPanelActionLigneEntree.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Action :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 3, 12))); // NOI18N
 
         btnnvLE.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnnvLE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file.png"))); // NOI18N
         btnnvLE.setText("Nouveau");
         btnnvLE.setToolTipText("");
         btnnvLE.setAutoscrolls(true);
@@ -1163,7 +1156,6 @@ public final class Entree extends javax.swing.JInternalFrame {
         });
 
         btnenregistrerLE.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnenregistrerLE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/save.png"))); // NOI18N
         btnenregistrerLE.setText("Ajouter");
         btnenregistrerLE.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnenregistrerLE.setContentAreaFilled(false);
@@ -1185,40 +1177,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             }
         });
 
-        btnmodifierLE.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnmodifierLE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (2).png"))); // NOI18N
-        btnmodifierLE.setText("Modifier");
-        btnmodifierLE.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnmodifierLE.setContentAreaFilled(false);
-        btnmodifierLE.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnmodifierLE.setOpaque(true);
-        btnmodifierLE.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                btnmodifierLEMouseMoved(evt);
-            }
-        });
-        btnmodifierLE.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnmodifierLEMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnmodifierLEMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnmodifierLEMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnmodifierLEMouseReleased(evt);
-            }
-        });
-        btnmodifierLE.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnmodifierLEActionPerformed(evt);
-            }
-        });
-
         btnsupprimerLE.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnsupprimerLE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (1).png"))); // NOI18N
         btnsupprimerLE.setText("Supprimer");
         btnsupprimerLE.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnsupprimerLE.setContentAreaFilled(false);
@@ -1250,9 +1209,7 @@ public final class Entree extends javax.swing.JInternalFrame {
                     .addComponent(btnsupprimerLE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnnvLE, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelActionLigneEntreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnenregistrerLE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnmodifierLE, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(btnenregistrerLE, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanelActionLigneEntreeLayout.setVerticalGroup(
             jPanelActionLigneEntreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1262,9 +1219,7 @@ public final class Entree extends javax.swing.JInternalFrame {
                     .addComponent(btnnvLE, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnenregistrerLE, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelActionLigneEntreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnsupprimerLE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnmodifierLE, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(btnsupprimerLE, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout JPanelLigneEntreeLayout = new javax.swing.GroupLayout(JPanelLigneEntree);
@@ -1299,7 +1254,6 @@ public final class Entree extends javax.swing.JInternalFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
 
         printbtn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        printbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/printer.png"))); // NOI18N
         printbtn.setText("Imprimer");
         printbtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         printbtn.setContentAreaFilled(false);
@@ -1337,7 +1291,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         );
 
         getContentPane().add(jPanel4);
-        jPanel4.setBounds(1030, 60, 135, 54);
+        jPanel4.setBounds(1030, 60, 135, 46);
 
         txtrechercherEntree.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercherEntree.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -1567,9 +1521,18 @@ public final class Entree extends javax.swing.JInternalFrame {
         String requete = "select SUM(MontantEntree) as somme from LigneEntree where NumEntree = '" + numeroEntree.getText() + "'";
         ps5 = conn.prepareStatement(requete);
         rs5 = ps5.executeQuery();
-        MontantTotal.setText(rs5.getString("somme"));
+        if(rs5.next()){
+            MontantTotal.setText(rs5.getString("somme"));
+        }else{
+            MontantTotal.setText("0");
+        }
         
         CloseRsPs5();
+    }
+    
+    public double arrondir(double nombre,double nbApVirg)
+    {
+        return(double)((int)(nombre * Math.pow(10,nbApVirg) + .5)) / Math.pow(10,nbApVirg);
     }
 
     private void btnenregistrerLEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerLEActionPerformed
@@ -1620,10 +1583,14 @@ public final class Entree extends javax.swing.JInternalFrame {
                         double NewPU = Mtn / qte;
                         ps3.setString(2, String.valueOf(NewPU));
                     } else {
-                        ps3.setString(2, String.valueOf(0));
+                        ps3.setString(2, "0");
                     }
                 
-                ps3.setString(3, String.valueOf(Mtn));
+                if (Mtn > 0) {
+                        ps3.setString(3, String.valueOf(Mtn));
+                    } else {
+                        ps3.setString(3, "0");
+                }
                 ps3.execute();
 
                 JOptionPane.showMessageDialog(null, "Enregistrement succes");
@@ -1712,7 +1679,7 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formMouseClicked
 
     private void btnnvLEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvLEMouseEntered
-        btnnvLE.setBackground(new java.awt.Color(0, 153, 153));
+
     }//GEN-LAST:event_btnnvLEMouseEntered
 
     private void btnnvLEMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvLEMouseExited
@@ -1728,7 +1695,13 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnnvLEActionPerformed
 
     private void btnnvLEMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvLEMouseReleased
+        btnenregistrerLE.setEnabled(true);
+        btnsupprimerLE.setEnabled(false);
+        btnmodifierLE.setEnabled(false);
         clearLE();
+        conn = ConexionBD.Conexion(); 
+        AffichageLigneEntree(numeroEntree.getText());
+        CloseConnexion();
     }//GEN-LAST:event_btnnvLEMouseReleased
 
     private void btnenregistrerLEMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnenregistrerLEMouseExited
@@ -1740,253 +1713,11 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnenregistrerLEMousePressed
 
     private void btnenregistrerLEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnenregistrerLEMouseEntered
-        btnenregistrerLE.setBackground(new java.awt.Color(0, 153, 153));
+        
     }//GEN-LAST:event_btnenregistrerLEMouseEntered
 
-    private void btnmodifierLEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierLEMouseEntered
-        btnmodifierLE.setBackground(new java.awt.Color(0, 153, 153));
-    }//GEN-LAST:event_btnmodifierLEMouseEntered
-
-    private void btnmodifierLEMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierLEMouseExited
-        btnmodifierLE.setBackground(new java.awt.Color(240, 240, 240));
-    }//GEN-LAST:event_btnmodifierLEMouseExited
-
-    private void btnmodifierLEMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierLEMousePressed
-        btnmodifierLE.setBackground(new java.awt.Color(255, 255, 255));
-    }//GEN-LAST:event_btnmodifierLEMousePressed
-
-    private void btnmodifierLEMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierLEMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnmodifierLEMouseReleased
-
-    private void btnmodifierLEMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierLEMouseMoved
-
-    }//GEN-LAST:event_btnmodifierLEMouseMoved
-
-    private void btnmodifierLEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierLEActionPerformed
-        conn = ConexionBD.Conexion();
-        try {
-            
-            String requete1 = "select * from LigneEntree where  NumLigneEntree ='" + numeroLigneEntree.getText() + "'";
-            ps5 = conn.prepareStatement(requete1);
-            rs5 = ps5.executeQuery();
-            String NumArticle = rs5.getString("NumArticle");
-            String NbrEntree = rs5.getString("NbrEntree");
-            String PUEntree = rs5.getString("puFournisseur");
-            String MontantEntree = rs5.getString("MontantEntree");
-            
-            String requete7 = "select * from  article where NumArticle = '" + NumArticle + "'";
-            ps7 = conn.prepareStatement(requete7);
-            rs7 = ps7.executeQuery();
-            String AncienQte = rs7.getString("QteStock");
-            String AncienMtn = rs7.getString("MontantStock");
-            
-            
-            String requete8 = "select * from LigneEntree where  NumEntree ='" + numeroEntree.getText() + "' and NumArticle ='" + article.getText() + "'";
-            ps8 = conn.prepareStatement(requete8);
-            rs8 = ps8.executeQuery();
-            
-                String requete2 = "select * from  article where NomArticle = '" + article.getText() + "'";
-                ps2 = conn.prepareStatement(requete2);
-                rs2 = ps2.executeQuery();
-                String num = rs2.getString("NumArticle");
-                
-            if(!NumArticle.equals(num)){
-                
-                if(rs8.next()){
-                    JOptionPane.showMessageDialog(null, "Cet article est deja utilisé dans une ligne, veuillez modifier cette ligne");
-                }else{
-                    double testQte = Double.parseDouble(AncienQte) - Double.parseDouble(NbrEntree);
-                
-                    if(testQte<0){
-                        JOptionPane.showMessageDialog(null, "Stock Insuffisant en le remplacant");
-                    }else{
-                        String requete6 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + NumArticle + "'";
-                        ps6 = conn.prepareStatement(requete6);
-
-                        double qte = Double.parseDouble(AncienQte) - Double.parseDouble(NbrEntree);
-                        ps6.setString(1, String.valueOf(qte));
-                        double MtnRet = Double.parseDouble(AncienMtn) - Double.parseDouble(MontantEntree);
-                        if (qte != 0) {
-                            double pu = MtnRet / qte;
-                            ps6.setString(2, String.valueOf(pu));
-                        } else {
-                            ps6.setString(2, String.valueOf(0));
-                        }
-                        ps6.setString(3, String.valueOf(MtnRet));
-                        ps6.execute();
-
-                        String requete = "update LigneEntree set NumEntree =?,NumArticle=?,NbrEntree=?,puFournisseur=?,MontantEntree=? where  NumLigneEntree ='" + numeroLigneEntree.getText() + "'";
-                        ps = conn.prepareStatement(requete);
-                        ps.setString(1, numeroEntree.getText());
-                        ps.setString(2, num);
-                        ps.setString(3, nbr.getText());
-                        ps.setString(4, puFournisseur.getText());
-                        double mtn = Double.parseDouble(nbr.getText()) * Double.parseDouble(puFournisseur.getText());
-                        ps.setString(5, String.valueOf(mtn));
-                        ps.execute();
-
-
-                        String requete4 = "select * from article where  NumArticle ='" + num + "'";
-                        ps4 = conn.prepareStatement(requete4);
-                        rs4 = ps4.executeQuery();
-                        String ancienQte = rs4.getString("QteStock");
-                        String ancienMtn = rs4.getString("MontantStock");
-
-                         String requete3 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + num + "'";
-                        ps3 = conn.prepareStatement(requete3);
-
-                        double qte2 = Double.parseDouble(nbr.getText()) + Double.parseDouble(ancienQte);
-                        ps3.setString(1, String.valueOf(qte2));
-                        double pu2 = (mtn + Double.parseDouble(ancienMtn)) / qte2;
-                        ps3.setString(2, String.valueOf(pu2));
-                        ps3.setString(3, String.valueOf(pu2 * qte2));
-                        ps3.execute();
-
-                        JOptionPane.showMessageDialog(null, "Modification succes");
-                        
-                        String requete10 = "insert into Journal (Date,TypeMouvement,Action,NumMouvement,NumArticle,AncienQte,AncienPU,AncienMontant,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?)";
-                        ps9 = conn.prepareStatement(requete10);
-
-                        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                        Long millis = System.currentTimeMillis();
-                        Date date3 = new Date(millis);
-                        ps9.setString(1, dateFormat.format(date3));
-                        ps9.setString(2, "ENTREE");
-                        ps9.setString(3, "SUPPR/MODIF");
-                        ps9.setString(4, ref.getText());
-                        ps9.setString(5, NumArticle);
-                        ps9.setString(6, NbrEntree);
-                        ps9.setString(7, PUEntree);
-                        ps9.setString(8, MontantEntree);
-                        ps9.setString(9, String.valueOf(qte));
-                        ps9.setString(10, String.valueOf(MtnRet));
-                        ps9.execute();
-                        CloseRsPs9();
-                        
-                        String requete9 = "insert into Journal (Date,TypeMouvement,Action,NumMouvement,NumArticle,NouveauQte,NouveauPU,NouveauMontant,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?)";
-                        ps9 = conn.prepareStatement(requete9);
-
-                        ps9.setString(1, dateFormat.format(date3));
-                        ps9.setString(2, "ENTREE");
-                        ps9.setString(3, "AJOUT/MODIF");
-                        ps9.setString(4, ref.getText());
-                        ps9.setString(5, num);
-                        ps9.setString(6, nbr.getText());
-                        ps9.setString(7, puFournisseur.getText());
-                        ps9.setString(8, String.valueOf(mtn));
-                        ps9.setString(9, String.valueOf(qte2));
-                        ps9.setString(10, String.valueOf(pu2 * qte2));
-                        ps9.execute();
-                        CloseRsPs9();
-                    }
-                    
-                }
-                    
-            }else{
-                
-                double testQte = Double.parseDouble(AncienQte) - Double.parseDouble(NbrEntree) + Double.parseDouble(nbr.getText());
-                
-                if(testQte<0){
-                    JOptionPane.showMessageDialog(null, "Stock Insuffisant");
-                }else{
-                    String requete6 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + NumArticle + "'";
-                    ps6 = conn.prepareStatement(requete6);
-
-                    double qte = Double.parseDouble(AncienQte) - Double.parseDouble(NbrEntree);
-                    ps6.setString(1, String.valueOf(qte));
-                    double MtnRet = Double.parseDouble(AncienMtn) - Double.parseDouble(MontantEntree);
-                    if (qte != 0) {
-                        double pu = MtnRet / qte;
-                        ps6.setString(2, String.valueOf(pu));
-                    } else {
-                        ps6.setString(2, String.valueOf(0));
-                    }
-                    ps6.setString(3, String.valueOf(MtnRet));
-                    ps6.execute();
-
-                    String requete = "update LigneEntree set NumEntree =?,NumArticle=?,NbrEntree=?,puFournisseur=?,MontantEntree=? where  NumLigneEntree ='" + numeroLigneEntree.getText() + "'";
-                    ps = conn.prepareStatement(requete);
-                    ps.setString(1, numeroEntree.getText());
-                    ps.setString(2, num);
-                    ps.setString(3, nbr.getText());
-                    ps.setString(4, puFournisseur.getText());
-                    double mtn = Double.parseDouble(nbr.getText()) * Double.parseDouble(puFournisseur.getText());
-                    ps.setString(5, String.valueOf(mtn));
-                    ps.execute();
-
-                    String requete4 = "select * from article where  NumArticle ='" + num + "'";
-                    ps4 = conn.prepareStatement(requete4);
-                    rs4 = ps4.executeQuery();
-                    String ancienQte = rs4.getString("QteStock");
-                    String ancienMtn = rs4.getString("MontantStock");
-
-                     String requete3 = "update article set QteStock =? ,pu =? ,MontantStock =? where  NumArticle ='" + num + "'";
-                    ps3 = conn.prepareStatement(requete3);
-
-                    double qte2 = Double.parseDouble(nbr.getText()) + Double.parseDouble(ancienQte);
-                    ps3.setString(1, String.valueOf(qte2));
-                    double pu2 = (mtn + Double.parseDouble(ancienMtn)) / qte2;
-                    ps3.setString(2, String.valueOf(pu2));
-                    ps3.setString(3, String.valueOf(pu2 * qte2));
-                    ps3.execute();
-
-                    JOptionPane.showMessageDialog(null, "Modification succes");
-                    
-                    String requete10 = "insert into Journal (Date,TypeMouvement,Action,NumMouvement,NumArticle,AncienQte,NouveauQte,AncienPU,NouveauPU,AncienMontant,NouveauMontant,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                    ps9 = conn.prepareStatement(requete10);
-
-                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                    Long millis = System.currentTimeMillis();
-                    Date date3 = new Date(millis);
-                    ps9.setString(1, dateFormat.format(date3));
-                    ps9.setString(2, "ENTREE");
-                    ps9.setString(3, "MODIF");
-                    ps9.setString(4, ref.getText());
-                    ps9.setString(5, NumArticle);
-                    ps9.setString(6, NbrEntree);
-                    ps9.setString(7, nbr.getText());
-                    ps9.setString(8, PUEntree);
-                    ps9.setString(9, puFournisseur.getText());
-                    ps9.setString(10, MontantEntree);
-                    ps9.setString(11, String.valueOf(mtn));
-                    ps9.setString(12, String.valueOf(qte2));
-                    ps9.setString(13, String.valueOf(pu2 * qte2));
-                    ps9.execute();
-                    CloseRsPs9();
-                }
-                
-                }
-            
-        } catch (HeadlessException | SQLException e) {
-            System.out.println("--> SQLException : " + e);
-            JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
-        } finally {
-            CloseRsPs1();
-            CloseRsPs2();
-            CloseRsPs3();
-            CloseRsPs4();
-            CloseRsPs5();
-            CloseRsPs6();
-            CloseRsPs7();
-            CloseRsPs8();
-            CloseRsPs9();
-            CloseConnexion();
-        }
-        conn = ConexionBD.Conexion();
-        AffichageLigneEntree(numeroEntree.getText());
-        clearLE();
-        try {
-            SommeMontant();
-        } catch (SQLException ex) {
-            Logger.getLogger(Entree.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        CloseConnexion();
-        RectifierMontantTotalEntree();
-    }//GEN-LAST:event_btnmodifierLEActionPerformed
-
     private void btnsupprimerLEMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerLEMouseEntered
-        btnsupprimerLE.setBackground(new java.awt.Color(0, 153, 153));
+        
     }//GEN-LAST:event_btnsupprimerLEMouseEntered
 
     private void btnsupprimerLEMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerLEMouseExited
@@ -2029,11 +1760,11 @@ public final class Entree extends javax.swing.JInternalFrame {
                     ps6 = conn.prepareStatement(requete6);
 
                     ps6.setString(1, String.valueOf(qte));
-                    if (qte >= 0) {
+                    if (qte > 0) {
                         double pu = MtnRet / qte;
                         ps6.setString(2, String.valueOf(pu));
                     } else {
-                        ps6.setString(2, String.valueOf(0));
+                        ps6.setString(2, "0");
                     }
                     ps6.setString(3, String.valueOf(MtnRet));
                     ps6.execute();
@@ -2076,6 +1807,10 @@ public final class Entree extends javax.swing.JInternalFrame {
         
         AffichageLigneEntree(numeroEntree.getText());
         clearLE();
+        btnnvLE.setEnabled(true);
+        btnsupprimerLE.setEnabled(false);
+        btnmodifierLE.setEnabled(false);
+        btnenregistrerLE.setEnabled(false);
         try {
             SommeMontant();
         } catch (SQLException ex) {
@@ -2086,7 +1821,7 @@ public final class Entree extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnsupprimerLEActionPerformed
 
     private void printbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseEntered
-        printbtn.setBackground(new java.awt.Color(0, 153, 153));
+        
     }//GEN-LAST:event_printbtnMouseEntered
 
     private void printbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseExited
@@ -2337,6 +2072,7 @@ public final class Entree extends javax.swing.JInternalFrame {
                                     String NumeroLigneEntree1 = rs5.getString("NumLigneEntree");
                                     String NumArticle1 = rs5.getString("NumArticle");
                                     String NbrEntree1 = rs5.getString("NbrEntree");
+                                    String PUEntree1 = rs5.getString("puFournisseur");
                                     String MontantEntree1 = rs5.getString("MontantEntree");
 
                                     String requete10 = "select * from  article where NumArticle = '" + NumArticle1 + "'";
@@ -2368,8 +2104,26 @@ public final class Entree extends javax.swing.JInternalFrame {
 
                                         String requete = "delete from LigneEntree where NumLigneEntree = '" + NumeroLigneEntree1 + "'";
                                         ps = conn.prepareStatement(requete);
-
                                         ps.execute();
+                                        
+                                        String requete101 = "insert into Journal (Date,TypeMouvement,Action,NumMouvement,NumArticle,AncienQte,AncienPU,AncienMontant,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?)";
+                                        ps9 = conn.prepareStatement(requete101);
+
+                                        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                                        Long millis = System.currentTimeMillis();
+                                        Date date3 = new Date(millis);
+                                        ps9.setString(1, dateFormat.format(date3));
+                                        ps9.setString(2, "ENTREE");
+                                        ps9.setString(3, "SUPPR");
+                                        ps9.setString(4, ref.getText());
+                                        ps9.setString(5, NumArticle1);
+                                        ps9.setString(6, NbrEntree1);
+                                        ps9.setString(7, PUEntree1);
+                                        ps9.setString(8, MontantEntree1);
+                                        ps9.setString(9, String.valueOf(qte));
+                                        ps9.setString(10, String.valueOf(MtnRet));
+                                        ps9.execute();
+                                        CloseRsPs9();
                                     }
                             } catch (HeadlessException | SQLException e) {
                                 System.out.println(e);
@@ -2637,7 +2391,6 @@ public final class Entree extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnenregistrerEntree;
     private javax.swing.JButton btnenregistrerLE;
     public javax.swing.JButton btnmodifierEntree;
-    public javax.swing.JButton btnmodifierLE;
     private javax.swing.JButton btnnvEntree;
     private javax.swing.JButton btnnvLE;
     private javax.swing.JButton btnsupprimerEntree;

@@ -695,7 +695,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Action :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 3, 12))); // NOI18N
 
         btnnvSortie.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnnvSortie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file.png"))); // NOI18N
         btnnvSortie.setText("Nouveau");
         btnnvSortie.setToolTipText("");
         btnnvSortie.setAutoscrolls(true);
@@ -724,7 +723,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         });
 
         btnenregistrerSortie.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnenregistrerSortie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/save.png"))); // NOI18N
         btnenregistrerSortie.setText("Enregistrer");
         btnenregistrerSortie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnenregistrerSortie.setContentAreaFilled(false);
@@ -747,7 +745,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         });
 
         btnmodifierSortie.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnmodifierSortie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (2).png"))); // NOI18N
         btnmodifierSortie.setText("Modifier");
         btnmodifierSortie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnmodifierSortie.setContentAreaFilled(false);
@@ -779,7 +776,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         });
 
         btnsupprimerSortie.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnsupprimerSortie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (1).png"))); // NOI18N
         btnsupprimerSortie.setText("Supprimer");
         btnsupprimerSortie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnsupprimerSortie.setContentAreaFilled(false);
@@ -807,11 +803,14 @@ public final class Sortie extends javax.swing.JInternalFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnsupprimerSortie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnnvSortie, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(btnsupprimerSortie, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnnvSortie, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnenregistrerSortie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnmodifierSortie, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -820,9 +819,10 @@ public final class Sortie extends javax.swing.JInternalFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnnvSortie, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnenregistrerSortie, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnenregistrerSortie, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                    .addComponent(btnnvSortie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnsupprimerSortie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -841,7 +841,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
 
         printbtn1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        printbtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/printer.png"))); // NOI18N
         printbtn1.setText("Imprimer");
         printbtn1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         printbtn1.setContentAreaFilled(false);
@@ -947,7 +946,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
@@ -1129,7 +1128,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         jPanelActionLigneEntree.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Action :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 3, 12))); // NOI18N
 
         btnnvLS.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnnvLS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file.png"))); // NOI18N
         btnnvLS.setText("Nouveau");
         btnnvLS.setToolTipText("");
         btnnvLS.setAutoscrolls(true);
@@ -1158,7 +1156,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         });
 
         btnenregistrerLS.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnenregistrerLS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/save.png"))); // NOI18N
         btnenregistrerLS.setText("Ajouter");
         btnenregistrerLS.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnenregistrerLS.setContentAreaFilled(false);
@@ -1181,7 +1178,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         });
 
         btnmodifierLS.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnmodifierLS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (2).png"))); // NOI18N
         btnmodifierLS.setText("Modifier");
         btnmodifierLS.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnmodifierLS.setContentAreaFilled(false);
@@ -1213,7 +1209,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         });
 
         btnsupprimerLS.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnsupprimerLS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/file (1).png"))); // NOI18N
         btnsupprimerLS.setText("Supprimer");
         btnsupprimerLS.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnsupprimerLS.setContentAreaFilled(false);
@@ -1294,7 +1289,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
 
         printbtn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        printbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/printer.png"))); // NOI18N
         printbtn.setText("Imprimer");
         printbtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         printbtn.setContentAreaFilled(false);
@@ -1552,7 +1546,11 @@ public final class Sortie extends javax.swing.JInternalFrame {
         String requete = "select SUM(MontantSortie) as somme from LigneSortie where NumSortie = '" + numeroSortie.getText() + "'";
         ps5 = conn.prepareStatement(requete);
         rs5 = ps5.executeQuery();
-        MontantTotal.setText(rs5.getString("somme"));
+        if(rs5.next()){
+            MontantTotal.setText(rs5.getString("somme"));
+        }else{
+            MontantTotal.setText("0");
+        }
 
         CloseRsPs5();
     }
@@ -1609,13 +1607,17 @@ public final class Sortie extends javax.swing.JInternalFrame {
                     double qte = Double.parseDouble(ancienQte) - Double.parseDouble(nbr.getText());
                     ps3.setString(1, String.valueOf(qte));
                     double Mtn = Double.parseDouble(ancienMtn)-mtn;
-                    if (qte >= 0) {
+                    if (qte > 0) {
                         double NewPU = Mtn / qte;
                         ps3.setString(2, String.valueOf(NewPU));
                     } else {
-                        ps3.setString(2, String.valueOf(0));
+                        ps3.setString(2, "0");
                     }
-                    ps3.setString(3, String.valueOf(Mtn));
+                    if (Mtn > 0) {
+                        ps3.setString(3, String.valueOf(Mtn));
+                    } else {
+                        ps3.setString(3, "0");
+                    }
                     ps3.execute();
 
                     JOptionPane.showMessageDialog(null, "Enregistrement succes");
@@ -1674,7 +1676,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formMouseClicked
 
     private void btnnvLSMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvLSMouseEntered
-        btnnvLS.setBackground(new java.awt.Color(0, 153, 153));
+
     }//GEN-LAST:event_btnnvLSMouseEntered
 
     private void btnnvLSMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvLSMouseExited
@@ -1705,11 +1707,11 @@ public final class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnenregistrerLSMousePressed
 
     private void btnenregistrerLSMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnenregistrerLSMouseEntered
-        btnenregistrerLS.setBackground(new java.awt.Color(0, 153, 153));
+   
     }//GEN-LAST:event_btnenregistrerLSMouseEntered
 
     private void btnmodifierLSMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierLSMouseEntered
-        btnmodifierLS.setBackground(new java.awt.Color(0, 153, 153));
+  
     }//GEN-LAST:event_btnmodifierLSMouseEntered
 
     private void btnmodifierLSMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnmodifierLSMouseExited
@@ -1777,7 +1779,11 @@ public final class Sortie extends javax.swing.JInternalFrame {
                     } else {
                         ps6.setString(2, String.valueOf(0));
                     }
-                    ps6.setString(3, String.valueOf(MtnRet));
+                    if (MtnRet > 0) {
+                        ps6.setString(3, String.valueOf(MtnRet));
+                    } else {
+                        ps6.setString(3, "0");
+                    }
                     ps6.execute();
                     
                     String requete = "update LigneSortie set NumSortie =?,NumArticle=?,NbrSortie=?,puSortie=?,MontantSortie=? where  NumLigneSortie ='" + numeroLigneSortie.getText() + "'";
@@ -1839,7 +1845,9 @@ public final class Sortie extends javax.swing.JInternalFrame {
                     clearLS();
                 }
             } else {
-                if (Double.parseDouble(ancienQte)<Double.parseDouble(nbr.getText())){
+                double qt = Double.parseDouble(ancienQte) + Double.parseDouble(NbrSortie);
+                if (qt<Double.parseDouble(nbr.getText())){
+                    System.out.println(qt);
                     JOptionPane.showMessageDialog(null, "Stock Insuffisant");
                 } else {
                 String requete6 = "update article set QteStock =? ,MontantStock =? where  NumArticle ='" + NumArticle + "'";
@@ -1854,7 +1862,11 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 } else {
                     ps6.setString(2, String.valueOf(0));
                 }
-                ps6.setString(2, String.valueOf(MtnRet));
+                if (MtnRet > 0) {
+                        ps6.setString(3, String.valueOf(MtnRet));
+                    } else {
+                        ps6.setString(3, "0");
+                }
                 ps6.execute();
                 
                 System.out.println("qte : "+ qte);
@@ -1883,13 +1895,17 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 double Qte = Double.parseDouble(NewQte) - Double.parseDouble(nbr.getText());
                 ps3.setString(1, String.valueOf(Qte));
                 double Montant = Double.parseDouble(NewMontant) - (Double.parseDouble(puSortie.getText()) * Double.parseDouble(nbr.getText()));
-                if (Qte >= 0) {
+                if (Qte > 0) {
                         double NewPU = Montant / Qte;
                         ps3.setString(2, String.valueOf(NewPU));
                     } else {
-                        ps3.setString(2, String.valueOf(0));
+                        ps3.setString(2, "0");
                     }
-                ps3.setString(3, String.valueOf(Montant));
+                if (Montant > 0) {
+                        ps3.setString(3, String.valueOf(Montant));
+                    } else {
+                        ps3.setString(3, "0");
+                    }
                 ps3.execute();
                 AffichageLigneSortie(numeroSortie.getText());
                 JOptionPane.showMessageDialog(null, "Modification succes");
@@ -1964,7 +1980,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
     }
 
     private void btnsupprimerLSMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerLSMouseEntered
-        btnsupprimerLS.setBackground(new java.awt.Color(0, 153, 153));
+ 
     }//GEN-LAST:event_btnsupprimerLSMouseEntered
 
     private void btnsupprimerLSMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsupprimerLSMouseExited
@@ -2047,6 +2063,10 @@ public final class Sortie extends javax.swing.JInternalFrame {
         }
         AffichageLigneSortie(numeroSortie.getText());
         clearLS();
+        btnnvLS.setEnabled(true);
+        btnsupprimerLS.setEnabled(false);
+        btnmodifierLS.setEnabled(false);
+        btnenregistrerLS.setEnabled(false);
         try {
             SommeMontant();
         } catch (SQLException ex) {
@@ -2057,7 +2077,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnsupprimerLSActionPerformed
 
     private void printbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseEntered
-        printbtn.setBackground(new java.awt.Color(0, 153, 153));
+       
     }//GEN-LAST:event_printbtnMouseEntered
 
     private void printbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseExited
