@@ -83,7 +83,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         masquerArticle();
         
         btnsupprimerLE.setEnabled(false);
-        btnmodifierLE.setEnabled(false);
+        //btnmodifierLE.setEnabled(false);
         btnenregistrerLE.setEnabled(false);
         btnsupprimerEntree.setEnabled(false);
         btnmodifierEntree.setEnabled(false);
@@ -1511,7 +1511,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         
         btnnvLE.setEnabled(true);
         btnsupprimerLE.setEnabled(false);
-        btnmodifierLE.setEnabled(false);
+//        btnmodifierLE.setEnabled(false);
         btnenregistrerLE.setEnabled(false);
         
 
@@ -1644,7 +1644,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         
         btnnvLE.setEnabled(true);
         btnsupprimerLE.setEnabled(false);
-        btnmodifierLE.setEnabled(false);
+//        btnmodifierLE.setEnabled(false);
         btnenregistrerLE.setEnabled(false);
         
     }//GEN-LAST:event_btnenregistrerLEActionPerformed
@@ -1697,7 +1697,7 @@ public final class Entree extends javax.swing.JInternalFrame {
     private void btnnvLEMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvLEMouseReleased
         btnenregistrerLE.setEnabled(true);
         btnsupprimerLE.setEnabled(false);
-        btnmodifierLE.setEnabled(false);
+//        btnmodifierLE.setEnabled(false);
         clearLE();
         conn = ConexionBD.Conexion(); 
         AffichageLigneEntree(numeroEntree.getText());
@@ -1809,7 +1809,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         clearLE();
         btnnvLE.setEnabled(true);
         btnsupprimerLE.setEnabled(false);
-        btnmodifierLE.setEnabled(false);
+//        btnmodifierLE.setEnabled(false);
         btnenregistrerLE.setEnabled(false);
         try {
             SommeMontant();
@@ -1870,7 +1870,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         
         btnnvLE.setEnabled(true);
         btnsupprimerLE.setEnabled(true);
-        btnmodifierLE.setEnabled(true);
+//        btnmodifierLE.setEnabled(true);
         btnenregistrerLE.setEnabled(false);
     }//GEN-LAST:event_TableLigneEntreeMouseReleased
 

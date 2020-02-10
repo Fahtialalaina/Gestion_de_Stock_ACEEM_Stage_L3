@@ -26,8 +26,11 @@ public class TableColorCellRenderer implements TableCellRenderer{
         String type = result.toString();
         Color color = null;
         Color color2 = null;
-            if(type.equals("INVENTAIRE")){
+            if(type.equals("NON OK")){
                 color = Color.RED;
+                color2 = Color.WHITE;
+            }else if(type.equals("OK")){
+                color = Color.GREEN;
                 color2 = Color.WHITE;
             }
          c.setBackground(color);
