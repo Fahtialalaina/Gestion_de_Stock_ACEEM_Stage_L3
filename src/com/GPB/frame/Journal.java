@@ -246,7 +246,7 @@ public final class Journal extends javax.swing.JInternalFrame {
         conn = ConexionBD.Conexion();
         try {
             numeroArticle.setText("");
-            String requete = "select NumArticle as 'Numero' ,NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' ,MontantStock as 'Montant en Stock' from article, categorie WHERE\n"
+            String requete = "select NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' ,MontantStock as 'Montant en Stock' from article, categorie WHERE\n"
                     + "(categorie.NumCategorie=article.categorie)";
             ps = conn.prepareStatement(requete);
             rs = ps.executeQuery();
@@ -295,7 +295,7 @@ public final class Journal extends javax.swing.JInternalFrame {
     private void AffichageJournal() {
         conn = ConexionBD.Conexion();
         try {
-            String requete = "select NumJournal as 'Id' ,Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
+            String requete = "select Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
                     + "article.NumArticle=Journal.NumArticle";
             ps = conn.prepareStatement(requete);
             rs = ps.executeQuery();
@@ -352,10 +352,10 @@ public final class Journal extends javax.swing.JInternalFrame {
     }
     
     
-    private void AffichageJournal(String numArticle) {
+    private void AffichageJournal(String nomArticle) {
         try {
-            String requete = "select NumJournal as 'Id' ,Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and Journal.NumArticle like '" + numArticle + "'";
+            String requete = "select Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
+                    + "article.NumArticle=Journal.NumArticle and article.NomArticle like '" + nomArticle + "'";
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
             TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
@@ -375,10 +375,10 @@ public final class Journal extends javax.swing.JInternalFrame {
 
     }
     
-    private void AffichageJournal2dateArticle(String numArticle, String date1, String date2) {
+    private void AffichageJournal2dateArticle(String nomArticle, String date1, String date2) {
         try {
-            String requete = "select NumJournal as 'Id' ,Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and Journal.NumArticle like '" + numArticle + "' and Date between '" + date1 + "' and '" + date2 + "' order by Date desc";
+            String requete = "select Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
+                    + "article.NumArticle=Journal.NumArticle and article.NomArticle like '" + nomArticle + "' and Date between '" + date1 + "' and '" + date2 + "' order by Date desc";
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
             System.out.println(requete);
@@ -393,7 +393,7 @@ public final class Journal extends javax.swing.JInternalFrame {
     }
     private void AffichageJournal2dateType(String type, String date1, String date2) {
         try {
-            String requete = "select NumJournal as 'Id' ,Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
+            String requete = "select Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
                     + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "' and Date between '" + date1 + "' and '" + date2 + "' order by Date desc";
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
@@ -408,10 +408,10 @@ public final class Journal extends javax.swing.JInternalFrame {
         tabelJournal();
     }
     
-    private void AffichageJournal2dateArticleType(String type, String numArticle, String date1, String date2) {
+    private void AffichageJournal2dateArticleType(String type, String nomArticle, String date1, String date2) {
         try {
-            String requete = "select NumJournal as 'Id' ,Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and Journal.NumArticle like '" + numArticle + "' and TypeMouvement like '" + type + "' and Date between '" + date1 + "' and '" + date2 + "' order by Date desc";
+            String requete = "select Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
+                    + "article.NumArticle=Journal.NumArticle and article.NomArticle like '" + nomArticle + "' and TypeMouvement like '" + type + "' and Date between '" + date1 + "' and '" + date2 + "' order by Date desc";
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
             System.out.println(requete);
@@ -427,7 +427,7 @@ public final class Journal extends javax.swing.JInternalFrame {
     
     private void AffichageJournal2date(String date1, String date2) {
         try {
-            String requete = "select NumJournal as 'Id' ,Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
+            String requete = "select Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
                     + "article.NumArticle=Journal.NumArticle and Date between '" + date1 + "' and '" + date2 + "' order by Date desc";
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
@@ -444,7 +444,7 @@ public final class Journal extends javax.swing.JInternalFrame {
     
     private void AffichageJournalFiltre(String type) {
         try {
-            String requete = "select NumJournal as 'Id' ,Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
+            String requete = "select Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
                     + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "'";
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
@@ -461,8 +461,8 @@ public final class Journal extends javax.swing.JInternalFrame {
     
     private void AffichageJournalFiltreArticle(String type, String article) {
         try {
-            String requete = "select NumJournal as 'Id' ,Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "' and article.NumArticle like '" + article + "'";
+            String requete = "select Date as 'Date' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' ,article.NomArticle as 'Article' ,AncienQte ,NouveauQte, AncienPU, NouveauPU, AncienMontant, NouveauMontant, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
+                    + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "' and article.NomArticle like '" + article + "'";
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
             System.out.println(requete);
@@ -962,7 +962,7 @@ public final class Journal extends javax.swing.JInternalFrame {
 
     private void TableJournalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableJournalMouseReleased
         int row = TableJournal.getSelectedRow();
-        Journal.test = (TableJournal.getModel().getValueAt(row, 3).toString());
+        Journal.test = (TableJournal.getModel().getValueAt(row, 1).toString());
         
         if(test.equals("INVENTAIRE")){
             btnInventaire.setEnabled(false);
@@ -1158,6 +1158,7 @@ public final class Journal extends javax.swing.JInternalFrame {
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         //txtbackground3.setIcon(img2);
         txtrechercher1Article.setText("Taper Nom Article");
+        typeCombo.setSelectedItem(" ");
         Long millis = System.currentTimeMillis();
         Date date3 = new Date(millis);
         date1.setDate(date3);
@@ -1274,7 +1275,7 @@ public final class Journal extends javax.swing.JInternalFrame {
             }else if(ancienQte.equals(NbInvt.getText())){
                 String requete5 = "insert into Journal (Date,TypeMouvement,Action,NumArticle,QteStock,QteInventaire,Difference) values (?,?,?,?,?,?,?)";
                 ps5 = conn.prepareStatement(requete5);
-
+                
                 DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                 Long millis = System.currentTimeMillis();
                 Date date3 = new Date(millis);
@@ -1286,7 +1287,7 @@ public final class Journal extends javax.swing.JInternalFrame {
                 ps5.setString(6, NbInvt.getText());
                 ps5.setString(7, "0");
                 ps5.execute();
-
+                
                 int row = TableArticle.getSelectedRow();
                 Journal.test = (TableArticle.getModel().getValueAt(row, 0).toString());
                 numeroArticle.setText(test);
@@ -1388,10 +1389,18 @@ public final class Journal extends javax.swing.JInternalFrame {
     private void typeComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_typeComboItemStateChanged
         conn = ConexionBD.Conexion();
         String num = numeroArticle.getText();
-        if(num.equals("")){
-            AffichageJournalFiltre(typeCombo.getSelectedItem().toString());
+        if(typeCombo.getSelectedItem().toString().equals(" ")){
+            if(num.equals("")){
+                AffichageJournal();
+            }else{
+                AffichageJournal(num);
+            }
         }else{
-            AffichageJournalFiltreArticle(typeCombo.getSelectedItem().toString(),numeroArticle.getText());
+            if(num.equals("")){
+                AffichageJournalFiltre(typeCombo.getSelectedItem().toString());
+            }else{
+                AffichageJournalFiltreArticle(typeCombo.getSelectedItem().toString(),numeroArticle.getText());
+            }
         }
         btnInventaire.setEnabled(false);
         btnSupprInventaire.setEnabled(false);

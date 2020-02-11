@@ -22,7 +22,7 @@ public class TableColorCellRenderer implements TableCellRenderer{
     public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
         Component c = RENDERER.getTableCellRendererComponent(jtable, o, bln, bln1, i, i1);
         
-        Object result = jtable.getModel().getValueAt(i, 3);
+        Object result = jtable.getModel().getValueAt(i, 2);
         String type = result.toString();
         Color color = null;
         Color color2 = null;

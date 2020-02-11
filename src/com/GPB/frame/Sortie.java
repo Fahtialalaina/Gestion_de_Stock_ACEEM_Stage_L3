@@ -5,6 +5,8 @@
  */
 package com.GPB.frame;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.awt.print.PrinterException;
@@ -69,9 +71,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         initComponents();
         remove_title_bar();
         clearSortie();
-        ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbachground.setIcon(img);
-        txtrechercherEntree.setText("Taper Numero Sortie");
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
         txtrechercher1Entree.setText("Tapez Reference Sortie");
@@ -87,6 +86,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
         btnsupprimerLS.setEnabled(false);
         //        btnmodifierLS.setEnabled(false);
         btnenregistrerLS.setEnabled(false);
+        btnnvSortie.setEnabled(true);
         btnsupprimerSortie.setEnabled(false);
         btnmodifierSortie.setEnabled(false);
         btnenregistrerSortie.setEnabled(false);
@@ -101,28 +101,56 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
     private void masquerLigneSortie() {
         JPanelLigneEntree.setVisible(false);
-        jPanel4.setVisible(false);
+        impression.setVisible(false);
     }
 
     private void afficherLigneSortie() {
         JPanelLigneEntree.setVisible(true);
-        jPanel4.setVisible(true);
+        impression.setVisible(true);
     }
-
+    
     private void masquerArticle() {
         jButtonRefreshArticle.setVisible(false);
         txtrechercherarticle.setVisible(false);
         txtbackgroundarticle.setVisible(false);
         jScrollPane4.setVisible(false);
         TableArticleSortie.setVisible(false);
+        impression.setVisible(false);
     }
-
     private void afficherArticle() {
         jButtonRefreshArticle.setVisible(true);
         txtrechercherarticle.setVisible(true);
         txtbackgroundarticle.setVisible(true);
         jScrollPane4.setVisible(true);
         TableArticleSortie.setVisible(true);
+        impression.setVisible(true);
+    }
+    
+    public void tabelArticle() {
+        
+        TableArticleSortie.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        TableArticleSortie.getTableHeader().setOpaque(false);
+        TableArticleSortie.getTableHeader().setBackground(new Color(3, 91, 155));
+        TableArticleSortie.getTableHeader().setForeground(new Color(255,255,255));
+        //TableArticle.setRowHeight(25);
+    }
+    
+    public void tabelSortie() {
+        
+        TableSortie.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        TableSortie.getTableHeader().setOpaque(false);
+        TableSortie.getTableHeader().setBackground(new Color(3, 91, 155));
+        TableSortie.getTableHeader().setForeground(new Color(255,255,255));
+        //TableArticle.setRowHeight(25);
+    }
+    
+    public void tabelLS() {
+        
+        TableLigneSortie.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        TableLigneSortie.getTableHeader().setOpaque(false);
+        TableLigneSortie.getTableHeader().setBackground(new Color(3, 91, 155));
+        TableLigneSortie.getTableHeader().setForeground(new Color(255,255,255));
+        //TableArticle.setRowHeight(25);
     }
 
     public void CloseConnexion() {
@@ -293,12 +321,13 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
     private void AffichageArticle() {
         try {
-            String requete = "select NumArticle as 'Numero' ,NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' ,MontantStock as 'Montant en Stock' from article, categorie WHERE\n"
+            String requete = "select NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' ,MontantStock as 'Montant en Stock' from article, categorie WHERE\n"
                     + "(categorie.NumCategorie=article.categorie)";
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
             TableArticleSortie.setModel(DbUtils.resultSetToTableModel(rs5));
             ajusterTableArticleSortie();
+            tabelArticle();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -312,12 +341,13 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
     private void AffichageSortie() {
         try {
-            String requete = "select NumSortie as 'Numero' ,RefSortie as 'Reference' ,Section.NomSection as 'Section' ,DateSortie as 'Date' ,MontantTotalSortie as 'MontantTotal' ,ObservationSortie as 'Observation' from Sortie, Section WHERE\n"
+            String requete = "select RefSortie as 'Reference' ,Section.NomSection as 'Section' ,DateSortie as 'Date' ,MontantTotalSortie as 'MontantTotal' ,ObservationSortie as 'Observation' from Sortie, Section WHERE\n"
                     + "(Section.idSection=Sortie.NumSection)";
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
             TableSortie.setModel(DbUtils.resultSetToTableModel(rs5));
             ajusterTableSortie();
+            tabelSortie();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -331,16 +361,18 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
     private void AffichageLigneSortie(String numSortie) {
         try {
-            String requete = "select NumLigneSortie as 'Numero' ,article.NomArticle as 'Article' ,NbrSortie as 'Nombre' ,puSortie as 'Prix Unitaire' ,MontantSortie as 'Montant' from LigneSortie, article WHERE\n"
+            String requete = "select LigneSortie.NumLigneSortie as 'N°' ,article.NomArticle as 'Article' ,NbrSortie as 'Nombre' ,puSortie as 'Prix Unitaire' ,MontantSortie as 'Montant' from LigneSortie, article WHERE\n"
                     + "article.NumArticle=LigneSortie.NumArticle and LigneSortie.NumSortie like '" + numSortie + "'";
-            ps5 = conn.prepareStatement(requete);
-            rs5 = ps5.executeQuery();
-            TableLigneSortie.setModel(DbUtils.resultSetToTableModel(rs5));
+            ps = conn.prepareStatement(requete);
+            rs = ps.executeQuery();
+            TableLigneSortie.setModel(DbUtils.resultSetToTableModel(rs));
             ajusterTableLigneSortie();
+            tabelLS();
         } catch (SQLException e) {
             System.out.println(e);
+            e.printStackTrace();
         } finally {
-            CloseRsPs5();
+            CloseRsPs1();
         }
         //ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         //txtbackgroundarticle.setIcon(img);
@@ -475,7 +507,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
         try {
             int row = TableArticleSortie.getSelectedRow();
             Sortie.test = (TableArticleSortie.getModel().getValueAt(row, 0).toString());
-            String requet = " select * from article where NumArticle = '" + test + "'";
+            String requet = " select * from article where NomArticle = '" + test + "'";
             ps = conn.prepareStatement(requet);
             rs = ps.executeQuery();
 
@@ -500,7 +532,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
         try {
             int row = TableSortie.getSelectedRow();
             Sortie.test = (TableSortie.getModel().getValueAt(row, 0).toString());
-            String requet = " select * from Sortie where NumSortie = '" + test + "'";
+            String requet = " select * from Sortie where RefSortie = '" + test + "'";
             ps3 = conn.prepareStatement(requet);
             rs3 = ps3.executeQuery();
             String t1 = rs3.getString("NumSortie");
@@ -529,7 +561,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
         } catch (SQLException e) {
             System.out.println(e);
-
+            e.printStackTrace();
         } finally {
             CloseRsPs3();
             CloseRsPs4();
@@ -613,7 +645,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         obs = new javax.swing.JTextArea();
-        jPanel6 = new javax.swing.JPanel();
+        impression = new javax.swing.JPanel();
         printbtn1 = new javax.swing.JButton();
         date = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -646,10 +678,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         btnnvLS = new javax.swing.JButton();
         btnenregistrerLS = new javax.swing.JButton();
         btnsupprimerLS = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        printbtn = new javax.swing.JButton();
-        txtrechercherEntree = new javax.swing.JTextField();
-        txtbachground = new javax.swing.JLabel();
         jButtonRefreshArticle = new javax.swing.JButton();
         txtrechercher1Entree = new javax.swing.JTextField();
         txtbackground1 = new javax.swing.JLabel();
@@ -844,7 +872,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
         obs.setRows(5);
         jScrollPane3.setViewportView(obs);
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
+        impression.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
 
         printbtn1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         printbtn1.setText("Imprimer");
@@ -869,16 +897,16 @@ public final class Sortie extends javax.swing.JInternalFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+        javax.swing.GroupLayout impressionLayout = new javax.swing.GroupLayout(impression);
+        impression.setLayout(impressionLayout);
+        impressionLayout.setHorizontalGroup(
+            impressionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, impressionLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(printbtn1, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        impressionLayout.setVerticalGroup(
+            impressionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(printbtn1, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
@@ -915,7 +943,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(impression, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
         );
         jPanel1Layout.setVerticalGroup(
@@ -951,7 +979,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(impression, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1257,87 +1285,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         getContentPane().add(JPanelLigneEntree);
         JPanelLigneEntree.setBounds(440, 320, 720, 310);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
-
-        printbtn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        printbtn.setText("Imprimer");
-        printbtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        printbtn.setContentAreaFilled(false);
-        printbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        printbtn.setOpaque(true);
-        printbtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                printbtnMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                printbtnMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                printbtnMousePressed(evt);
-            }
-        });
-        printbtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                printbtnActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(printbtn, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(printbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(jPanel4);
-        jPanel4.setBounds(1030, 60, 135, 46);
-
-        txtrechercherEntree.setBackground(new java.awt.Color(240, 240, 240));
-        txtrechercherEntree.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercherEntree.setForeground(new java.awt.Color(3, 91, 155));
-        txtrechercherEntree.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtrechercherEntree.setAlignmentX(0.0F);
-        txtrechercherEntree.setAlignmentY(0.0F);
-        txtrechercherEntree.setBorder(null);
-        txtrechercherEntree.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtrechercherEntreeMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtrechercherEntreeMouseEntered(evt);
-            }
-        });
-        txtrechercherEntree.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtrechercherEntreeActionPerformed(evt);
-            }
-        });
-        txtrechercherEntree.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtrechercherEntreeKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtrechercherEntreeKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtrechercherEntreeKeyTyped(evt);
-            }
-        });
-        getContentPane().add(txtrechercherEntree);
-        txtrechercherEntree.setBounds(10, 80, 200, 10);
-
-        txtbachground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/frame/txt2.png"))); // NOI18N
-        txtbachground.setAlignmentY(0.0F);
-        getContentPane().add(txtbachground);
-        txtbachground.setBounds(0, 70, 220, 30);
-
         jButtonRefreshArticle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/interface.png"))); // NOI18N
         jButtonRefreshArticle.setAlignmentY(0.0F);
         jButtonRefreshArticle.setBorder(null);
@@ -1382,12 +1329,12 @@ public final class Sortie extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtrechercher1Entree);
-        txtrechercher1Entree.setBounds(320, 80, 200, 10);
+        txtrechercher1Entree.setBounds(100, 80, 200, 10);
 
         txtbackground1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/frame/txt2.png"))); // NOI18N
         txtbackground1.setAlignmentY(0.0F);
         getContentPane().add(txtbackground1);
-        txtbackground1.setBounds(310, 70, 220, 30);
+        txtbackground1.setBounds(90, 70, 220, 30);
 
         txtrechercherarticle.setBackground(new java.awt.Color(240, 240, 240));
         txtrechercherarticle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -1475,7 +1422,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(230, 60, 70, 40);
+        jButton2.setBounds(10, 60, 70, 40);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1499,10 +1446,8 @@ public final class Sortie extends javax.swing.JInternalFrame {
             DeplaceSortie();
         } catch (ParseException ex) {
             Logger.getLogger(Sortie.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
-        ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbachground.setIcon(img);
-        txtrechercherEntree.setText("Tapez Numero Sortie");
 
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
@@ -1511,6 +1456,9 @@ public final class Sortie extends javax.swing.JInternalFrame {
         btnmodifierSortie.setEnabled(true);
         btnenregistrerSortie.setEnabled(false);
 
+        btnnvLS.setEnabled(true);
+        btnsupprimerLS.setEnabled(false);
+        btnenregistrerLS.setEnabled(false);
     }//GEN-LAST:event_TableSortieMouseReleased
 
     private void SommeMontant() throws SQLException {
@@ -1785,7 +1733,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         clearLS();
         btnnvLS.setEnabled(true);
         btnsupprimerLS.setEnabled(false);
-//        btnmodifierLS.setEnabled(false);
         btnenregistrerLS.setEnabled(false);
         try {
             SommeMontant();
@@ -1795,68 +1742,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         CloseConnexion();
         RectifierMontantTotalSortie();
     }//GEN-LAST:event_btnsupprimerLSActionPerformed
-
-    private void printbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseEntered
-       
-    }//GEN-LAST:event_printbtnMouseEntered
-
-    private void printbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseExited
-        printbtn.setBackground(new java.awt.Color(240, 240, 240));
-    }//GEN-LAST:event_printbtnMouseExited
-
-    private void printbtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMousePressed
-        printbtn.setBackground(new java.awt.Color(255, 255, 255));
-    }//GEN-LAST:event_printbtnMousePressed
-
-    private void printbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printbtnActionPerformed
-
-//        StringBuilder builder = new StringBuilder();;;
-//        builder.append("BON DE SORTIE");
-//        builder.append(System.getProperty("line.separator"));
-//        builder.append("N°: ");
-//        builder.append(numeroSortie.getText());
-//        builder.append(System.getProperty("line.separator"));
-//        builder.append("Date: ");
-//        builder.append(date.getDate());
-//        builder.append(System.getProperty("line.separator"));
-//        builder.append("Section: ");
-//        builder.append(ComboSection.getSelectedItem());
-//
-//        MessageFormat header = new MessageFormat(builder.toString());
-//        MessageFormat footer = new MessageFormat("Page{0,number,integer}");
-//        try {
-//            TableLigneSortie.print(JTable.PrintMode.NORMAL, header, footer);
-//
-//        } catch (java.awt.print.PrinterException e) {
-//            System.err.format("Erreur d'impression ", e.getMessage());
-//        }
-
-        PrinterJob job = PrinterJob.getPrinterJob();
-        MessageFormat[] header = new MessageFormat[7];
-        header[0] = new MessageFormat("");
-        header[1] = new MessageFormat("");
-        header[2] = new MessageFormat("                                            BON DE SORTIE                                            ");
-        header[3] = new MessageFormat("        N° : "+numeroSortie.getText());
-        header[4] = new MessageFormat("        Section : "+ComboSection.getSelectedItem());
-        header[5] = new MessageFormat("        REF : "+ref.getText());
-        header[6] = new MessageFormat("        Date : "+VarDateSortie);
-
-        MessageFormat[] footer = new MessageFormat[2];
-        footer[0] = new MessageFormat("           Montant Total : "+MontantTotal.getText()+" Ariary");
-        footer[1] = new MessageFormat("");
-        job.setPrintable(new MyTablePrintable(TableLigneSortie, PrintMode.FIT_WIDTH, header, footer));
-
-            if (job.printDialog())
-              try {
-                System.out.println("Calling PrintJob.print()");
-                job.print();
-                System.out.println("End PrintJob.print()");
-              }
-              catch (PrinterException pe) {
-                System.out.println("Error printing: " + pe);
-              }
-
-    }//GEN-LAST:event_printbtnActionPerformed
 
     private void TableLigneSortieMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableLigneSortieMouseClicked
         // TODO add your handling code here:
@@ -1869,9 +1754,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
     private void TableLigneSortieMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableLigneSortieMouseReleased
         ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
         DeplaceLigneSortie();
-        ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbachground.setIcon(img);
-        txtrechercherEntree.setText("Taper Numero Categorie");
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
         txtrechercher1Entree.setText("Taper Nom Categorie");
@@ -2169,62 +2051,18 @@ public final class Sortie extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_refMouseExited
 
-    private void txtrechercherEntreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercherEntreeMouseClicked
-        AffichageSortie();
-        clearSortie();
-
-        ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbachground.setIcon(img);
-        txtrechercherEntree.setText("");
-        ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbackground1.setIcon(img2);
-        txtrechercher1Entree.setText("Taper Reference Sortie");
-
-        ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtrechercherEntreeMouseClicked
-
-    private void txtrechercherEntreeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercherEntreeMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtrechercherEntreeMouseEntered
-
-    private void txtrechercherEntreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtrechercherEntreeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtrechercherEntreeActionPerformed
-
-    private void txtrechercherEntreeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherEntreeKeyPressed
-
-    }//GEN-LAST:event_txtrechercherEntreeKeyPressed
-
-    private void txtrechercherEntreeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherEntreeKeyReleased
-        conn = ConexionBD.Conexion();
-        try {
-            String requete = "select NumSortie as 'Numero' ,RefSortie as 'Reference' ,Section.idSection as 'Section' ,DateSortie as 'Date' ,MontantTotalSortie as 'MontantTotal' ,ObservationSortie as 'Observation' from Sortie, Section WHERE\n"
-                    + "(Section.idSection=Sortie.NumSection) and NumSortie LIKE ?";
-            ps5 = conn.prepareStatement(requete);
-            ps5.setString(1, "%" + txtrechercherEntree.getText() + "%");
-            rs5 = ps5.executeQuery();
-            TableSortie.setModel(DbUtils.resultSetToTableModel(rs5));
-        } catch (SQLException e) {
-            System.out.println(e);
-        } finally {
-            CloseRsPs5();
-            CloseConnexion();
-        }
-
-    }//GEN-LAST:event_txtrechercherEntreeKeyReleased
-
-    private void txtrechercherEntreeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherEntreeKeyTyped
-        clearSortie();
-        ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
-    }//GEN-LAST:event_txtrechercherEntreeKeyTyped
-
     private void jButtonRefreshArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshArticleActionPerformed
+        conn = ConexionBD.Conexion();
         AffichageArticle();
+        CloseConnexion();
         clearLS();
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackgroundarticle.setIcon(img);
-        txtrechercherarticle.setText("Taper Numero ou Nom Sortie");
+        txtrechercherarticle.setText("Taper Nom Article");
+        
+        btnnvLS.setEnabled(true);
+        btnsupprimerLS.setEnabled(false);
+        btnenregistrerLS.setEnabled(false);
     }//GEN-LAST:event_jButtonRefreshArticleActionPerformed
 
     private void txtrechercher1EntreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercher1EntreeMouseClicked
@@ -2232,9 +2070,6 @@ public final class Sortie extends javax.swing.JInternalFrame {
         AffichageSortie();
         clearSortie();
 
-        ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbachground.setIcon(img);
-        txtrechercherEntree.setText("Taper Numero Sortie");
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
         txtrechercher1Entree.setText("");
@@ -2258,12 +2093,14 @@ public final class Sortie extends javax.swing.JInternalFrame {
     private void txtrechercher1EntreeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercher1EntreeKeyReleased
         conn = ConexionBD.Conexion();
         try {
-            String requete = "select NumSortie as 'Numero' ,RefSortie as 'Reference' ,Section.idSection as 'Section' ,DateSortie as 'Date' ,MontantTotalSortie as 'MontantTotal' ,ObservationSortie as 'Observation' from Sortie, Section WHERE\n"
+            String requete = "select RefSortie as 'Reference' ,Section.idSection as 'Section' ,DateSortie as 'Date' ,MontantTotalSortie as 'MontantTotal' ,ObservationSortie as 'Observation' from Sortie, Section WHERE\n"
                     + "(Section.idSection=Sortie.NumSection) and RefSortie LIKE ?";
             ps = conn.prepareStatement(requete);
             ps.setString(1, "%" + txtrechercher1Entree.getText() + "%");
             rs = ps.executeQuery();
             TableSortie.setModel(DbUtils.resultSetToTableModel(rs));
+            ajusterTableSortie();
+            tabelSortie();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -2304,12 +2141,14 @@ public final class Sortie extends javax.swing.JInternalFrame {
     private void txtrechercherarticleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherarticleKeyReleased
         conn = ConexionBD.Conexion();
         try {
-            String requete = "select * from article  where NumArticle LIKE ? or NomArticle LIKE ?";
+            String requete = "select NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' from article, categorie WHERE\n"
+                    + "(categorie.NumCategorie=article.categorie) and NomArticle LIKE ?";
             ps = conn.prepareStatement(requete);
             ps.setString(1, "%" + txtrechercherarticle.getText() + "%");
-            ps.setString(2, "%" + txtrechercherarticle.getText() + "%");
             rs = ps.executeQuery();
             TableArticleSortie.setModel(DbUtils.resultSetToTableModel(rs));
+            ajusterTableArticleSortie();
+            tabelArticle();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -2346,9 +2185,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_puSortieActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbachground.setIcon(img);
-        txtrechercherEntree.setText("Tapez Numero Sortie");
+        
 
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
@@ -2360,6 +2197,11 @@ public final class Sortie extends javax.swing.JInternalFrame {
         masquerLigneSortie();
         clearSortie();
         CloseConnexion();
+        
+        btnnvSortie.setEnabled(true);
+        btnsupprimerSortie.setEnabled(false);
+        btnmodifierSortie.setEnabled(false);
+        btnenregistrerSortie.setEnabled(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2380,6 +2222,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private com.toedter.calendar.JDateChooser date;
+    private javax.swing.JPanel impression;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonRefreshArticle;
     private javax.swing.JLabel jLabel1;
@@ -2395,9 +2238,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanelActionLigneEntree;
     private javax.swing.JPanel jPanelFormLigneEntree;
     private javax.swing.JScrollPane jScrollPane1;
@@ -2408,15 +2249,12 @@ public final class Sortie extends javax.swing.JInternalFrame {
     private javax.swing.JLabel numeroLigneSortie;
     private javax.swing.JLabel numeroSortie;
     private javax.swing.JTextArea obs;
-    private javax.swing.JButton printbtn;
     private javax.swing.JButton printbtn1;
     private javax.swing.JTextField puSortie;
     private javax.swing.JTextField ref;
-    private javax.swing.JLabel txtbachground;
     private javax.swing.JLabel txtbackground1;
     private javax.swing.JLabel txtbackgroundarticle;
     private javax.swing.JTextField txtrechercher1Entree;
-    private javax.swing.JTextField txtrechercherEntree;
     private javax.swing.JTextField txtrechercherarticle;
     // End of variables declaration//GEN-END:variables
 }

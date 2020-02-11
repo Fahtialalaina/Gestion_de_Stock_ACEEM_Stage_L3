@@ -49,11 +49,10 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         conn4 = ConexionBD.Conexion();
         Affichage();
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbachground.setIcon(img);
-        txtrechercher.setText("Taper Numero Fournisseur");
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
         txtrechercher1.setText("Taper Nom Fournisseur");
+        btnnv.setEnabled(true);
         btnsupprimer.setEnabled(false);
         btnmodifier.setEnabled(false);
         btnenregistrer.setEnabled(false);
@@ -107,7 +106,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
 
     private void Affichage() {
         try {
-            String requete = "select NumFournisseur as 'Numero' ,NomFournisseur as 'Nom du Fournisseur' from Fournisseur";
+            String requete = "select NomFournisseur as 'Nom du Fournisseur' from Fournisseur";
             ps = conn4.prepareStatement(requete);
             rs = ps.executeQuery();
             Table.setModel(DbUtils.resultSetToTableModel(rs));
@@ -132,7 +131,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
 
             int row = Table.getSelectedRow();
             Fournisseur.test = (Table.getModel().getValueAt(row, 0).toString());
-            String requet = " select * from  Fournisseur where NumFournisseur = '" + test + "' ";
+            String requet = " select * from  Fournisseur where NomFournisseur = '" + test + "' ";
             ps = conn4.prepareStatement(requet);
             rs = ps.executeQuery();
 
@@ -185,8 +184,6 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         txtNumBanque = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         numero = new javax.swing.JLabel();
-        txtrechercher = new javax.swing.JTextField();
-        txtbachground = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable(){
             public boolean isCellEditable(int d , int c){
@@ -243,11 +240,11 @@ public class Fournisseur extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(txtrechercher1);
-        txtrechercher1.setBounds(312, 89, 213, 14);
+        txtrechercher1.setBounds(100, 90, 200, 10);
 
         txtbackground1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/frame/txt2.png"))); // NOI18N
         getContentPane().add(txtbackground1);
-        txtbackground1.setBounds(310, 80, 220, 30);
+        txtbackground1.setBounds(90, 80, 220, 30);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/interface.png"))); // NOI18N
         jButton1.setBorder(null);
@@ -258,7 +255,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(230, 70, 70, 40);
+        jButton1.setBounds(10, 70, 70, 40);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true), "Formulaire Fournisseur :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 3, 12))); // NOI18N
         jPanel1.setForeground(new java.awt.Color(0, 0, 204));
@@ -313,43 +310,6 @@ public class Fournisseur extends javax.swing.JInternalFrame {
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(538, 115, 270, 110);
-
-        txtrechercher.setBackground(new java.awt.Color(240, 240, 240));
-        txtrechercher.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        txtrechercher.setForeground(new java.awt.Color(3, 91, 155));
-        txtrechercher.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtrechercher.setBorder(null);
-        txtrechercher.setDoubleBuffered(true);
-        txtrechercher.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtrechercherMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtrechercherMouseEntered(evt);
-            }
-        });
-        txtrechercher.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtrechercherActionPerformed(evt);
-            }
-        });
-        txtrechercher.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtrechercherKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtrechercherKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtrechercherKeyTyped(evt);
-            }
-        });
-        getContentPane().add(txtrechercher);
-        txtrechercher.setBounds(4, 89, 213, 14);
-
-        txtbachground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/frame/txt2.png"))); // NOI18N
-        getContentPane().add(txtbachground);
-        txtbachground.setBounds(0, 80, 220, 30);
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Listes des Fournisseurs :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 3, 12))); // NOI18N
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -597,15 +557,18 @@ public class Fournisseur extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Affichage();
-
+        clear();
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbachground.setIcon(img);
-        txtrechercher.setText("Taper Numero Fournisseur");
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
         txtrechercher1.setText("Taper Nom Fournisseur");
 
         ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
+        
+        btnnv.setEnabled(true);
+        btnsupprimer.setEnabled(false);
+        btnmodifier.setEnabled(false);
+        btnenregistrer.setEnabled(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtrechercher1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercher1MouseClicked
@@ -615,8 +578,6 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         txtbackground1.setIcon(img2);
         txtrechercher1.setText("");
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbachground.setIcon(img);
-        txtrechercher.setText("Taper Numero Fournisseur");
 
         ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
 
@@ -636,7 +597,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
 
     private void txtrechercher1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercher1KeyReleased
         try {
-            String requete = "select NumFournisseur as 'Numero' ,NomFournisseur as 'Nom du Fournisseur' from Fournisseur  where NomFournisseur LIKE ?";
+            String requete = "select NomFournisseur as 'Nom du Fournisseur' from Fournisseur  where NomFournisseur LIKE ?";
             ps = conn4.prepareStatement(requete);
             ps.setString(1, "%" + txtrechercher1.getText() + "%");
             rs = ps.executeQuery();
@@ -663,63 +624,6 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
     }//GEN-LAST:event_txtrechercher1KeyTyped
 
-    private void txtrechercherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercherMouseClicked
-        Affichage();
-        clear();
-
-        ImageIcon img = new ImageIcon(getClass().getResource("txt1.png"));
-        txtbachground.setIcon(img);
-        txtrechercher.setText("");
-        ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbackground1.setIcon(img2);
-        txtrechercher1.setText("Taper Nom Fournisseur");
-
-        ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtrechercherMouseClicked
-
-    private void txtrechercherMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercherMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtrechercherMouseEntered
-
-    private void txtrechercherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtrechercherActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtrechercherActionPerformed
-
-    private void txtrechercherKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherKeyPressed
-
-    }//GEN-LAST:event_txtrechercherKeyPressed
-
-    private void txtrechercherKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherKeyReleased
-
-        try {
-            String requete = "select NumFournisseur as 'Numero' ,NomFournisseur as 'Nom du Fournisseur' from Fournisseur  where NumFournisseur LIKE ?";
-            ps = conn4.prepareStatement(requete);
-            ps.setString(1, "%" + txtrechercher.getText() + "%");
-            rs = ps.executeQuery();
-            Table.setModel(DbUtils.resultSetToTableModel(rs));
-            ps.close();
-            rs.close();
-        } catch (SQLException e) {
-            System.out.println(e);
-        } finally {
-
-            try {
-                ps.close();
-                rs.close();
-
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "erreur BD");
-            }
-        }
-    }//GEN-LAST:event_txtrechercherKeyReleased
-
-    private void txtrechercherKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtrechercherKeyTyped
-        clear();
-        ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
-
-    }//GEN-LAST:event_txtrechercherKeyTyped
-
     private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
 
     }//GEN-LAST:event_TableMouseClicked
@@ -733,8 +637,6 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         ImageIcon img202 = new ImageIcon(getClass().getResource("file_image_1.png"));
         Deplace();
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
-        txtbachground.setIcon(img);
-        txtrechercher.setText("Taper Numero Fournisseur");
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
         txtrechercher1.setText("Taper Nom Fournisseur");
@@ -958,9 +860,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
     private javax.swing.JLabel numero;
     private javax.swing.JButton printbtn;
     private javax.swing.JTextField txtNumBanque;
-    private javax.swing.JLabel txtbachground;
     private javax.swing.JLabel txtbackground1;
-    private javax.swing.JTextField txtrechercher;
     private javax.swing.JTextField txtrechercher1;
     // End of variables declaration//GEN-END:variables
 }
