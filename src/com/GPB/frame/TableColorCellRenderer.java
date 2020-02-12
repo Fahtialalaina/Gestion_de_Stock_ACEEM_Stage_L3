@@ -28,10 +28,10 @@ public class TableColorCellRenderer implements TableCellRenderer{
         Color color2 = null;
             if(type.equals("NON OK")){
                 color = Color.RED;
-                color2 = Color.WHITE;
+                color2 = Color.white;
             }else if(type.equals("OK")){
                 color = Color.GREEN;
-                color2 = Color.WHITE;
+                color2 = Color.BLACK;
             }
          c.setBackground(color);
          c.setForeground(color2);

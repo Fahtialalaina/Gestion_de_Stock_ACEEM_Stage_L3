@@ -5,6 +5,7 @@
  */
 package com.GPB.frame;
 
+import static com.GPB.frame.Password.checkPassword;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +21,8 @@ public class LoginGUI extends javax.swing.JFrame {
 
     int xMouse;
     int yMouse;
-    public static String t1;
+    public static String login;
+    public static String role;
     Connection conn = null;
     ResultSet rs = null;
     PreparedStatement ps = null;
@@ -248,19 +250,26 @@ public class LoginGUI extends javax.swing.JFrame {
 
     private void btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMouseClicked
         conn = ConexionBD.Conexion();
-        String requete = "select * from login_table where login = ? and password =? ";
+        String requete = "select * from login_table where login = ?";
         try {
 
             ps = conn.prepareStatement(requete);
             ps.setString(1, txtlogin.getText());
-            ps.setString(2, txtpassword.getText());
             rs = ps.executeQuery();
             if (rs.next()) {
-                this.t1 = rs.getString("login");
-//          System.out.println(t1 ) ;  
-//          JOptionPane.showMessageDialog(null, t1);
-                dispose();
-                new AcceuilGui().setVisible(true);
+                
+                if(checkPassword(txtpassword.getText(), rs.getString("password"))){
+                    this.login = rs.getString("login");
+                    this.role = rs.getString("role");
+                    dispose();
+                    new AcceuilGui().setVisible(true);
+                }else{
+                    Description.setForeground(Color.red);
+                    Description.setText("Mot de passe incorrect");
+                }
+            }else{
+                Description.setForeground(Color.red);
+                Description.setText("Login incorrect");
             }
 
         } catch (Exception e) {
@@ -275,8 +284,7 @@ public class LoginGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "erreur BD");
             }
         }
-        Description.setForeground(Color.red);
-        Description.setText("Choix invalide");
+        
 
         //txtlogin.setBackground(Color.red);
         // txtlogin.setForeground(Color.red);
@@ -286,7 +294,7 @@ public class LoginGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnMouseClicked
     public String utilisateur() {
-        return t1;
+        return login;
     }
     private void txtloginMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtloginMouseMoved
         Description.setText("Veuillez entrer votre  login pour accéder à votre session");

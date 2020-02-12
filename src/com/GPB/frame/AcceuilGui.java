@@ -36,62 +36,37 @@ public class AcceuilGui extends javax.swing.JFrame {
      */
     public AcceuilGui() throws SQLException {
         initComponents();
-        datecourante();
+        
+        if(LoginGUI.role.equals("USER")){
+            Utilisateur.setVisible(false);
+        }
         //this.setIconImage(new ImageIcon(getClass().getResource("logocar.png")).getImage());
         connAccueil = ConexionBD.Conexion();
         recuperutlisateur();
         ActionEvent evt = null;
         JournalActionPerformed(evt);
         
-        Article.setBackground(new java.awt.Color(153, 153, 153));
-        Section.setBackground(new java.awt.Color(153, 153, 153));
-        Entree.setBackground(new java.awt.Color(153, 153, 153));
-        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
-        Sortie.setBackground(new java.awt.Color(153, 153, 153));
-        Journal.setBackground(new java.awt.Color(3, 91, 155));
-        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
+//        Article.setBackground(new java.awt.Color(153, 153, 153));
+//        Section.setBackground(new java.awt.Color(153, 153, 153));
+//        Entree.setBackground(new java.awt.Color(153, 153, 153));
+//        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
+//        Sortie.setBackground(new java.awt.Color(153, 153, 153));
+//        Journal.setBackground(new java.awt.Color(3, 91, 155));
+//        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
+        
+        Journal.setBorderPainted(true);
+        Article.setBorderPainted(false);
+        Section.setBorderPainted(false);
+        Entree.setBorderPainted(false);
+        Fournisseur.setBorderPainted(false);
+        Sortie.setBorderPainted(false);
+        
+        if(LoginGUI.role.equals("ADMIN")){
+            Utilisateur.setBorderPainted(false);
+        }
     }
 
-    private void datecourante() {
-        Thread clock = new Thread() {
-            @Override
-            public void run() {
-                for (;;) {
-                    Calendar Cal = new GregorianCalendar();
-
-                    int sconde = Cal.get(Calendar.SECOND);
-                    int minute = Cal.get(Calendar.MINUTE);
-                    int heure = Cal.get(Calendar.HOUR);
-                    int AM_PM = Cal.get(Calendar.AM_PM);
-                    String pa;
-                    if (AM_PM == 1) {
-                        pa = "PM";
-                    } else {
-                        pa = "AM";
-                    }
-
-                    labDate.setText(+heure + ":" + (minute) + ":" + sconde + " " + pa);
-
-                    int mois = Cal.get(Calendar.MONTH);
-                    int annee = Cal.get(Calendar.YEAR);
-                    int jour = Cal.get(Calendar.DAY_OF_MONTH);
-
-                    labdate2.setText(+jour + "/" + (mois + 1) + "/" + annee);
-
-                    try {
-                        sleep(1000);
-
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(Calendar.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-            }
-
-        };
-
-        clock.start();
-    }
+    
 
     private void recuperutlisateur() {
         LoginGUI lo = new LoginGUI();
@@ -136,9 +111,6 @@ public class AcceuilGui extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        labDate = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        labdate2 = new javax.swing.JLabel();
         logomax = new javax.swing.JLabel();
         menublanc = new javax.swing.JLabel();
         desk = new javax.swing.JDesktopPane();
@@ -153,7 +125,6 @@ public class AcceuilGui extends javax.swing.JFrame {
         Entree = new javax.swing.JButton();
         Fournisseur = new javax.swing.JButton();
         Sortie = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -165,30 +136,6 @@ public class AcceuilGui extends javax.swing.JFrame {
             }
         });
         getContentPane().setLayout(null);
-
-        labDate.setFont(new java.awt.Font("Alpha Echo", 1, 24)); // NOI18N
-        labDate.setForeground(new java.awt.Color(255, 255, 255));
-        labDate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labDate.setText("10:15:30 PM");
-        getContentPane().add(labDate);
-        labDate.setBounds(570, 30, 180, 30);
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/info.png"))); // NOI18N
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
-            }
-        });
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(1170, 30, 34, 30);
-
-        labdate2.setFont(new java.awt.Font("Aaargh", 0, 14)); // NOI18N
-        labdate2.setForeground(new java.awt.Color(255, 255, 255));
-        labdate2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labdate2.setText("12/02/2016");
-        getContentPane().add(labdate2);
-        labdate2.setBounds(730, 30, 140, 30);
 
         logomax.setFont(new java.awt.Font("Armalite Rifle", 1, 24)); // NOI18N
         logomax.setForeground(new java.awt.Color(3, 91, 155));
@@ -206,15 +153,15 @@ public class AcceuilGui extends javax.swing.JFrame {
         desk.setLayout(deskLayout);
         deskLayout.setHorizontalGroup(
             deskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1180, Short.MAX_VALUE)
+            .addGap(0, 1190, Short.MAX_VALUE)
         );
         deskLayout.setVerticalGroup(
             deskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 640, Short.MAX_VALUE)
+            .addGap(0, 670, Short.MAX_VALUE)
         );
 
         getContentPane().add(desk);
-        desk.setBounds(170, 70, 1180, 640);
+        desk.setBounds(170, 40, 1190, 670);
 
         type.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         type.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -233,14 +180,11 @@ public class AcceuilGui extends javax.swing.JFrame {
 
         jDesktopPane1.setBackground(new java.awt.Color(240, 240, 240));
 
-        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
         Utilisateur.setFont(new java.awt.Font("Bebas Neue Bold", 1, 18)); // NOI18N
-        Utilisateur.setForeground(new java.awt.Color(255, 255, 255));
+        Utilisateur.setForeground(new java.awt.Color(3, 91, 155));
         Utilisateur.setText("Utilisateurs");
-        Utilisateur.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
-        Utilisateur.setContentAreaFilled(false);
+        Utilisateur.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(3, 91, 155)));
         Utilisateur.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        Utilisateur.setOpaque(true);
         Utilisateur.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 UtilisateurMouseReleased(evt);
@@ -252,14 +196,13 @@ public class AcceuilGui extends javax.swing.JFrame {
             }
         });
 
-        Journal.setBackground(new java.awt.Color(153, 153, 153));
         Journal.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
-        Journal.setForeground(new java.awt.Color(255, 255, 255));
+        Journal.setForeground(new java.awt.Color(3, 91, 155));
         Journal.setText("Journal");
-        Journal.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
-        Journal.setContentAreaFilled(false);
+        Journal.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(3, 91, 155)));
         Journal.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        Journal.setOpaque(true);
+        Journal.setOpaque(false);
+        Journal.setVerifyInputWhenFocusTarget(false);
         Journal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 JournalMouseEntered(evt);
@@ -277,14 +220,11 @@ public class AcceuilGui extends javax.swing.JFrame {
             }
         });
 
-        Section.setBackground(new java.awt.Color(153, 153, 153));
         Section.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
-        Section.setForeground(new java.awt.Color(255, 255, 255));
+        Section.setForeground(new java.awt.Color(3, 91, 155));
         Section.setText("Section");
-        Section.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
-        Section.setContentAreaFilled(false);
+        Section.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(3, 91, 155)));
         Section.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        Section.setOpaque(true);
         Section.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 SectionMouseReleased(evt);
@@ -296,14 +236,11 @@ public class AcceuilGui extends javax.swing.JFrame {
             }
         });
 
-        Article.setBackground(new java.awt.Color(153, 153, 153));
         Article.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
-        Article.setForeground(new java.awt.Color(255, 255, 255));
+        Article.setForeground(new java.awt.Color(3, 91, 155));
         Article.setText("Article");
-        Article.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
-        Article.setContentAreaFilled(false);
+        Article.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(3, 91, 155)));
         Article.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        Article.setOpaque(true);
         Article.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 ArticleMouseReleased(evt);
@@ -315,14 +252,11 @@ public class AcceuilGui extends javax.swing.JFrame {
             }
         });
 
-        Entree.setBackground(new java.awt.Color(153, 153, 153));
         Entree.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
-        Entree.setForeground(new java.awt.Color(255, 255, 255));
+        Entree.setForeground(new java.awt.Color(3, 91, 155));
         Entree.setText("Entrée");
-        Entree.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
-        Entree.setContentAreaFilled(false);
+        Entree.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(3, 91, 155)));
         Entree.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        Entree.setOpaque(true);
         Entree.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 EntreeMouseReleased(evt);
@@ -334,14 +268,11 @@ public class AcceuilGui extends javax.swing.JFrame {
             }
         });
 
-        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
         Fournisseur.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
-        Fournisseur.setForeground(new java.awt.Color(255, 255, 255));
+        Fournisseur.setForeground(new java.awt.Color(3, 91, 155));
         Fournisseur.setText("Fournisseur");
-        Fournisseur.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
-        Fournisseur.setContentAreaFilled(false);
+        Fournisseur.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(3, 91, 155)));
         Fournisseur.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        Fournisseur.setOpaque(true);
         Fournisseur.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 FournisseurMouseReleased(evt);
@@ -353,14 +284,11 @@ public class AcceuilGui extends javax.swing.JFrame {
             }
         });
 
-        Sortie.setBackground(new java.awt.Color(153, 153, 153));
         Sortie.setFont(new java.awt.Font("Bebas Neue Bold", 0, 18)); // NOI18N
-        Sortie.setForeground(new java.awt.Color(255, 255, 255));
+        Sortie.setForeground(new java.awt.Color(3, 91, 155));
         Sortie.setText("Sortie");
-        Sortie.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 1, new java.awt.Color(3, 91, 155)));
-        Sortie.setContentAreaFilled(false);
+        Sortie.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(3, 91, 155)));
         Sortie.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        Sortie.setOpaque(true);
         Sortie.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 SortieMouseReleased(evt);
@@ -391,7 +319,7 @@ public class AcceuilGui extends javax.swing.JFrame {
                     .addComponent(Article, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Section, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Entree, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Journal, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Journal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Fournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Sortie, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
@@ -400,8 +328,8 @@ public class AcceuilGui extends javax.swing.JFrame {
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(Journal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Journal, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Article, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Fournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -413,31 +341,15 @@ public class AcceuilGui extends javax.swing.JFrame {
                 .addComponent(Sortie, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Utilisateur, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(105, 105, 105))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
 
         getContentPane().add(jDesktopPane1);
-        jDesktopPane1.setBounds(10, 140, 170, 500);
-
-        jPanel1.setBackground(new java.awt.Color(3, 91, 155));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1370, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 30, 1370, 30);
+        jDesktopPane1.setBounds(10, 110, 170, 570);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/logo2.png"))); // NOI18N
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(10, 70, 140, 70);
+        jLabel3.setBounds(10, 40, 140, 70);
 
         setSize(new java.awt.Dimension(1382, 759));
         setLocationRelativeTo(null);
@@ -486,31 +398,39 @@ public class AcceuilGui extends javax.swing.JFrame {
     }//GEN-LAST:event_SectionActionPerformed
 
     private void UtilisateurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UtilisateurActionPerformed
-        this.desk.removeAll();
-        this.desk.repaint();
-
-        Utilisateur ex = new Utilisateur();
-        this.desk.add(ex);
-        try {
-            ex.setMaximum(true);
-        } catch (PropertyVetoException ex1) {
+        try {                                            
+            this.desk.removeAll();
+            this.desk.repaint();
+            
+            Utilisateur ex = new Utilisateur();
+            this.desk.add(ex);
+            try {
+                ex.setMaximum(true);
+            } catch (PropertyVetoException ex1) {
+                Logger.getLogger(AcceuilGui.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            ex.show();
+        } catch (SQLException ex1) {
             Logger.getLogger(AcceuilGui.class.getName()).log(Level.SEVERE, null, ex1);
         }
-        ex.show();
     }//GEN-LAST:event_UtilisateurActionPerformed
 
     private void JournalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JournalMouseReleased
-        Article.setBackground(new java.awt.Color(153, 153, 153));
-        Section.setBackground(new java.awt.Color(153, 153, 153));
-        Entree.setBackground(new java.awt.Color(153, 153, 153));
-        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
-        Sortie.setBackground(new java.awt.Color(153, 153, 153));
-        Journal.setBackground(new java.awt.Color(3, 91, 155));
-        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
+        Journal.setBorderPainted(true);
+        Article.setBorderPainted(false);
+        Section.setBorderPainted(false);
+        Entree.setBorderPainted(false);
+        Fournisseur.setBorderPainted(false);
+        Sortie.setBorderPainted(false);
+        if(LoginGUI.role.equals("ADMIN")){
+            Utilisateur.setBorderPainted(false);
+        }
+        
     }//GEN-LAST:event_JournalMouseReleased
 
     private void JournalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JournalMouseEntered
 //     candidatbtn.setBackground(new java.awt.Color(51,2,255));
+        
     }//GEN-LAST:event_JournalMouseEntered
 
     private void JournalMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JournalMouseExited
@@ -518,84 +438,37 @@ public class AcceuilGui extends javax.swing.JFrame {
     }//GEN-LAST:event_JournalMouseExited
 
     private void SectionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SectionMouseReleased
-        Article.setBackground(new java.awt.Color(153, 153, 153));
-        Section.setBackground(new java.awt.Color(3, 91, 155));
-        Entree.setBackground(new java.awt.Color(153, 153, 153));
-        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
-        Sortie.setBackground(new java.awt.Color(153, 153, 153));
-        Journal.setBackground(new java.awt.Color(153, 153, 153));
-        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
+        Journal.setBorderPainted(false);
+        Article.setBorderPainted(false);
+        Section.setBorderPainted(true);
+        Entree.setBorderPainted(false);
+        Fournisseur.setBorderPainted(false);
+        Sortie.setBorderPainted(false);
+        if(LoginGUI.role.equals("ADMIN")){
+            Utilisateur.setBorderPainted(false);
+        }
     }//GEN-LAST:event_SectionMouseReleased
 
     private void UtilisateurMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UtilisateurMouseReleased
-        Article.setBackground(new java.awt.Color(153, 153, 153));
-        Section.setBackground(new java.awt.Color(153, 153, 153));
-        Entree.setBackground(new java.awt.Color(153, 153, 153));
-        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
-        Sortie.setBackground(new java.awt.Color(153, 153, 153));
-        Journal.setBackground(new java.awt.Color(153, 153, 153));
-        Utilisateur.setBackground(new java.awt.Color(3, 91, 155));
+        Journal.setBorderPainted(false);
+        Article.setBorderPainted(false);
+        Section.setBorderPainted(false);
+        Entree.setBorderPainted(false);
+        Fournisseur.setBorderPainted(false);
+        Sortie.setBorderPainted(false);
+        Utilisateur.setBorderPainted(true);
     }//GEN-LAST:event_UtilisateurMouseReleased
 
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        String v = "<html>\n" +
-"    <head></head>\n" +
-"    <body>\n" +
-"        <h3 color ='#2C4CCC'>\n" +
-"            <center>\n" +
-"                <br>\n" +
-"                <p>\n" +
-"                    <b>\n" +
-"                        <i>GESTION DE STOCK ACEEM</i>\n" +
-"                    </b>\n" +
-"                </p>  \n" +
-"                <br>\n" +
-"                <p>\n" +
-"                    <b>\n" +
-"                        <i>Logiciel developpé par Fandresena</i>\n" +
-"                    </b>\n" +
-"                </p>\n" +
-"                <br>\n" +
-"                <br>\n" +
-"                <br>\n" +
-"                <p>\n" +
-"                    <b>\n" +
-"                        <i>Tous droit reservé</i>\n" +
-"                    </b>\n" +
-"                </p>\n" +
-"                <br>\n" +
-"                <br>\n" +
-"                <p>\n" +
-"                    <b>\n" +
-"                        <i>2020</i>\n" +
-"                    </b>\n" +
-"                </p>\n" +
-"                <br>\n" +
-"                <br>\n" +
-"                <p>\n" +
-"                    <b>\n" +
-"                        <i>---------</i>\n" +
-"                    </b>\n" +
-"                </p>\n" +
-"            </center>\n" +
-"        </h3>\n" +
-"    </body>\n" +
-"</html>";
-        JOptionPane p = new JOptionPane();
-        p.setMessage(v);
-        p.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-        JDialog d = p.createDialog(null, "Information sur le logiciel ");
-        d.setVisible(true);
-    }//GEN-LAST:event_jLabel2MouseClicked
-
     private void ArticleMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ArticleMouseReleased
-        Article.setBackground(new java.awt.Color(3, 91, 155));
-        Section.setBackground(new java.awt.Color(153, 153, 153));
-        Entree.setBackground(new java.awt.Color(153, 153, 153));
-        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
-        Sortie.setBackground(new java.awt.Color(153, 153, 153));
-        Journal.setBackground(new java.awt.Color(153, 153, 153));
-        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
+        Journal.setBorderPainted(false);
+        Article.setBorderPainted(true);
+        Section.setBorderPainted(false);
+        Entree.setBorderPainted(false);
+        Fournisseur.setBorderPainted(false);
+        Sortie.setBorderPainted(false);
+        if(LoginGUI.role.equals("ADMIN")){
+            Utilisateur.setBorderPainted(false);
+        }
     }//GEN-LAST:event_ArticleMouseReleased
 
     private void ArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ArticleActionPerformed
@@ -618,13 +491,15 @@ public class AcceuilGui extends javax.swing.JFrame {
     }//GEN-LAST:event_ArticleActionPerformed
 
     private void EntreeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EntreeMouseReleased
-        Article.setBackground(new java.awt.Color(153, 153, 153));
-        Section.setBackground(new java.awt.Color(153, 153, 153));
-        Entree.setBackground(new java.awt.Color(3, 91, 155));
-        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
-        Sortie.setBackground(new java.awt.Color(153, 153, 153));
-        Journal.setBackground(new java.awt.Color(153, 153, 153));
-        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
+        Journal.setBorderPainted(false);
+        Article.setBorderPainted(false);
+        Section.setBorderPainted(false);
+        Entree.setBorderPainted(true);
+        Fournisseur.setBorderPainted(false);
+        Sortie.setBorderPainted(false);
+        if(LoginGUI.role.equals("ADMIN")){
+            Utilisateur.setBorderPainted(false);
+        }
     }//GEN-LAST:event_EntreeMouseReleased
 
     private void EntreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntreeActionPerformed
@@ -647,13 +522,15 @@ public class AcceuilGui extends javax.swing.JFrame {
     }//GEN-LAST:event_EntreeActionPerformed
 
     private void FournisseurMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FournisseurMouseReleased
-        Article.setBackground(new java.awt.Color(153, 153, 153));
-        Section.setBackground(new java.awt.Color(153, 153, 153));
-        Entree.setBackground(new java.awt.Color(153, 153, 153));
-        Fournisseur.setBackground(new java.awt.Color(3, 91, 155));
-        Sortie.setBackground(new java.awt.Color(153, 153, 153));
-        Journal.setBackground(new java.awt.Color(153, 153, 153));
-        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
+        Journal.setBorderPainted(false);
+        Article.setBorderPainted(false);
+        Section.setBorderPainted(false);
+        Entree.setBorderPainted(false);
+        Fournisseur.setBorderPainted(true);
+        Sortie.setBorderPainted(false);
+        if(LoginGUI.role.equals("ADMIN")){
+            Utilisateur.setBorderPainted(false);
+        }
     }//GEN-LAST:event_FournisseurMouseReleased
 
     private void FournisseurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FournisseurActionPerformed
@@ -676,13 +553,15 @@ public class AcceuilGui extends javax.swing.JFrame {
     }//GEN-LAST:event_FournisseurActionPerformed
 
     private void SortieMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SortieMouseReleased
-        Article.setBackground(new java.awt.Color(153, 153, 153));
-        Section.setBackground(new java.awt.Color(153, 153, 153));
-        Entree.setBackground(new java.awt.Color(153, 153, 153));
-        Fournisseur.setBackground(new java.awt.Color(153, 153, 153));
-        Sortie.setBackground(new java.awt.Color(3, 91, 155));
-        Journal.setBackground(new java.awt.Color(153, 153, 153));
-        Utilisateur.setBackground(new java.awt.Color(153, 153, 153));
+        Journal.setBorderPainted(false);
+        Article.setBorderPainted(false);
+        Section.setBorderPainted(false);
+        Entree.setBorderPainted(false);
+        Fournisseur.setBorderPainted(false);
+        Sortie.setBorderPainted(true);
+        if(LoginGUI.role.equals("ADMIN")){
+            Utilisateur.setBorderPainted(false);
+        }
     }//GEN-LAST:event_SortieMouseReleased
 
     private void SortieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SortieActionPerformed
@@ -752,11 +631,7 @@ public class AcceuilGui extends javax.swing.JFrame {
     private javax.swing.JDesktopPane desk;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel labDate;
-    private javax.swing.JLabel labdate2;
     private javax.swing.JLabel lnom;
     private javax.swing.JLabel logomax;
     private javax.swing.JLabel menublanc;

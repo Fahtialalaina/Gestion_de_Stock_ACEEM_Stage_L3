@@ -65,6 +65,12 @@ public final class Entree extends javax.swing.JInternalFrame {
         
         initComponents();
         remove_title_bar();
+        
+        if(LoginGUI.role.equals("USER")){
+            btnsupprimerEntree.setVisible(false);
+            btnmodifierEntree.setVisible(false);
+        }
+        
         clearEntree();
         
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
@@ -698,10 +704,8 @@ public final class Entree extends javax.swing.JInternalFrame {
         btnnvEntree.setText("Nouveau");
         btnnvEntree.setToolTipText("");
         btnnvEntree.setAutoscrolls(true);
-        btnnvEntree.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnnvEntree.setContentAreaFilled(false);
+        btnnvEntree.setBorder(null);
         btnnvEntree.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnnvEntree.setOpaque(true);
         btnnvEntree.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnnvEntreeMouseEntered(evt);
@@ -724,9 +728,7 @@ public final class Entree extends javax.swing.JInternalFrame {
 
         btnenregistrerEntree.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnenregistrerEntree.setText("Enregistrer");
-        btnenregistrerEntree.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnenregistrerEntree.setContentAreaFilled(false);
-        btnenregistrerEntree.setOpaque(true);
+        btnenregistrerEntree.setBorder(null);
         btnenregistrerEntree.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnenregistrerEntreeMouseEntered(evt);
@@ -746,10 +748,8 @@ public final class Entree extends javax.swing.JInternalFrame {
 
         btnmodifierEntree.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnmodifierEntree.setText("Modifier");
-        btnmodifierEntree.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnmodifierEntree.setContentAreaFilled(false);
+        btnmodifierEntree.setBorder(null);
         btnmodifierEntree.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnmodifierEntree.setOpaque(true);
         btnmodifierEntree.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 btnmodifierEntreeMouseMoved(evt);
@@ -777,10 +777,8 @@ public final class Entree extends javax.swing.JInternalFrame {
 
         btnsupprimerEntree.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnsupprimerEntree.setText("Supprimer");
-        btnsupprimerEntree.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnsupprimerEntree.setContentAreaFilled(false);
+        btnsupprimerEntree.setBorder(null);
         btnsupprimerEntree.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnsupprimerEntree.setOpaque(true);
         btnsupprimerEntree.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnsupprimerEntreeMouseEntered(evt);
@@ -809,7 +807,7 @@ public final class Entree extends javax.swing.JInternalFrame {
                     .addComponent(btnnvEntree, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnenregistrerEntree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnenregistrerEntree, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnmodifierEntree, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
@@ -839,9 +837,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         printbtn1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         printbtn1.setText("Imprimer");
         printbtn1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        printbtn1.setContentAreaFilled(false);
         printbtn1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        printbtn1.setOpaque(true);
         printbtn1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 printbtn1MouseEntered(evt);
@@ -878,10 +874,6 @@ public final class Entree extends javax.swing.JInternalFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(impression, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -900,12 +892,14 @@ public final class Entree extends javax.swing.JInternalFrame {
                             .addComponent(jScrollPane3)
                             .addComponent(date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(38, 38, 38)
-                        .addComponent(numeroEntree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(numeroEntree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(impression, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -938,15 +932,15 @@ public final class Entree extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(impression, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 100, 440, 530);
+        jPanel1.setBounds(0, 120, 440, 550);
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Listes des Entrees :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 3, 12))); // NOI18N
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -983,7 +977,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(TableEntree);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(440, 110, 490, 200);
+        jScrollPane1.setBounds(440, 110, 490, 240);
 
         jPanel5.setBackground(new java.awt.Color(3, 91, 155));
 
@@ -1127,10 +1121,8 @@ public final class Entree extends javax.swing.JInternalFrame {
         btnnvLE.setText("Nouveau");
         btnnvLE.setToolTipText("");
         btnnvLE.setAutoscrolls(true);
-        btnnvLE.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnnvLE.setContentAreaFilled(false);
+        btnnvLE.setBorder(null);
         btnnvLE.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnnvLE.setOpaque(true);
         btnnvLE.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnnvLEMouseEntered(evt);
@@ -1153,9 +1145,7 @@ public final class Entree extends javax.swing.JInternalFrame {
 
         btnenregistrerLE.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnenregistrerLE.setText("Ajouter");
-        btnenregistrerLE.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnenregistrerLE.setContentAreaFilled(false);
-        btnenregistrerLE.setOpaque(true);
+        btnenregistrerLE.setBorder(null);
         btnenregistrerLE.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnenregistrerLEMouseEntered(evt);
@@ -1175,10 +1165,8 @@ public final class Entree extends javax.swing.JInternalFrame {
 
         btnsupprimerLE.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnsupprimerLE.setText("Supprimer");
-        btnsupprimerLE.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnsupprimerLE.setContentAreaFilled(false);
+        btnsupprimerLE.setBorder(null);
         btnsupprimerLE.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnsupprimerLE.setOpaque(true);
         btnsupprimerLE.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnsupprimerLEMouseEntered(evt);
@@ -1234,18 +1222,15 @@ public final class Entree extends javax.swing.JInternalFrame {
         JPanelLigneEntreeLayout.setVerticalGroup(
             JPanelLigneEntreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPanelLigneEntreeLayout.createSequentialGroup()
-                .addGroup(JPanelLigneEntreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(JPanelLigneEntreeLayout.createSequentialGroup()
-                        .addComponent(jPanelFormLigneEntree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelActionLigneEntree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 12, Short.MAX_VALUE))
-                    .addComponent(jScrollPaneLigneEntree, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
+                .addComponent(jPanelFormLigneEntree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelActionLigneEntree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPaneLigneEntree, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
         getContentPane().add(JPanelLigneEntree);
-        JPanelLigneEntree.setBounds(440, 320, 720, 310);
+        JPanelLigneEntree.setBounds(440, 360, 720, 320);
 
         jButtonRefreshArticle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/interface.png"))); // NOI18N
         jButtonRefreshArticle.setAlignmentY(0.0F);
@@ -1373,7 +1358,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         jScrollPane4.setViewportView(TableArticleEntree);
 
         getContentPane().add(jScrollPane4);
-        jScrollPane4.setBounds(940, 140, 220, 170);
+        jScrollPane4.setBounds(940, 140, 220, 210);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/interface.png"))); // NOI18N
         jButton2.setAlignmentY(0.0F);
@@ -1400,7 +1385,12 @@ public final class Entree extends javax.swing.JInternalFrame {
 
     private void TableEntreeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableEntreeMouseReleased
 
+        
+        
         afficherLigneEntree();
+        if(LoginGUI.role.equals("USER")){
+            btnsupprimerLE.setVisible(false);
+        }
         afficherArticle();
         AffichageArticle();
         clearLE();
@@ -1449,6 +1439,9 @@ public final class Entree extends javax.swing.JInternalFrame {
     private void btnenregistrerLEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerLEActionPerformed
         conn = ConexionBD.Conexion();
         try {
+            if(article.getText().equals("")||nbr.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Completez l'information"); 
+            }else{
             //String requete5 = "select * from  LigneEntree where NumArticle = '" + article.getText() + "' and NumEntree = '" + numeroEntree.getText() + "'";
             //ps5 = conn.prepareStatement(requete5);
             
@@ -1532,7 +1525,7 @@ public final class Entree extends javax.swing.JInternalFrame {
                 ps5.execute();
                 clearLE();
             }
-            
+        }
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
@@ -1806,6 +1799,9 @@ public final class Entree extends javax.swing.JInternalFrame {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         
         try {
+            if(ref.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Completez l'information"); 
+            }else{
             String requete = "insert into Entree (refEntree,NumFournisseur,DateEntree,MontantTotalEntree,ObservationEntree) values (?,?,?,?,?)";
             ps = conn.prepareStatement(requete);
 
@@ -1823,7 +1819,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             ps.setString(4, MontantTotal.getText());
             ps.setString(5, obs.getText());
             ps.execute();
-            JOptionPane.showMessageDialog(null, "Enregistrement succes");
+            JOptionPane.showMessageDialog(null, "Enregistrement succes");}
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
@@ -1860,6 +1856,9 @@ public final class Entree extends javax.swing.JInternalFrame {
         conn = ConexionBD.Conexion();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         try {
+            if(ref.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Completez l'information"); 
+            }else{
             String requete = "update Entree set refEntree =?,NumFournisseur=?,DateEntree=?,MontantTotalEntree=?,ObservationEntree=? where  NumEntree ='" + numeroEntree.getText() + "'";
             ps = conn.prepareStatement(requete);
 
@@ -1876,7 +1875,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             ps.setString(4, MontantTotal.getText());
             ps.setString(5, obs.getText());
             ps.execute();
-            JOptionPane.showMessageDialog(null, "Modification succes");
+            JOptionPane.showMessageDialog(null, "Modification succes");}
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");

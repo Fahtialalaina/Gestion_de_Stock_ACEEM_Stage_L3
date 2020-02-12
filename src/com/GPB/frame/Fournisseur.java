@@ -46,6 +46,12 @@ public class Fournisseur extends javax.swing.JInternalFrame {
 
         initComponents();
         remove_title_bar();
+        
+        if(LoginGUI.role.equals("USER")){
+            btnsupprimer.setVisible(false);
+            btnmodifier.setVisible(false);
+        }
+        
         conn4 = ConexionBD.Conexion();
         Affichage();
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
@@ -138,7 +144,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
             if (rs.next()) {
                 String t1 = rs.getString("NomFournisseur");
                 String t2 = rs.getString("NumFournisseur");
-                txtNumBanque.setText(t1);
+                txtNomFournisseur.setText(t1);
                 numero.setText(t2);
             }
 
@@ -159,7 +165,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
     public void clear() {
         try {
             numero.setText("");
-            txtNumBanque.setText("");
+            txtNomFournisseur.setText("");
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -181,7 +187,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtNumBanque = new javax.swing.JTextField();
+        txtNomFournisseur = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         numero = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -196,8 +202,6 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         btnenregistrer = new javax.swing.JButton();
         btnmodifier = new javax.swing.JButton();
         btnsupprimer = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        printbtn = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
 
@@ -262,14 +266,14 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         jPanel1.setFocusTraversalPolicyProvider(true);
         jPanel1.setName(""); // NOI18N
 
-        jLabel1.setText("Nom Section   :            ");
+        jLabel1.setText("Nom Fournisseur  :            ");
 
-        txtNumBanque.addMouseListener(new java.awt.event.MouseAdapter() {
+        txtNomFournisseur.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                txtNumBanqueMouseEntered(evt);
+                txtNomFournisseurMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                txtNumBanqueMouseExited(evt);
+                txtNomFournisseurMouseExited(evt);
             }
         });
 
@@ -287,12 +291,12 @@ public class Fournisseur extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNumBanque, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtNomFournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addComponent(numero)))
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -304,7 +308,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNumBanque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNomFournisseur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18))
         );
 
@@ -354,10 +358,8 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         btnnv.setText("Nouveau");
         btnnv.setToolTipText("");
         btnnv.setAutoscrolls(true);
-        btnnv.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnnv.setContentAreaFilled(false);
+        btnnv.setBorder(null);
         btnnv.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnnv.setOpaque(true);
         btnnv.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnnvMouseEntered(evt);
@@ -380,9 +382,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
 
         btnenregistrer.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnenregistrer.setText("Enregistrer");
-        btnenregistrer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnenregistrer.setContentAreaFilled(false);
-        btnenregistrer.setOpaque(true);
+        btnenregistrer.setBorder(null);
         btnenregistrer.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnenregistrerMouseEntered(evt);
@@ -402,10 +402,8 @@ public class Fournisseur extends javax.swing.JInternalFrame {
 
         btnmodifier.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnmodifier.setText("Modifier");
-        btnmodifier.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnmodifier.setContentAreaFilled(false);
+        btnmodifier.setBorder(null);
         btnmodifier.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnmodifier.setOpaque(true);
         btnmodifier.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 btnmodifierMouseMoved(evt);
@@ -433,10 +431,8 @@ public class Fournisseur extends javax.swing.JInternalFrame {
 
         btnsupprimer.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnsupprimer.setText("Supprimer");
-        btnsupprimer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnsupprimer.setContentAreaFilled(false);
+        btnsupprimer.setBorder(null);
         btnsupprimer.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnsupprimer.setOpaque(true);
         btnsupprimer.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnsupprimerMouseEntered(evt);
@@ -465,7 +461,7 @@ public class Fournisseur extends javax.swing.JInternalFrame {
                     .addComponent(btnnv, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnenregistrer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnenregistrer, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnmodifier, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
@@ -485,48 +481,6 @@ public class Fournisseur extends javax.swing.JInternalFrame {
 
         getContentPane().add(jPanel2);
         jPanel2.setBounds(0, 340, 390, 130);
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
-
-        printbtn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        printbtn.setText("Imprimer");
-        printbtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        printbtn.setContentAreaFilled(false);
-        printbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        printbtn.setOpaque(true);
-        printbtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                printbtnMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                printbtnMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                printbtnMousePressed(evt);
-            }
-        });
-        printbtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                printbtnActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(printbtn, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(printbtn, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(jPanel4);
-        jPanel4.setBounds(390, 350, 140, 120);
 
         jPanel5.setBackground(new java.awt.Color(3, 91, 155));
 
@@ -647,11 +601,14 @@ public class Fournisseur extends javax.swing.JInternalFrame {
 
     private void btnenregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerActionPerformed
         try {
+            if(txtNomFournisseur.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Completez l'information"); 
+            }else{
             String requete = "insert into  Fournisseur (NomFournisseur) values (?)";
             ps = conn4.prepareStatement(requete);
-            ps.setString(1, txtNumBanque.getText());
+            ps.setString(1, txtNomFournisseur.getText());
             ps.execute();
-            JOptionPane.showMessageDialog(null, "Enregistrement succes");
+            JOptionPane.showMessageDialog(null, "Enregistrement succes");}
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
@@ -680,13 +637,13 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         clear();
     }//GEN-LAST:event_formMouseClicked
 
-    private void txtNumBanqueMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNumBanqueMouseEntered
+    private void txtNomFournisseurMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNomFournisseurMouseEntered
 
-    }//GEN-LAST:event_txtNumBanqueMouseEntered
+    }//GEN-LAST:event_txtNomFournisseurMouseEntered
 
-    private void txtNumBanqueMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNumBanqueMouseExited
+    private void txtNomFournisseurMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNomFournisseurMouseExited
 
-    }//GEN-LAST:event_txtNumBanqueMouseExited
+    }//GEN-LAST:event_txtNomFournisseurMouseExited
 
     private void btnnvMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnnvMouseEntered
    
@@ -745,13 +702,16 @@ public class Fournisseur extends javax.swing.JInternalFrame {
 
     private void btnmodifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierActionPerformed
         try {
-
+            if(txtNomFournisseur.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Completez l'information"); 
+            }else{
+            
             String requete = "update Fournisseur set NomFournisseur =? where  NumFournisseur ='" + numero.getText() + "'";
 
             ps = conn4.prepareStatement(requete);
-            ps.setString(1, txtNumBanque.getText());
+            ps.setString(1, txtNomFournisseur.getText());
             ps.execute();
-            JOptionPane.showMessageDialog(null, "Modification avec succès");
+            JOptionPane.showMessageDialog(null, "Modification avec succès");}
         } catch (SQLException ex) {
             System.out.println(ex);
         } finally {
@@ -815,31 +775,6 @@ public class Fournisseur extends javax.swing.JInternalFrame {
         clear();
     }//GEN-LAST:event_btnsupprimerActionPerformed
 
-    private void printbtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseEntered
-       
-    }//GEN-LAST:event_printbtnMouseEntered
-
-    private void printbtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMouseExited
-        printbtn.setBackground(new java.awt.Color(240, 240, 240));
-    }//GEN-LAST:event_printbtnMouseExited
-
-    private void printbtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtnMousePressed
-        printbtn.setBackground(new java.awt.Color(255, 255, 255));
-    }//GEN-LAST:event_printbtnMousePressed
-
-    private void printbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printbtnActionPerformed
-
-        MessageFormat header = new MessageFormat("Liste des Fournisseurs:");
-        MessageFormat footer = new MessageFormat("Page{0,number,integer}");
-        try {
-            Table.print(JTable.PrintMode.NORMAL, header, footer);
-
-        } catch (java.awt.print.PrinterException e) {
-            System.err.format("Erreur d'impression ", e.getMessage());
-        }
-
-    }//GEN-LAST:event_printbtnActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Table;
     private javax.swing.JButton btnenregistrer;
@@ -854,12 +789,10 @@ public class Fournisseur extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel numero;
-    private javax.swing.JButton printbtn;
-    private javax.swing.JTextField txtNumBanque;
+    private javax.swing.JTextField txtNomFournisseur;
     private javax.swing.JLabel txtbackground1;
     private javax.swing.JTextField txtrechercher1;
     // End of variables declaration//GEN-END:variables

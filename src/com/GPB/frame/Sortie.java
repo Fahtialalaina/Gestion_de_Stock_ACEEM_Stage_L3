@@ -70,6 +70,12 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
         initComponents();
         remove_title_bar();
+        
+        if(LoginGUI.role.equals("USER")){
+            btnsupprimerSortie.setVisible(false);
+            btnmodifierSortie.setVisible(false);
+        }
+        
         clearSortie();
         ImageIcon img2 = new ImageIcon(getClass().getResource("txt2.png"));
         txtbackground1.setIcon(img2);
@@ -732,10 +738,8 @@ public final class Sortie extends javax.swing.JInternalFrame {
         btnnvSortie.setText("Nouveau");
         btnnvSortie.setToolTipText("");
         btnnvSortie.setAutoscrolls(true);
-        btnnvSortie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnnvSortie.setContentAreaFilled(false);
+        btnnvSortie.setBorder(null);
         btnnvSortie.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnnvSortie.setOpaque(true);
         btnnvSortie.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnnvSortieMouseEntered(evt);
@@ -758,9 +762,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
         btnenregistrerSortie.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnenregistrerSortie.setText("Enregistrer");
-        btnenregistrerSortie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnenregistrerSortie.setContentAreaFilled(false);
-        btnenregistrerSortie.setOpaque(true);
+        btnenregistrerSortie.setBorder(null);
         btnenregistrerSortie.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnenregistrerSortieMouseEntered(evt);
@@ -780,10 +782,8 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
         btnmodifierSortie.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnmodifierSortie.setText("Modifier");
-        btnmodifierSortie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnmodifierSortie.setContentAreaFilled(false);
+        btnmodifierSortie.setBorder(null);
         btnmodifierSortie.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnmodifierSortie.setOpaque(true);
         btnmodifierSortie.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 btnmodifierSortieMouseMoved(evt);
@@ -811,10 +811,8 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
         btnsupprimerSortie.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnsupprimerSortie.setText("Supprimer");
-        btnsupprimerSortie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnsupprimerSortie.setContentAreaFilled(false);
+        btnsupprimerSortie.setBorder(null);
         btnsupprimerSortie.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnsupprimerSortie.setOpaque(true);
         btnsupprimerSortie.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnsupprimerSortieMouseEntered(evt);
@@ -846,7 +844,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
                         .addComponent(btnnvSortie, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnenregistrerSortie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnenregistrerSortie, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnmodifierSortie, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
@@ -877,9 +875,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
         printbtn1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         printbtn1.setText("Imprimer");
         printbtn1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        printbtn1.setContentAreaFilled(false);
         printbtn1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        printbtn1.setOpaque(true);
         printbtn1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 printbtn1MouseEntered(evt);
@@ -1165,10 +1161,8 @@ public final class Sortie extends javax.swing.JInternalFrame {
         btnnvLS.setText("Nouveau");
         btnnvLS.setToolTipText("");
         btnnvLS.setAutoscrolls(true);
-        btnnvLS.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnnvLS.setContentAreaFilled(false);
+        btnnvLS.setBorder(null);
         btnnvLS.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnnvLS.setOpaque(true);
         btnnvLS.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnnvLSMouseEntered(evt);
@@ -1191,9 +1185,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
         btnenregistrerLS.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnenregistrerLS.setText("Ajouter");
-        btnenregistrerLS.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnenregistrerLS.setContentAreaFilled(false);
-        btnenregistrerLS.setOpaque(true);
+        btnenregistrerLS.setBorder(null);
         btnenregistrerLS.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnenregistrerLSMouseEntered(evt);
@@ -1213,10 +1205,8 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
         btnsupprimerLS.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnsupprimerLS.setText("Supprimer");
-        btnsupprimerLS.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnsupprimerLS.setContentAreaFilled(false);
+        btnsupprimerLS.setBorder(null);
         btnsupprimerLS.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnsupprimerLS.setOpaque(true);
         btnsupprimerLS.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnsupprimerLSMouseEntered(evt);
@@ -1437,6 +1427,9 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
     private void TableSortieMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableSortieMouseReleased
         afficherLigneSortie();
+        if(LoginGUI.role.equals("USER")){
+            btnsupprimerLS.setVisible(false);
+        }
         afficherArticle();
         conn = ConexionBD.Conexion();
         AffichageArticle();
@@ -1476,8 +1469,9 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
     private void btnenregistrerLSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerLSActionPerformed
         try {
-            //String requete5 = "select * from  LigneEntree where NumArticle = '" + article.getText() + "' and NumEntree = '" + numeroEntree.getText() + "'";
-            //ps5 = conn.prepareStatement(requete5);
+            if(article.getText().equals("")||nbr.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Completez l'information"); 
+            }else{
             conn = ConexionBD.Conexion();
 
             String requete5 = "select * from  article where NomArticle = '" + article.getText() + "'";
@@ -1569,7 +1563,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
                     clearLS();
                 }
             }
-
+        }
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
@@ -1810,6 +1804,9 @@ public final class Sortie extends javax.swing.JInternalFrame {
         conn = ConexionBD.Conexion();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         try {
+            if(ref.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Completez l'information"); 
+            }else{
             String requete = "insert into Sortie (refSortie,NumSection,DateSortie,MontantTotalSortie,ObservationSortie) values (?,?,?,?,?)";
             ps = conn.prepareStatement(requete);
 
@@ -1826,7 +1823,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
             ps.setString(4, MontantTotal.getText());
             ps.setString(5, obs.getText());
             ps.execute();
-            JOptionPane.showMessageDialog(null, "Enregistrement succes");
+            JOptionPane.showMessageDialog(null, "Enregistrement succes");}
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
@@ -1863,6 +1860,9 @@ public final class Sortie extends javax.swing.JInternalFrame {
         conn = ConexionBD.Conexion();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         try {
+            if(ref.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Completez l'information"); 
+            }else{
             String requete = "update Sortie set refSortie =?,NumSection=?,DateSortie=?,MontantTotalSortie=?,ObservationSortie=? where  NumSortie ='" + numeroSortie.getText() + "'";
             ps6 = conn.prepareStatement(requete);
 
@@ -1879,7 +1879,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
             ps6.setString(4, MontantTotal.getText());
             ps6.setString(5, obs.getText());
             ps6.execute();
-            JOptionPane.showMessageDialog(null, "Modification succes");
+            JOptionPane.showMessageDialog(null, "Modification succes");}
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException modif : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");

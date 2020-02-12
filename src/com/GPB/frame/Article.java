@@ -5,13 +5,10 @@
  */
 package com.GPB.frame;
 
-import static com.GPB.frame.Journal.article;
-import static com.GPB.frame.Journal.test;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,8 +18,6 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
@@ -31,10 +26,6 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import net.proteanit.sql.DbUtils;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 /**
  *
@@ -62,6 +53,13 @@ public class Article extends javax.swing.JInternalFrame {
     public Article() throws SQLException {
         initComponents();
         remove_title_bar();
+        
+        if(LoginGUI.role.equals("USER")){
+            btnsupprimerCategorie.setVisible(false);
+            btnmodifierCategorie.setVisible(false);
+            btnmodifierArticle.setVisible(false);
+            btnsupprimerArticle.setVisible(false);
+        }
 
         ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
         
@@ -252,7 +250,7 @@ public class Article extends javax.swing.JInternalFrame {
     private void AffichageArticle() {
         conn = ConexionBD.Conexion();
         try {
-            String requete = "select NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' ,MontantStock as 'Montant en Stock' from article, categorie WHERE\n"
+            String requete = "select NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,MontantStock as 'Montant en Stock' ,categorie.NomCategorie as 'Categorie' from article, categorie WHERE\n"
                     + "(categorie.NumCategorie=article.categorie)";
 
             String requete2 = "select * from article";
@@ -274,7 +272,7 @@ public class Article extends javax.swing.JInternalFrame {
     private void AffichageArticle(String a) {
         conn = ConexionBD.Conexion();
         try {
-            String requete = "select NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,categorie.NomCategorie as 'Categorie' ,MontantStock as 'Montant en Stock' from article, categorie WHERE\n"
+            String requete = "select NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,MontantStock as 'Montant en Stock' ,categorie.NomCategorie as 'Categorie' from article, categorie WHERE\n"
                     + "(categorie.NumCategorie=article.categorie) and categorie.NomCategorie like '" + a + "'";
 
 
@@ -613,11 +611,11 @@ public class Article extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ComboCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(640, 410, 280, 220);
+        jPanel1.setBounds(640, 410, 280, 260);
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Liste des Articles :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 3, 12))); // NOI18N
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -654,18 +652,15 @@ public class Article extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(TableArticle);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(10, 410, 620, 220);
+        jScrollPane1.setBounds(10, 410, 620, 270);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153)), "Action :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 3, 12))); // NOI18N
 
         btnnvCategorie.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnnvCategorie.setText("Nouveau");
         btnnvCategorie.setToolTipText("");
-        btnnvCategorie.setAutoscrolls(true);
-        btnnvCategorie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnnvCategorie.setContentAreaFilled(false);
+        btnnvCategorie.setBorder(null);
         btnnvCategorie.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnnvCategorie.setOpaque(true);
         btnnvCategorie.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnnvCategorieMouseEntered(evt);
@@ -688,9 +683,7 @@ public class Article extends javax.swing.JInternalFrame {
 
         btnenregistrerCategorie.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnenregistrerCategorie.setText("Enregistrer");
-        btnenregistrerCategorie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnenregistrerCategorie.setContentAreaFilled(false);
-        btnenregistrerCategorie.setOpaque(true);
+        btnenregistrerCategorie.setBorder(null);
         btnenregistrerCategorie.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnenregistrerCategorieMouseEntered(evt);
@@ -710,10 +703,8 @@ public class Article extends javax.swing.JInternalFrame {
 
         btnmodifierCategorie.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnmodifierCategorie.setText("Modifier");
-        btnmodifierCategorie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnmodifierCategorie.setContentAreaFilled(false);
+        btnmodifierCategorie.setBorder(null);
         btnmodifierCategorie.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnmodifierCategorie.setOpaque(true);
         btnmodifierCategorie.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 btnmodifierCategorieMouseMoved(evt);
@@ -741,10 +732,8 @@ public class Article extends javax.swing.JInternalFrame {
 
         btnsupprimerCategorie.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnsupprimerCategorie.setText("Supprimer");
-        btnsupprimerCategorie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnsupprimerCategorie.setContentAreaFilled(false);
+        btnsupprimerCategorie.setBorder(null);
         btnsupprimerCategorie.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnsupprimerCategorie.setOpaque(true);
         btnsupprimerCategorie.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnsupprimerCategorieMouseEntered(evt);
@@ -767,15 +756,15 @@ public class Article extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnsupprimerCategorie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnnvCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnenregistrerCategorie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnmodifierCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                    .addComponent(btnmodifierCategorie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnenregistrerCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -784,24 +773,22 @@ public class Article extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnnvCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnenregistrerCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnsupprimerCategorie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnsupprimerCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnmodifierCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(430, 230, 390, 110);
+        jPanel2.setBounds(430, 230, 390, 130);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
 
         printbtn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         printbtn.setText("Imprimer");
-        printbtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        printbtn.setContentAreaFilled(false);
+        printbtn.setBorder(null);
         printbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        printbtn.setOpaque(true);
         printbtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 printbtnMouseEntered(evt);
@@ -903,10 +890,8 @@ public class Article extends javax.swing.JInternalFrame {
         btnnvArticle.setText("Nouveau");
         btnnvArticle.setToolTipText("");
         btnnvArticle.setAutoscrolls(true);
-        btnnvArticle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnnvArticle.setContentAreaFilled(false);
+        btnnvArticle.setBorder(null);
         btnnvArticle.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnnvArticle.setOpaque(true);
         btnnvArticle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnnvArticleMouseEntered(evt);
@@ -929,9 +914,7 @@ public class Article extends javax.swing.JInternalFrame {
 
         btnenregistrerArticle.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnenregistrerArticle.setText("Enregistrer");
-        btnenregistrerArticle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnenregistrerArticle.setContentAreaFilled(false);
-        btnenregistrerArticle.setOpaque(true);
+        btnenregistrerArticle.setBorder(null);
         btnenregistrerArticle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnenregistrerArticleMouseEntered(evt);
@@ -951,10 +934,8 @@ public class Article extends javax.swing.JInternalFrame {
 
         btnmodifierArticle.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnmodifierArticle.setText("Modifier");
-        btnmodifierArticle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnmodifierArticle.setContentAreaFilled(false);
+        btnmodifierArticle.setBorder(null);
         btnmodifierArticle.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnmodifierArticle.setOpaque(true);
         btnmodifierArticle.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 btnmodifierArticleMouseMoved(evt);
@@ -982,10 +963,8 @@ public class Article extends javax.swing.JInternalFrame {
 
         btnsupprimerArticle.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnsupprimerArticle.setText("Supprimer");
-        btnsupprimerArticle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btnsupprimerArticle.setContentAreaFilled(false);
+        btnsupprimerArticle.setBorder(null);
         btnsupprimerArticle.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnsupprimerArticle.setOpaque(true);
         btnsupprimerArticle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnsupprimerArticleMouseEntered(evt);
@@ -1050,8 +1029,6 @@ public class Article extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Numero : ");
 
-        numeroCategorie.setText("                  ");
-
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -1074,9 +1051,9 @@ public class Article extends javax.swing.JInternalFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap(23, Short.MAX_VALUE)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(numeroCategorie))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(numeroCategorie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1233,11 +1210,14 @@ public class Article extends javax.swing.JInternalFrame {
     private void btnenregistrerCategorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerCategorieActionPerformed
         conn = ConexionBD.Conexion();
         try {
+            if(txtNomCategorie.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Completez l'information"); 
+            }else{
             String requete = "insert into  categorie (NomCategorie) values (?)";
             ps = conn.prepareStatement(requete);
             ps.setString(1, txtNomCategorie.getText());
             ps.execute();
-            JOptionPane.showMessageDialog(null, "Enregistrement succes");
+            JOptionPane.showMessageDialog(null, "Enregistrement succes");}
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
@@ -1328,13 +1308,15 @@ public class Article extends javax.swing.JInternalFrame {
     private void btnmodifierCategorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierCategorieActionPerformed
         conn = ConexionBD.Conexion();
         try {
-
+            if(txtNomCategorie.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Completez l'information"); 
+            }else{
             String requete = "update categorie set NomCategorie =? where  NumCategorie ='" + numeroCategorie.getText() + "'";
 
             ps = conn.prepareStatement(requete);
             ps.setString(1, txtNomCategorie.getText());
             ps.execute();
-            JOptionPane.showMessageDialog(null, "Modification avec succès");
+            JOptionPane.showMessageDialog(null, "Modification avec succès");}
         } catch (SQLException ex) {
             System.out.println(ex);
         } finally {
@@ -1402,7 +1384,6 @@ public class Article extends javax.swing.JInternalFrame {
 
     private void printbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printbtnActionPerformed
         
-        conn = ConexionBD.Conexion();
         if(numeroCategorie.getText().equals("")){
             DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
             Long millis = System.currentTimeMillis();
@@ -1418,7 +1399,7 @@ public class Article extends javax.swing.JInternalFrame {
                 System.err.format("Erreur d'impression ", e.getMessage());
             }
         }else{
-            
+            conn = ConexionBD.Conexion();
             try {
             String requete = "select * from Categorie where NumCategorie LIKE ?";
             ps = conn.prepareStatement(requete);
@@ -1427,10 +1408,9 @@ public class Article extends javax.swing.JInternalFrame {
             
             cat = rs.getString("NomCategorie");
             
-            
-            
             } catch (SQLException e) {
                 System.out.println(e);
+                e.printStackTrace();
             } finally {
 
                 try {
@@ -1556,6 +1536,9 @@ public class Article extends javax.swing.JInternalFrame {
     private void btnenregistrerArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnenregistrerArticleActionPerformed
         conn = ConexionBD.Conexion();
         try {
+            if(DesignationArticle.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Completez l'information"); 
+            }else{
             String requete = "insert into  article (NomArticle, Categorie) values (?,?)";
 
             String combo = (String) ComboCategorie.getSelectedItem();
@@ -1569,7 +1552,7 @@ public class Article extends javax.swing.JInternalFrame {
             ps.setString(1, DesignationArticle.getText());
             ps.setString(2, num);
             ps.execute();
-            JOptionPane.showMessageDialog(null, "Enregistrement succes");
+            JOptionPane.showMessageDialog(null, "Enregistrement succes");}
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
@@ -1605,7 +1588,9 @@ public class Article extends javax.swing.JInternalFrame {
     private void btnmodifierArticleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierArticleActionPerformed
         conn = ConexionBD.Conexion();
         try {
-
+            if(DesignationArticle.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Completez l'information"); 
+            }else{
             String requete = "update article set NomArticle =? ,categorie =? where  NumArticle ='" + numeroArticle.getText() + "'";
 
             String combo = (String) ComboCategorie.getSelectedItem();
@@ -1619,7 +1604,7 @@ public class Article extends javax.swing.JInternalFrame {
             ps.setString(1, DesignationArticle.getText());
             ps.setString(2, num);
             ps.execute();
-            JOptionPane.showMessageDialog(null, "Modification succes");
+            JOptionPane.showMessageDialog(null, "Modification succes");}
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
