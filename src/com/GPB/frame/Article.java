@@ -253,13 +253,30 @@ public class Article extends javax.swing.JInternalFrame {
             String requete = "select NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,MontantStock as 'Montant en Stock' ,categorie.NomCategorie as 'Categorie' from article, categorie WHERE\n"
                     + "(categorie.NumCategorie=article.categorie)";
 
-            String requete2 = "select * from article";
-
             ps = conn.prepareStatement(requete);
             rs = ps.executeQuery();
             TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
             ajusterTableArticle();
             tabelArticle();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            CloseRsPs1();
+            CloseConnexion();
+        }
+
+    }
+    
+    private void AffichageArticleImpression() {
+        conn = ConexionBD.Conexion();
+        try {
+            String requete = "select NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,inventaire as 'Inventaire' from article";
+
+            ps = conn.prepareStatement(requete);
+            rs = ps.executeQuery();
+            TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
+            ajusterTableArticle();
+            //tabelArticle();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -280,7 +297,27 @@ public class Article extends javax.swing.JInternalFrame {
             rs = ps.executeQuery();
             TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
             ajusterTableArticle();
-            tabelArticle();
+            //tabelArticle();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            CloseRsPs1();
+            CloseConnexion();
+        }
+
+    }
+    
+    private void AffichageArticleImpression(String a) {
+        conn = ConexionBD.Conexion();
+        try {
+            String requete = "select NomArticle as 'Nom Article' ,pu as 'Prix unitaire' ,QteStock as 'Quatité en Stock' ,inventaire as 'Inventaire' from article, categorie WHERE\n"
+                    + "(categorie.NumCategorie=article.categorie) and categorie.NomCategorie like '" + a + "'";
+
+            ps = conn.prepareStatement(requete);
+            rs = ps.executeQuery();
+            TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
+            ajusterTableArticle();
+            //tabelArticle();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -1383,7 +1420,6 @@ public class Article extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_printbtnMousePressed
 
     private void printbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printbtnActionPerformed
-        
         if(numeroCategorie.getText().equals("")){
             DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
             Long millis = System.currentTimeMillis();
@@ -1393,11 +1429,12 @@ public class Article extends javax.swing.JInternalFrame {
 
             MessageFormat footer = new MessageFormat("Page{0,number,integer}");
             try {
+                AffichageArticleImpression();
                 TableArticle.print(JTable.PrintMode.FIT_WIDTH, header, footer);
-
             } catch (java.awt.print.PrinterException e) {
                 System.err.format("Erreur d'impression ", e.getMessage());
             }
+            AffichageArticle();
         }else{
             conn = ConexionBD.Conexion();
             try {
@@ -1430,11 +1467,13 @@ public class Article extends javax.swing.JInternalFrame {
 
             MessageFormat footer = new MessageFormat("Page{0,number,integer}");
             try {
+                AffichageArticleImpression(cat);
                 TableArticle.print(JTable.PrintMode.FIT_WIDTH, header, footer);
 
             } catch (java.awt.print.PrinterException e) {
                 System.err.format("Erreur d'impression ", e.getMessage());
             }
+            AffichageArticle(cat);
         }
         
 

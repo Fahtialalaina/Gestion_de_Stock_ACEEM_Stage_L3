@@ -25,9 +25,7 @@ public class ConexionBD {
 
     public static Connection Conexion() {
         try {
-            //Chargement du pilote JDBC pour MYSQL puis creation de la connection
-            //DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            // ou bien 
+            
             Class.forName("org.sqlite.JDBC");
             Connection conn = DriverManager.getConnection("jdbc:sqlite:GStock.db");
             if (conn != null) {

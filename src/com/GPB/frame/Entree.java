@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,6 +27,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
 import javax.swing.JTable;
+import javax.swing.JTable.PrintMode;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
@@ -56,6 +59,7 @@ public final class Entree extends javax.swing.JInternalFrame {
     PreparedStatement ps8 = null;
     PreparedStatement ps9 = null;
     static String test;
+    static String VarDateEntree;
 
     /**
      * Creates new form Examen
@@ -103,10 +107,12 @@ public final class Entree extends javax.swing.JInternalFrame {
 
     private void masquerLigneEntree() {
         JPanelLigneEntree.setVisible(false);
+        impression.setVisible(false);
     }
 
     private void afficherLigneEntree() {
         JPanelLigneEntree.setVisible(true);
+        impression.setVisible(true);
     }
 
     private void masquerArticle() {
@@ -506,7 +512,7 @@ public final class Entree extends javax.swing.JInternalFrame {
                 String t3 = rs.getString("NumFournisseur");
                 String t4 = rs.getString("DateEntree");
                 
-                
+                VarDateEntree = t4;
                 String t5 = rs.getString("MontantTotalEntree");
                 String t6 = rs.getString("ObservationEntree");
                 String fournisseur = " select * from Fournisseur where NumFournisseur = '" + t3 + "'";
@@ -617,9 +623,9 @@ public final class Entree extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         obs = new javax.swing.JTextArea();
+        date = new com.toedter.calendar.JDateChooser();
         impression = new javax.swing.JPanel();
         printbtn1 = new javax.swing.JButton();
-        date = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableEntree = new javax.swing.JTable(){
             public boolean isCellEditable(int d , int c){
@@ -832,6 +838,8 @@ public final class Entree extends javax.swing.JInternalFrame {
         obs.setRows(5);
         jScrollPane3.setViewportView(obs);
 
+        date.setDateFormatString("dd-MM-yyyy");
+
         impression.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Impréssion :", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Verdana", 1, 12))); // NOI18N
 
         printbtn1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -868,8 +876,6 @@ public final class Entree extends javax.swing.JInternalFrame {
             .addComponent(printbtn1, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
-        date.setDateFormatString("dd-MM-yyyy");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -897,10 +903,12 @@ public final class Entree extends javax.swing.JInternalFrame {
                         .addComponent(numeroEntree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(impression, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(impression, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -934,9 +942,9 @@ public final class Entree extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(impression, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
@@ -1506,22 +1514,24 @@ public final class Entree extends javax.swing.JInternalFrame {
                     Logger.getLogger(Entree.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                String requete5 = "insert into Journal (Date,TypeMouvement,Action,NumMouvement,NumArticle,NouveauQte,NouveauPU,NouveauMontant,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?)";
+                String requete5 = "insert into Journal (DateJournal,DateMouvement,TypeMouvement,Action,NumMouvement,Acteur,NumArticle,QteMouvement,PUMouvement,MontantMouvement,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?)";
                 ps5 = conn.prepareStatement(requete5);
                 
-                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Long millis = System.currentTimeMillis();
                 Date date3 = new Date(millis);
                 ps5.setString(1, dateFormat.format(date3));
-                ps5.setString(2, "ENTREE");
-                ps5.setString(3, "AJOUT");
-                ps5.setString(4, ref.getText());
-                ps5.setString(5, num);
-                ps5.setString(6, nbr.getText());
-                ps5.setString(7, puFournisseur.getText());
-                ps5.setString(8, String.valueOf(mtn));
-                ps5.setString(9, String.valueOf(qte));
-                ps5.setString(10, String.valueOf(Mtn));
+                ps5.setString(2, dateFormat.format(date.getDate()));
+                ps5.setString(3, "ENTREE");
+                ps5.setString(4, "AJOUT");
+                ps5.setString(5, ref.getText());
+                ps5.setString(6, ComboFournisseur.getSelectedItem().toString());
+                ps5.setString(7, num);
+                ps5.setString(8, nbr.getText());
+                ps5.setString(9, puFournisseur.getText());
+                ps5.setString(10, String.valueOf(mtn));
+                ps5.setString(11, String.valueOf(qte));
+                ps5.setString(12, String.valueOf(Mtn));
                 ps5.execute();
                 clearLE();
             }
@@ -1678,22 +1688,24 @@ public final class Entree extends javax.swing.JInternalFrame {
 
                     ps.execute();
                     
-                    String requete10 = "insert into Journal (Date,TypeMouvement,Action,NumMouvement,NumArticle,AncienQte,AncienPU,AncienMontant,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?)";
+                    String requete10 = "insert into Journal (DateJournal,DateMouvement,TypeMouvement,Action,NumMouvement,Acteur,NumArticle,QteMouvement,PUMouvement,MontantMouvement,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?)";
                     ps9 = conn.prepareStatement(requete10);
 
-                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Long millis = System.currentTimeMillis();
                     Date date3 = new Date(millis);
                     ps9.setString(1, dateFormat.format(date3));
-                    ps9.setString(2, "ENTREE");
-                    ps9.setString(3, "SUPPR");
-                    ps9.setString(4, ref.getText());
-                    ps9.setString(5, NumArticle);
-                    ps9.setString(6, NbrEntree);
-                    ps9.setString(7, PUEntree);
-                    ps9.setString(8, MontantEntree);
-                    ps9.setString(9, String.valueOf(qte));
-                    ps9.setString(10, String.valueOf(MtnRet));
+                    ps9.setString(2, dateFormat.format(date.getDate()));
+                    ps9.setString(3, "ENTREE");
+                    ps9.setString(4, "SUPPR");
+                    ps9.setString(5, ref.getText());
+                    ps9.setString(6, ComboFournisseur.getSelectedItem().toString());
+                    ps9.setString(7, NumArticle);
+                    ps9.setString(8, NbrEntree);
+                    ps9.setString(9, PUEntree);
+                    ps9.setString(10, MontantEntree);
+                    ps9.setString(11, String.valueOf(qte));
+                    ps9.setString(12, String.valueOf(MtnRet));
                     ps9.execute();
                     CloseRsPs9();
                 }
@@ -1854,28 +1866,58 @@ public final class Entree extends javax.swing.JInternalFrame {
 
     private void btnmodifierEntreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierEntreeActionPerformed
         conn = ConexionBD.Conexion();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-yyyy");
         try {
             if(ref.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Completez l'information"); 
             }else{
+                
+                String requete5 = "select * from Entree where  NumEntree ='" + numeroEntree.getText() + "'";
+            ps2 = conn.prepareStatement(requete5);
+            rs2 = ps2.executeQuery();
+            String reference = rs2.getString("refEntree");
+                
             String requete = "update Entree set refEntree =?,NumFournisseur=?,DateEntree=?,MontantTotalEntree=?,ObservationEntree=? where  NumEntree ='" + numeroEntree.getText() + "'";
             ps = conn.prepareStatement(requete);
 
             String requete2 = "select * from  Fournisseur where NomFournisseur = '" + ComboFournisseur.getSelectedItem() + "'";
 
-            ps2 = conn.prepareStatement(requete2);
-            rs2 = ps2.executeQuery();
-            String num = rs2.getString("NumFournisseur");
+            ps3 = conn.prepareStatement(requete2);
+            rs3 = ps3.executeQuery();
+            String num = rs3.getString("NumFournisseur");
             ps.setString(1, ref.getText());
             ps.setString(2, num);
-            String dateEntree = dateFormat.format(date.getDate());
+            String dateEntree = dateFormat1.format(date.getDate());
             
             ps.setString(3, dateEntree);
             ps.setString(4, MontantTotal.getText());
             ps.setString(5, obs.getText());
             ps.execute();
+            
+            String requete6 = "select * from Journal where  NumMouvement ='" + reference + "'";
+            ps6 = conn.prepareStatement(requete6);
+            rs6 = ps6.executeQuery();
+            String action = rs6.getString("Action");
+            
+            
+            String requete3 = "update Journal set DateMouvement =?,NumMouvement=?,Action=?,Acteur=? where  NumMouvement ='" + reference + "'";
+            ps4 = conn.prepareStatement(requete3);
+            ps4.setString(1, dateFormat.format(date.getDate()));
+            ps4.setString(2, ref.getText());
+            ps4.setString(3, action+"/MODIF");
+            ps4.setString(4, num);
+            ps4.execute();
+            
+            
+            
             JOptionPane.showMessageDialog(null, "Modification succes");}
+            
+            btnnvEntree.setEnabled(true);
+            btnsupprimerEntree.setEnabled(false);
+            btnmodifierEntree.setEnabled(false);
+            btnenregistrerEntree.setEnabled(false);
+            clearEntree();
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
@@ -1988,22 +2030,24 @@ public final class Entree extends javax.swing.JInternalFrame {
                                         ps = conn.prepareStatement(requete);
                                         ps.execute();
                                         
-                                        String requete101 = "insert into Journal (Date,TypeMouvement,Action,NumMouvement,NumArticle,AncienQte,AncienPU,AncienMontant,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?)";
+                                        String requete101 = "insert into Journal (DateJournal,DateMouvement,TypeMouvement,Action,NumMouvement,Acteur,NumArticle,QteMouvement,PUMouvement,MontantMouvement,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?)";
                                         ps9 = conn.prepareStatement(requete101);
 
-                                        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                                         Long millis = System.currentTimeMillis();
                                         Date date3 = new Date(millis);
                                         ps9.setString(1, dateFormat.format(date3));
-                                        ps9.setString(2, "ENTREE");
-                                        ps9.setString(3, "SUPPR");
-                                        ps9.setString(4, ref.getText());
-                                        ps9.setString(5, NumArticle1);
-                                        ps9.setString(6, NbrEntree1);
-                                        ps9.setString(7, PUEntree1);
-                                        ps9.setString(8, MontantEntree1);
-                                        ps9.setString(9, String.valueOf(qte));
-                                        ps9.setString(10, String.valueOf(MtnRet));
+                                        ps9.setString(2, dateFormat.format(date.getDate()));
+                                        ps9.setString(3, "ENTREE");
+                                        ps9.setString(4, "SUPPR");
+                                        ps9.setString(5, ref.getText());
+                                        ps9.setString(6, ComboFournisseur.getSelectedItem().toString());
+                                        ps9.setString(7, NumArticle1);
+                                        ps9.setString(8, NbrEntree1);
+                                        ps9.setString(9, PUEntree1);
+                                        ps9.setString(10, MontantEntree1);
+                                        ps9.setString(11, String.valueOf(qte));
+                                        ps9.setString(12, String.valueOf(MtnRet));
                                         ps9.execute();
                                         CloseRsPs9();
                                     }
@@ -2041,22 +2085,6 @@ public final class Entree extends javax.swing.JInternalFrame {
         masquerLigneEntree();
         clearEntree();
     }//GEN-LAST:event_btnsupprimerEntreeActionPerformed
-
-    private void printbtn1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtn1MouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_printbtn1MouseEntered
-
-    private void printbtn1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtn1MouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_printbtn1MouseExited
-
-    private void printbtn1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtn1MousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_printbtn1MousePressed
-
-    private void printbtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printbtn1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_printbtn1ActionPerformed
 
     private void refMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refMouseEntered
         // TODO add your handling code here:
@@ -2215,6 +2243,47 @@ public final class Entree extends javax.swing.JInternalFrame {
         btnmodifierEntree.setEnabled(false);
         btnenregistrerEntree.setEnabled(false);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void printbtn1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtn1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_printbtn1MouseEntered
+
+    private void printbtn1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtn1MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_printbtn1MouseExited
+
+    private void printbtn1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtn1MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_printbtn1MousePressed
+
+    private void printbtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printbtn1ActionPerformed
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[7];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                      BON D'ENTREE                                            ");
+        header[3] = new MessageFormat("                  N° : "+numeroEntree.getText());
+        header[4] = new MessageFormat("                  Fournisseur : "+ComboFournisseur.getSelectedItem());
+        header[5] = new MessageFormat("                  REF : "+ref.getText());
+        header[6] = new MessageFormat("                  Date : "+VarDateEntree);
+
+        MessageFormat[] footer = new MessageFormat[2];
+        footer[0] = new MessageFormat("           Montant Total : "+MontantTotal.getText()+" Ariary");
+        footer[1] = new MessageFormat("");
+        job.setCopies(2);
+        job.setJobName("BondEntree");
+        job.setPrintable(new MyTablePrintable(TableLigneEntree, PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }//GEN-LAST:event_printbtn1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboFournisseur;

@@ -1542,24 +1542,25 @@ public final class Sortie extends javax.swing.JInternalFrame {
                         Logger.getLogger(Sortie.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
-                    String requete9 = "insert into Journal (Date,TypeMouvement,Action,NumMouvement,NumArticle,NouveauQte,NouveauPU,NouveauMontant,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?)";
+                    String requete9 = "insert into Journal (DateJournal,DateMouvement,TypeMouvement,Action,NumMouvement,Acteur,NumArticle,QteMouvement,PUMouvement,MontantMouvement,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?)";
                     ps9 = conn.prepareStatement(requete9);
 
-                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Long millis = System.currentTimeMillis();
                     Date date3 = new Date(millis);
                     ps9.setString(1, dateFormat.format(date3));
-                    ps9.setString(2, "SORTIE");
-                    ps9.setString(3, "AJOUT");
-                    ps9.setString(4, ref.getText());
-                    ps9.setString(5, num);
-                    ps9.setString(6, nbr.getText());
-                    ps9.setString(7, puSortie.getText());
-                    ps9.setString(8, String.valueOf(mtn));
-                    ps9.setString(9, String.valueOf(qte));
-                    ps9.setString(10, String.valueOf(Mtn));
+                    ps9.setString(2, dateFormat.format(date.getDate()));
+                    ps9.setString(3, "SORTIE");
+                    ps9.setString(4, "AJOUT");
+                    ps9.setString(5, ref.getText());
+                    ps9.setString(6, ComboSection.getSelectedItem().toString());
+                    ps9.setString(7, num);
+                    ps9.setString(8, nbr.getText());
+                    ps9.setString(9, puSortie.getText());
+                    ps9.setString(10, String.valueOf(mtn));
+                    ps9.setString(11, String.valueOf(qte));
+                    ps9.setString(12, String.valueOf(Mtn));
                     ps9.execute();
-                
                     clearLS();
                 }
             }
@@ -1695,23 +1696,26 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 ps = conn.prepareStatement(requete);
                 ps.execute();
                 
-                String requete10 = "insert into Journal (Date,TypeMouvement,Action,NumMouvement,NumArticle,AncienQte,AncienPU,AncienMontant,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?)";
-                ps9 = conn.prepareStatement(requete10);
+                String requete9 = "insert into Journal (DateJournal,DateMouvement,TypeMouvement,Action,NumMouvement,Acteur,NumArticle,QteMouvement,PUMouvement,MontantMouvement,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+                ps9 = conn.prepareStatement(requete9);
 
-                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Long millis = System.currentTimeMillis();
                 Date date3 = new Date(millis);
                 ps9.setString(1, dateFormat.format(date3));
-                ps9.setString(2, "SORTIE");
-                ps9.setString(3, "SUPPR");
-                ps9.setString(4, ref.getText());
-                ps9.setString(5, NumArticle);
-                ps9.setString(6, NbrSortie);
-                ps9.setString(7, PUSortie);
-                ps9.setString(8, MontantSortie);
-                ps9.setString(9, String.valueOf(qte));
-                ps9.setString(10, String.valueOf(mtn));
+                ps9.setString(2, dateFormat.format(date.getDate()));
+                ps9.setString(3, "SORTIE");
+                ps9.setString(4, "SUPPR");
+                ps9.setString(5, ref.getText());
+                ps9.setString(6, ComboSection.getSelectedItem().toString());
+                ps9.setString(7, NumArticle);
+                ps9.setString(8, NbrSortie);
+                ps9.setString(9, PUSortie);
+                ps9.setString(10, MontantSortie);
+                ps9.setString(11, String.valueOf(qte));
+                ps9.setString(12, String.valueOf(mtn));
                 ps9.execute();
+                clearLS();
                 CloseRsPs9();
             }
         } catch (HeadlessException | SQLException e) {
@@ -1858,11 +1862,18 @@ public final class Sortie extends javax.swing.JInternalFrame {
 
     private void btnmodifierSortieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifierSortieActionPerformed
         conn = ConexionBD.Conexion();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-yyyy");
         try {
             if(ref.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Completez l'information"); 
             }else{
+                
+            String requete5 = "select * from Sortie where  NumSortie ='" + numeroSortie.getText() + "'";
+            ps2 = conn.prepareStatement(requete5);
+            rs2 = ps2.executeQuery();
+            String reference = rs2.getString("refSortie");
+            
             String requete = "update Sortie set refSortie =?,NumSection=?,DateSortie=?,MontantTotalSortie=?,ObservationSortie=? where  NumSortie ='" + numeroSortie.getText() + "'";
             ps6 = conn.prepareStatement(requete);
 
@@ -1873,13 +1884,35 @@ public final class Sortie extends javax.swing.JInternalFrame {
             String num = rs7.getString("idSection");
             ps6.setString(1, ref.getText());
             ps6.setString(2, num);
-            String dateSortie = dateFormat.format(date.getDate());
+            String dateSortie = dateFormat1.format(date.getDate());
             
             ps6.setString(3, dateSortie);
             ps6.setString(4, MontantTotal.getText());
             ps6.setString(5, obs.getText());
             ps6.execute();
+            
+            String requete6 = "select * from Journal where  NumMouvement ='" + reference + "'";
+            ps6 = conn.prepareStatement(requete6);
+            rs6 = ps6.executeQuery();
+            String action = rs6.getString("Action");
+            
+             String requete3 = "update Journal set DateMouvement =?,NumMouvement=?,Action=?,Acteur=? where  NumMouvement ='" + reference + "'";
+            ps4 = conn.prepareStatement(requete3);
+            ps4.setString(1, dateFormat.format(date.getDate()));
+            ps4.setString(2, ref.getText());
+            ps4.setString(3, action+"/MODIF");
+            ps4.setString(4, num);
+            ps4.execute();
+            
+            
             JOptionPane.showMessageDialog(null, "Modification succes");}
+            
+            btnnvSortie.setEnabled(true);
+            btnsupprimerSortie.setEnabled(false);
+            btnmodifierSortie.setEnabled(false);
+            btnenregistrerSortie.setEnabled(false);
+            clearSortie();
+            
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException modif : " + e);
             JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
@@ -1959,6 +1992,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
                                     String NumArticle1 = rs5.getString("NumArticle");
                                     String NbrSortie1 = rs5.getString("NbrSortie");
                                     String MontantSortie1 = rs5.getString("MontantSortie");
+                                    String PUSortie1 = rs5.getString("puSortie");
 
                                     String requete10 = "select * from  article where NumArticle = '" + NumArticle1 + "'";
                                     ps3 = conn.prepareStatement(requete10);
@@ -1991,6 +2025,28 @@ public final class Sortie extends javax.swing.JInternalFrame {
                                         ps = conn.prepareStatement(requete);
 
                                         ps.execute();
+                                        
+                                        String requete9 = "insert into Journal (DateJournal,DateMouvement,TypeMouvement,Action,NumMouvement,Acteur,NumArticle,QteMouvement,PUMouvement,MontantMouvement,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+                                        ps9 = conn.prepareStatement(requete9);
+
+                                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                        Long millis = System.currentTimeMillis();
+                                        Date date3 = new Date(millis);
+                                        ps9.setString(1, dateFormat.format(date3));
+                                        ps9.setString(2, dateFormat.format(date.getDate()));
+                                        ps9.setString(3, "SORTIE");
+                                        ps9.setString(4, "SUPPR");
+                                        ps9.setString(5, ref.getText());
+                                        ps9.setString(6, ComboSection.getSelectedItem().toString());
+                                        ps9.setString(7, NumArticle1);
+                                        ps9.setString(8, NbrSortie1);
+                                        ps9.setString(9, PUSortie1);
+                                        ps9.setString(10, MontantSortie1);
+                                        ps9.setString(11, AncienQte1);
+                                        ps9.setString(12, AncienMtn1);
+                                        ps9.execute();
+                                        clearLS();
+                                        CloseRsPs9();
                                     }
                             } catch (HeadlessException | SQLException e) {
                                 System.out.println(e);
@@ -2040,7 +2096,32 @@ public final class Sortie extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_printbtn1MousePressed
 
     private void printbtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printbtn1ActionPerformed
-        // TODO add your handling code here:
+         PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[7];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                      BON DE SORTIE                                            ");
+        header[3] = new MessageFormat("                  N° : "+numeroSortie.getText());
+        header[4] = new MessageFormat("                  Section : "+ComboSection.getSelectedItem());
+        header[5] = new MessageFormat("                  REF : "+ref.getText());
+        header[6] = new MessageFormat("                  Date : "+VarDateSortie);
+
+        MessageFormat[] footer = new MessageFormat[2];
+        footer[0] = new MessageFormat("           Montant Total : "+MontantTotal.getText()+" Ariary");
+        footer[1] = new MessageFormat("");
+        job.setCopies(2);
+        job.setJobName("BonDeSortie");
+        job.setPrintable(new MyTablePrintable(TableLigneSortie, PrintMode.FIT_WIDTH, header, footer));
+
+            if (job.printDialog())
+              try {
+                System.out.println("Calling PrintJob.print()");
+                job.print();
+                System.out.println("End PrintJob.print()");
+              }
+              catch (PrinterException pe) {
+                System.out.println("Error printing: " + pe);
+              }
     }//GEN-LAST:event_printbtn1ActionPerformed
 
     private void refMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refMouseEntered

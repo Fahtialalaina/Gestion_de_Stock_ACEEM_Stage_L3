@@ -22,16 +22,24 @@ public class TableColorCellRenderer implements TableCellRenderer{
     public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
         Component c = RENDERER.getTableCellRendererComponent(jtable, o, bln, bln1, i, i1);
         
-        Object result = jtable.getModel().getValueAt(i, 2);
+        Object result = jtable.getModel().getValueAt(i, 3);
+        Object result2 = jtable.getModel().getValueAt(i, 2);
         String type = result.toString();
+        String type2 = result2.toString();
         Color color = null;
         Color color2 = null;
-            if(type.equals("NON OK")){
+            if(type.equals("NON OK")&&type2.equals("INVENTAIRE")){
                 color = Color.RED;
-                color2 = Color.white;
-            }else if(type.equals("OK")){
+                color2 = Color.WHITE;
+            }else if(type.equals("OK")&&type2.equals("INVENTAIRE")){
                 color = Color.GREEN;
                 color2 = Color.BLACK;
+            }else if(type2.equals("ENTREE")){
+                color = Color.YELLOW;
+                color2 = Color.BLACK;
+            }else if(type2.equals("SORTIE")){
+                color = Color.BLUE;
+                color2 = Color.WHITE;
             }
          c.setBackground(color);
          c.setForeground(color2);
