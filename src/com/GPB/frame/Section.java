@@ -559,6 +559,8 @@ public class Section extends javax.swing.JInternalFrame {
             Table.setModel(DbUtils.resultSetToTableModel(rs));
             ps.close();
             rs.close();
+            ajusterTable();
+            tabel();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -612,7 +614,7 @@ public class Section extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Enregistrement succes");}
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
-            JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
+            JOptionPane.showMessageDialog(null, "Erreur formulaire ou Identifiant doublé");
         } finally {
 
             try {
@@ -716,6 +718,8 @@ public class Section extends javax.swing.JInternalFrame {
             rs.close();}
         } catch (SQLException ex) {
             System.out.println(ex);
+            System.out.println("--> SQLException : " + ex);
+            JOptionPane.showMessageDialog(null, "Erreur formulaire ou Identifiant doublé");
         } finally {
 
             try {

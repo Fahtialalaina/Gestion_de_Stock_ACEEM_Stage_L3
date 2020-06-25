@@ -1423,6 +1423,7 @@ public final class Entree extends javax.swing.JInternalFrame {
         btnsupprimerLE.setEnabled(false);
         btnenregistrerLE.setEnabled(false);
         
+        date.setEnabled(false);
 
     }//GEN-LAST:event_TableEntreeMouseReleased
 
@@ -1514,7 +1515,7 @@ public final class Entree extends javax.swing.JInternalFrame {
                     Logger.getLogger(Entree.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                String requete5 = "insert into Journal (DateJournal,DateMouvement,TypeMouvement,Action,NumMouvement,Acteur,NumArticle,QteMouvement,PUMouvement,MontantMouvement,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+                String requete5 = "insert into Journal (DateJournal,DateMouvement,TypeMouvement,Action,NumMouvement,Fournisseur,NumArticle,QteMouvement,PUMouvement,MontantMouvement,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?)";
                 ps5 = conn.prepareStatement(requete5);
                 
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -1525,7 +1526,26 @@ public final class Entree extends javax.swing.JInternalFrame {
                 ps5.setString(3, "ENTREE");
                 ps5.setString(4, "AJOUT");
                 ps5.setString(5, ref.getText());
-                ps5.setString(6, ComboFournisseur.getSelectedItem().toString());
+                
+                String fournisseur = null;
+                try {
+                String requete6 = "select * from Fournisseur where NomFournisseur LIKE ?";
+                ps6 = conn.prepareStatement(requete6);
+                ps6.setString(1, "%" + ComboFournisseur.getSelectedItem().toString() + "%");
+                rs6 = ps6.executeQuery();
+                fournisseur = rs6.getString("NumFournisseur");
+                } catch (SQLException e) {
+                    System.out.println(e);
+                } finally {
+                    try {
+                        ps6.close();
+                        rs6.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "erreur BD");
+                    }
+                }
+                
+                ps5.setString(6, fournisseur);
                 ps5.setString(7, num);
                 ps5.setString(8, nbr.getText());
                 ps5.setString(9, puFournisseur.getText());
@@ -1545,6 +1565,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             CloseRsPs3();
             CloseRsPs4();
             CloseRsPs5();
+            CloseRsPs6();
             CloseRsPs7();
             CloseConnexion();
         }
@@ -1688,7 +1709,7 @@ public final class Entree extends javax.swing.JInternalFrame {
 
                     ps.execute();
                     
-                    String requete10 = "insert into Journal (DateJournal,DateMouvement,TypeMouvement,Action,NumMouvement,Acteur,NumArticle,QteMouvement,PUMouvement,MontantMouvement,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+                    String requete10 = "insert into Journal (DateJournal,DateMouvement,TypeMouvement,Action,NumMouvement,Fournisseur,NumArticle,QteMouvement,PUMouvement,MontantMouvement,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?)";
                     ps9 = conn.prepareStatement(requete10);
 
                     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -1699,7 +1720,28 @@ public final class Entree extends javax.swing.JInternalFrame {
                     ps9.setString(3, "ENTREE");
                     ps9.setString(4, "SUPPR");
                     ps9.setString(5, ref.getText());
-                    ps9.setString(6, ComboFournisseur.getSelectedItem().toString());
+                    
+
+                    String fournisseur = null;
+                    try {
+                    String requete15 = "select * from Fournisseur where NomFournisseur LIKE ?";
+                    ps6 = conn.prepareStatement(requete15);
+                    ps6.setString(1, "%" + ComboFournisseur.getSelectedItem().toString() + "%");
+                    rs6 = ps6.executeQuery();
+                    fournisseur = rs6.getString("NumFournisseur");
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    } finally {
+                        try {
+                            ps6.close();
+                            rs6.close();
+                        } catch (SQLException e) {
+                            JOptionPane.showMessageDialog(null, "erreur BD");
+                        }
+                    }
+
+                    
+                    ps9.setString(6, fournisseur);
                     ps9.setString(7, NumArticle);
                     ps9.setString(8, NbrEntree);
                     ps9.setString(9, PUEntree);
@@ -1811,9 +1853,13 @@ public final class Entree extends javax.swing.JInternalFrame {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         
         try {
+            
             if(ref.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Completez l'information"); 
+            }else if(ref.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Completez l'information"); 
             }else{
+                
             String requete = "insert into Entree (refEntree,NumFournisseur,DateEntree,MontantTotalEntree,ObservationEntree) values (?,?,?,?,?)";
             ps = conn.prepareStatement(requete);
 
@@ -1834,7 +1880,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Enregistrement succes");}
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
-            JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
+            JOptionPane.showMessageDialog(null, "Erreur formulaire ou Identifiant doublé");
         } finally {
             CloseRsPs1();
             CloseRsPs2();
@@ -1901,7 +1947,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             String action = rs6.getString("Action");
             
             
-            String requete3 = "update Journal set DateMouvement =?,NumMouvement=?,Action=?,Acteur=? where  NumMouvement ='" + reference + "'";
+            String requete3 = "update Journal set DateMouvement =?,NumMouvement=?,Action=?,Fournisseur=? where  NumMouvement ='" + reference + "'";
             ps4 = conn.prepareStatement(requete3);
             ps4.setString(1, dateFormat.format(date.getDate()));
             ps4.setString(2, ref.getText());
@@ -1920,7 +1966,7 @@ public final class Entree extends javax.swing.JInternalFrame {
             clearEntree();
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
-            JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
+            JOptionPane.showMessageDialog(null, "Erreur formulaire ou Identifiant doublé");
         } finally {
             CloseRsPs1();
             CloseRsPs2();
@@ -2041,7 +2087,28 @@ public final class Entree extends javax.swing.JInternalFrame {
                                         ps9.setString(3, "ENTREE");
                                         ps9.setString(4, "SUPPR");
                                         ps9.setString(5, ref.getText());
-                                        ps9.setString(6, ComboFournisseur.getSelectedItem().toString());
+                                        
+                                        String fournisseur = null;
+                                        try {
+                                        String requete15 = "select * from Fournisseur where NomFournisseur LIKE ?";
+                                        ps6 = conn.prepareStatement(requete15);
+                                        ps6.setString(1, "%" + ComboFournisseur.getSelectedItem().toString() + "%");
+                                        rs6 = ps6.executeQuery();
+                                        fournisseur = rs6.getString("NumFournisseur");
+                                        } catch (SQLException e) {
+                                            System.out.println(e);
+                                        } finally {
+                                            try {
+                                                ps6.close();
+                                                rs6.close();
+                                            } catch (SQLException e) {
+                                                JOptionPane.showMessageDialog(null, "erreur BD");
+                                            }
+                                        }
+
+
+                                        ps9.setString(6, fournisseur);
+                                        
                                         ps9.setString(7, NumArticle1);
                                         ps9.setString(8, NbrEntree1);
                                         ps9.setString(9, PUEntree1);
@@ -2143,6 +2210,8 @@ public final class Entree extends javax.swing.JInternalFrame {
             ps.setString(1, "%" + txtrechercher1Entree.getText() + "%");
             rs = ps.executeQuery();
             TableEntree.setModel(DbUtils.resultSetToTableModel(rs));
+            ajusterTableEntree();
+            tabelEntree();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -2242,6 +2311,8 @@ public final class Entree extends javax.swing.JInternalFrame {
         btnsupprimerEntree.setEnabled(false);
         btnmodifierEntree.setEnabled(false);
         btnenregistrerEntree.setEnabled(false);
+        
+        date.setEnabled(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void printbtn1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printbtn1MouseEntered

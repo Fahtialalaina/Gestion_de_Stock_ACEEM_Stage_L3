@@ -1452,6 +1452,8 @@ public final class Sortie extends javax.swing.JInternalFrame {
         btnnvLS.setEnabled(true);
         btnsupprimerLS.setEnabled(false);
         btnenregistrerLS.setEnabled(false);
+        
+        date.setEnabled(false);
     }//GEN-LAST:event_TableSortieMouseReleased
 
     private void SommeMontant() throws SQLException {
@@ -1542,7 +1544,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
                         Logger.getLogger(Sortie.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
-                    String requete9 = "insert into Journal (DateJournal,DateMouvement,TypeMouvement,Action,NumMouvement,Acteur,NumArticle,QteMouvement,PUMouvement,MontantMouvement,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+                    String requete9 = "insert into Journal (DateJournal,DateMouvement,TypeMouvement,Action,NumMouvement,Section,NumArticle,QteMouvement,PUMouvement,MontantMouvement,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?)";
                     ps9 = conn.prepareStatement(requete9);
 
                     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -1553,7 +1555,27 @@ public final class Sortie extends javax.swing.JInternalFrame {
                     ps9.setString(3, "SORTIE");
                     ps9.setString(4, "AJOUT");
                     ps9.setString(5, ref.getText());
-                    ps9.setString(6, ComboSection.getSelectedItem().toString());
+                    
+                    String section = null;
+                    try {
+                    String requete15 = "select * from section where NomSection LIKE ?";
+                    ps6 = conn.prepareStatement(requete15);
+                    ps6.setString(1, "%" + ComboSection.getSelectedItem().toString() + "%");
+                    rs6 = ps6.executeQuery();
+                    section = rs6.getString("idSection");
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    } finally {
+                        try {
+                            ps6.close();
+                            rs6.close();
+                        } catch (SQLException e) {
+                            JOptionPane.showMessageDialog(null, "erreur BD");
+                        }
+                    }
+
+                    
+                    ps9.setString(6, section);
                     ps9.setString(7, num);
                     ps9.setString(8, nbr.getText());
                     ps9.setString(9, puSortie.getText());
@@ -1696,7 +1718,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 ps = conn.prepareStatement(requete);
                 ps.execute();
                 
-                String requete9 = "insert into Journal (DateJournal,DateMouvement,TypeMouvement,Action,NumMouvement,Acteur,NumArticle,QteMouvement,PUMouvement,MontantMouvement,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+                String requete9 = "insert into Journal (DateJournal,DateMouvement,TypeMouvement,Action,NumMouvement,Section,NumArticle,QteMouvement,PUMouvement,MontantMouvement,QteStock,MontantStock) values (?,?,?,?,?,?,?,?,?,?,?,?)";
                 ps9 = conn.prepareStatement(requete9);
 
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -1707,7 +1729,26 @@ public final class Sortie extends javax.swing.JInternalFrame {
                 ps9.setString(3, "SORTIE");
                 ps9.setString(4, "SUPPR");
                 ps9.setString(5, ref.getText());
-                ps9.setString(6, ComboSection.getSelectedItem().toString());
+                
+                    String section = null;
+                    try {
+                    String requete15 = "select * from section where NomSection LIKE ?";
+                    ps6 = conn.prepareStatement(requete15);
+                    ps6.setString(1, "%" + ComboSection.getSelectedItem().toString() + "%");
+                    rs6 = ps6.executeQuery();
+                    section = rs6.getString("idSection");
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    } finally {
+                        try {
+                            ps6.close();
+                            rs6.close();
+                        } catch (SQLException e) {
+                            JOptionPane.showMessageDialog(null, "erreur BD");
+                        }
+                    }
+
+                ps9.setString(6, section);
                 ps9.setString(7, NumArticle);
                 ps9.setString(8, NbrSortie);
                 ps9.setString(9, PUSortie);
@@ -1830,7 +1871,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Enregistrement succes");}
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
-            JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
+            JOptionPane.showMessageDialog(null, "Erreur formulaire ou Identifiant doublé");
         } finally {
             CloseRsPs1();
             CloseRsPs2();
@@ -1896,7 +1937,7 @@ public final class Sortie extends javax.swing.JInternalFrame {
             rs6 = ps6.executeQuery();
             String action = rs6.getString("Action");
             
-             String requete3 = "update Journal set DateMouvement =?,NumMouvement=?,Action=?,Acteur=? where  NumMouvement ='" + reference + "'";
+             String requete3 = "update Journal set DateMouvement =?,NumMouvement=?,Action=?,Section=? where  NumMouvement ='" + reference + "'";
             ps4 = conn.prepareStatement(requete3);
             ps4.setString(1, dateFormat.format(date.getDate()));
             ps4.setString(2, ref.getText());
@@ -1914,8 +1955,8 @@ public final class Sortie extends javax.swing.JInternalFrame {
             clearSortie();
             
         } catch (HeadlessException | SQLException e) {
-            System.out.println("--> SQLException modif : " + e);
-            JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
+            System.out.println("--> SQLException : " + e);
+            JOptionPane.showMessageDialog(null, "Erreur formulaire ou Identifiant doublé");
         } finally {
             CloseRsPs6();
             CloseRsPs7();
@@ -2037,7 +2078,27 @@ public final class Sortie extends javax.swing.JInternalFrame {
                                         ps9.setString(3, "SORTIE");
                                         ps9.setString(4, "SUPPR");
                                         ps9.setString(5, ref.getText());
-                                        ps9.setString(6, ComboSection.getSelectedItem().toString());
+                                        
+                                        String section = null;
+                                        try {
+                                        String requete15 = "select * from section where NomSection LIKE ?";
+                                        ps6 = conn.prepareStatement(requete15);
+                                        ps6.setString(1, "%" + ComboSection.getSelectedItem().toString() + "%");
+                                        rs6 = ps6.executeQuery();
+                                        section = rs6.getString("idSection");
+                                        } catch (SQLException e) {
+                                            System.out.println(e);
+                                        } finally {
+                                            try {
+                                                ps6.close();
+                                                rs6.close();
+                                            } catch (SQLException e) {
+                                                JOptionPane.showMessageDialog(null, "erreur BD");
+                                            }
+                                        }
+
+                                        ps9.setString(6, section);
+                                        
                                         ps9.setString(7, NumArticle1);
                                         ps9.setString(8, NbrSortie1);
                                         ps9.setString(9, PUSortie1);
@@ -2283,6 +2344,8 @@ public final class Sortie extends javax.swing.JInternalFrame {
         btnsupprimerSortie.setEnabled(false);
         btnmodifierSortie.setEnabled(false);
         btnenregistrerSortie.setEnabled(false);
+        
+        date.setEnabled(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

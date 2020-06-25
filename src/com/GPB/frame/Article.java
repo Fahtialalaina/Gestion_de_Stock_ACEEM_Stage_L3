@@ -1209,6 +1209,8 @@ public class Article extends javax.swing.JInternalFrame {
             ps.setString(1, "%" + txtrechercher1Categorie.getText() + "%");
             rs = ps.executeQuery();
             TableCategorie.setModel(DbUtils.resultSetToTableModel(rs));
+            ajusterTableCategorie();
+            tabelCategorie();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -1257,7 +1259,7 @@ public class Article extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Enregistrement succes");}
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
-            JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
+            JOptionPane.showMessageDialog(null, "Erreur formulaire ou Identifiant doublé");
         } finally {
             CloseRsPs1();
             CloseConnexion();
@@ -1356,6 +1358,8 @@ public class Article extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Modification avec succès");}
         } catch (SQLException ex) {
             System.out.println(ex);
+            System.out.println("--> SQLException : " + ex);
+            JOptionPane.showMessageDialog(null, "Erreur formulaire ou Identifiant doublé");
         } finally {
             CloseRsPs1();
             CloseConnexion();
@@ -1594,7 +1598,7 @@ public class Article extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Enregistrement succes");}
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
-            JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
+            JOptionPane.showMessageDialog(null, "Erreur formulaire ou Identifiant doublé");
         } finally {
             CloseRsPs1();
             CloseRsPs2();
@@ -1646,7 +1650,7 @@ public class Article extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Modification succes");}
         } catch (HeadlessException | SQLException e) {
             System.out.println("--> SQLException : " + e);
-            JOptionPane.showMessageDialog(null, "Tout est Obligatoire");
+            JOptionPane.showMessageDialog(null, "Erreur formulaire ou Identifiant doublé");
         } finally {
             CloseRsPs1();
             CloseRsPs2();
@@ -1739,6 +1743,8 @@ public class Article extends javax.swing.JInternalFrame {
             ps.setString(1, "%" + txtrechercher1Article.getText() + "%");
             rs = ps.executeQuery();
             TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
+            ajusterTableArticle();
+            tabelArticle();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {

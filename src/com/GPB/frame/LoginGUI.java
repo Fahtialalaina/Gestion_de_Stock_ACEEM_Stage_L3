@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author anouer
+ * @author Fandresena
  */
 public class LoginGUI extends javax.swing.JFrame {
 
@@ -32,7 +32,6 @@ public class LoginGUI extends javax.swing.JFrame {
      */
     public LoginGUI() {
         initComponents();
-        
     }
 
     /**
@@ -44,6 +43,7 @@ public class LoginGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel3 = new javax.swing.JLabel();
         MouveJframe = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -60,6 +60,13 @@ public class LoginGUI extends javax.swing.JFrame {
         setUndecorated(true);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 410, 200, 40));
 
         MouveJframe.setBackground(new java.awt.Color(0, 102, 102));
         MouveJframe.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -108,7 +115,6 @@ public class LoginGUI extends javax.swing.JFrame {
         Description.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         getContentPane().add(Description, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 430, 40));
 
-        txtlogin.setBackground(new java.awt.Color(255, 255, 255));
         txtlogin.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         txtlogin.setForeground(new java.awt.Color(3, 91, 155));
         txtlogin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -135,11 +141,15 @@ public class LoginGUI extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtloginKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtloginKeyTyped(evt);
+            }
         });
-        getContentPane().add(txtlogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, 160, 20));
+        getContentPane().add(txtlogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 200, 200, 30));
 
         close.setBackground(new java.awt.Color(255, 255, 255));
         close.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 24)); // NOI18N
+        close.setForeground(new java.awt.Color(255, 255, 255));
         close.setText("X");
         close.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         close.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -157,7 +167,6 @@ public class LoginGUI extends javax.swing.JFrame {
         });
         getContentPane().add(resize, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 30, 40));
 
-        txtpassword.setBackground(new java.awt.Color(255, 255, 255));
         txtpassword.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         txtpassword.setForeground(new java.awt.Color(3, 91, 155));
         txtpassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -187,10 +196,10 @@ public class LoginGUI extends javax.swing.JFrame {
                 txtpasswordKeyTyped(evt);
             }
         });
-        getContentPane().add(txtpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 240, 160, 20));
+        getContentPane().add(txtpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 240, 200, 30));
 
         Background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/login.png"))); // NOI18N
-        getContentPane().add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 520));
+        getContentPane().add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 520));
 
         setSize(new java.awt.Dimension(700, 519));
         setLocationRelativeTo(null);
@@ -217,7 +226,52 @@ public class LoginGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_txtloginActionPerformed
 
     private void txtloginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtloginKeyPressed
+        if (evt.getKeyCode()==java.awt.event.KeyEvent.VK_ENTER){
+            conn = ConexionBD.Conexion();
+        String requete = "select * from login_table where login = ?";
+        try {
 
+            ps = conn.prepareStatement(requete);
+            ps.setString(1, txtlogin.getText());
+            rs = ps.executeQuery();
+            System.out.println(requete);
+            if (rs.next()) {
+                
+                if(checkPassword(txtpassword.getText(), rs.getString("password"))){
+                    LoginGUI.login = rs.getString("login");
+                    LoginGUI.role = rs.getString("role");
+                    dispose();
+                    new AcceuilGui().setVisible(true);
+                }else{
+                    Description.setForeground(Color.red);
+                    Description.setText("Mot de passe incorrect");
+                }
+            }else{
+                Description.setForeground(Color.red);
+                Description.setText("Login incorrect");
+            }
+
+        } catch (Exception e) {
+            System.out.println("--> Exception : " + e);
+            e.printStackTrace();
+        } finally {
+
+            try {
+                ps.close();
+                rs.close();
+                conn.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "erreur BD");
+            }
+        }
+        
+
+        //txtlogin.setBackground(Color.red);
+        // txtlogin.setForeground(Color.red);
+        txtlogin.setText("");
+        txtpassword.setText("");
+        //System.out.println(" login failed");
+        }   
     }//GEN-LAST:event_txtloginKeyPressed
 
     private void txtpasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtpasswordKeyTyped
@@ -225,7 +279,52 @@ public class LoginGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_txtpasswordKeyTyped
 
     private void txtpasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtpasswordKeyPressed
+        if (evt.getKeyCode()==java.awt.event.KeyEvent.VK_ENTER){
+            conn = ConexionBD.Conexion();
+        String requete = "select * from login_table where login = ?";
+        try {
 
+            ps = conn.prepareStatement(requete);
+            ps.setString(1, txtlogin.getText());
+            rs = ps.executeQuery();
+            System.out.println(requete);
+            if (rs.next()) {
+                
+                if(checkPassword(txtpassword.getText(), rs.getString("password"))){
+                    LoginGUI.login = rs.getString("login");
+                    LoginGUI.role = rs.getString("role");
+                    dispose();
+                    new AcceuilGui().setVisible(true);
+                }else{
+                    Description.setForeground(Color.red);
+                    Description.setText("Mot de passe incorrect");
+                }
+            }else{
+                Description.setForeground(Color.red);
+                Description.setText("Login incorrect");
+            }
+
+        } catch (Exception e) {
+            System.out.println("--> Exception : " + e);
+            e.printStackTrace();
+        } finally {
+
+            try {
+                ps.close();
+                rs.close();
+                conn.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "erreur BD");
+            }
+        }
+        
+
+        //txtlogin.setBackground(Color.red);
+        // txtlogin.setForeground(Color.red);
+        txtlogin.setText("");
+        txtpassword.setText("");
+        //System.out.println(" login failed");
+        } 
     }//GEN-LAST:event_txtpasswordKeyPressed
 
     private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
@@ -256,11 +355,12 @@ public class LoginGUI extends javax.swing.JFrame {
             ps = conn.prepareStatement(requete);
             ps.setString(1, txtlogin.getText());
             rs = ps.executeQuery();
+            System.out.println(requete);
             if (rs.next()) {
                 
                 if(checkPassword(txtpassword.getText(), rs.getString("password"))){
-                    this.login = rs.getString("login");
-                    this.role = rs.getString("role");
+                    LoginGUI.login = rs.getString("login");
+                    LoginGUI.role = rs.getString("role");
                     dispose();
                     new AcceuilGui().setVisible(true);
                 }else{
@@ -274,6 +374,7 @@ public class LoginGUI extends javax.swing.JFrame {
 
         } catch (Exception e) {
             System.out.println("--> Exception : " + e);
+            e.printStackTrace();
         } finally {
 
             try {
@@ -316,6 +417,14 @@ public class LoginGUI extends javax.swing.JFrame {
     private void txtpasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpasswordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtpasswordActionPerformed
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void txtloginKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtloginKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtloginKeyTyped
 
     /**
      * @param args the command line arguments
@@ -366,6 +475,7 @@ public class LoginGUI extends javax.swing.JFrame {
     private javax.swing.JLabel close;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel resize;
     private javax.swing.JTextField txtlogin;
     private javax.swing.JPasswordField txtpassword;

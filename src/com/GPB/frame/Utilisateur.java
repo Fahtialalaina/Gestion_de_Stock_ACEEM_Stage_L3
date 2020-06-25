@@ -85,7 +85,7 @@ public class Utilisateur extends javax.swing.JInternalFrame {
 
     private void Affichage() {
         try {
-            String requete = "select login as 'Login', password as 'Mot de passe', role as 'Rôle' from login_table ";
+            String requete = "select login as 'Login', role as 'Rôle' from login_table ";
             ps = conn4.prepareStatement(requete);
             rs = ps.executeQuery();
             Table.setModel(DbUtils.resultSetToTableModel(rs));
@@ -593,6 +593,8 @@ public class Utilisateur extends javax.swing.JInternalFrame {
             Table.setModel(DbUtils.resultSetToTableModel(rs));
             ps.close();
             rs.close();
+            ajusterTable();
+            tabel();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {

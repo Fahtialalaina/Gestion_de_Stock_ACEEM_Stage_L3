@@ -5,13 +5,17 @@
  */
 package com.GPB.frame;
 
+//import com.mysql.jdbc.ResultSetMetaData;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -19,6 +23,8 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -36,6 +42,7 @@ import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
@@ -54,16 +61,21 @@ public final class Journal extends javax.swing.JInternalFrame {
     ResultSet rs3 = null;
     ResultSet rs4 = null;
     ResultSet rs5 = null;
+    ResultSet rs6 = null;
     PreparedStatement ps = null;
     PreparedStatement ps2 = null;
     PreparedStatement ps3 = null;
     PreparedStatement ps4 = null;
     PreparedStatement ps5 = null;
+    PreparedStatement ps6 = null;
+    
     static String test;
     static String test2;
     static String test3;
     static String article;
+    static String section;
     static int print;
+    private ChartPanel chartPanel;
     
 
     /**
@@ -75,13 +87,17 @@ public final class Journal extends javax.swing.JInternalFrame {
 
         initComponents();
         remove_title_bar();
-        
+        affichagePie();
         if(LoginGUI.role.equals("USER")){
             jLabel4.setVisible(false);
             NbInvt.setVisible(false);
             btnInventaire.setVisible(false);
             btnSupprInventaire.setVisible(false);
         }
+        labelSection.setVisible(false);
+        labelFournisseur.setVisible(false);
+        ComboSection.setVisible(false);
+        ComboFournisseur.setVisible(false);
         
         AffichageArticle();
         AffichageJournal();
@@ -107,8 +123,8 @@ public final class Journal extends javax.swing.JInternalFrame {
         
         /*PriceVolumeDemo1 pricevolumedemo1 = new PriceVolumeDemo1("Price Volume Chart Demo");
         pricevolumedemo1.pack();*/
-        this.chartPanel.removeAll();
-        this.chartPanel.repaint();
+        //this.chartPanel.removeAll();
+        //this.chartPanel.repaint();
         
         /*PriceVolumeDemo1 pricevolumedemo1 = new PriceVolumeDemo1("test");
         pricevolumedemo1.pack();
@@ -116,13 +132,13 @@ public final class Journal extends javax.swing.JInternalFrame {
         pricevolumedemo1.setVisible(true);*/
         
         
-        JFreeChart jfreechart = createChart();
-        ChartPanel chartpanel = new ChartPanel(jfreechart, true, true, true, false, true);
-        chartpanel.setPreferredSize(new Dimension(300, 180));
+        //JFreeChart jfreechart = createChart();
+        //ChartPanel chartpanel = new ChartPanel(jfreechart, true, true, true, false, true);
+        //chartpanel.setPreferredSize(new Dimension(300, 180));
         
-        chartPanel.setLayout(new BorderLayout());
-        chartPanel.add(chartpanel, BorderLayout.CENTER);
-        chartPanel.show();
+        //chartPanel.setLayout(new BorderLayout());
+        //chartPanel.add(chartpanel, BorderLayout.CENTER);
+        //chartPanel.show();
         /*
         JFreeChart jfreechart = createChart();
         ChartPanel chartpanel = new ChartPanel(jfreechart, true, true, true, false, true);
@@ -155,14 +171,13 @@ public final class Journal extends javax.swing.JInternalFrame {
     }
     
     public void CloseConnexion() {
-        if (conn != null) {
+        /*if (conn != null) {
             try {
                 conn.close();
                 System.out.println("Connexion fermée");
             } catch (SQLException e) {
-                /* ignored */
             }
-        }
+        }*/
     }
 
     public void CloseRsPs1() {
@@ -277,6 +292,71 @@ public final class Journal extends javax.swing.JInternalFrame {
         tabelArticle();
     }
     
+    private void affichagePie() {
+        conn = ConexionBD.Conexion();
+        this.graph.removeAll();
+        this.graph.repaint();
+        //this.jPanel2.removeAll();
+        //this.jPanel2.repaint();
+        try {
+            String requete3 = "select NomArticle as 'Article',QteStock as 'Quantité',MontantStock as 'Montant'  from  article";
+            ps3 = conn.prepareStatement(requete3);
+            rs3 = ps3.executeQuery();
+            //Table3.setModel(DbUtils.resultSetToTableModel(rs3));
+
+            ResultSetMetaData a = (ResultSetMetaData) rs3.getMetaData();
+            int nbColonnes = a.getColumnCount();
+
+            DefaultPieDataset data = new DefaultPieDataset();
+            //DefaultPieDataset data2 = new DefaultPieDataset();
+
+            while (rs3.next()) {
+
+                for (int i = 1; i <= nbColonnes; i++) {
+                    String laValeur = rs3.getString(i);
+                    System.out.println(laValeur + " " + a.getColumnName(i));
+                }
+
+                String NomBanque = rs3.getString(1);
+                System.out.println("Article = " + NomBanque);
+                String EffectifClient = rs3.getString(2);
+                System.out.println("Quantité = " + EffectifClient);
+                String TotalPret = rs3.getString(3);
+                System.out.println("Montant = " + TotalPret);
+
+                data.setValue(NomBanque, Long.parseLong(EffectifClient));
+                //data2.setValue(NomBanque, Long.parseLong(TotalPret));
+            }
+
+            boolean URLs = false;
+            boolean legend = false;
+            boolean tooltips = false;
+            JFreeChart chart = ChartFactory.createPieChart("Effectif Article", data, true, true, false);
+            //JFreeChart chart2 = ChartFactory.createPieChart("Effectif Montant par Banque", data2, true, true, false);
+            chartPanel = new ChartPanel(chart);
+            //chartPanel2 = new ChartPanel(chart2);
+            graph.setLayout(new BorderLayout());
+            graph.add(chartPanel, BorderLayout.CENTER);
+            graph.show();
+            //jPanel2.setLayout(new BorderLayout());
+            //jPanel2.add(chartPanel2, BorderLayout.CENTER);
+            //jPanel2.show();
+
+        } catch (NumberFormatException | SQLException e) {
+            System.out.println(e);
+        } finally {
+
+            try {
+                ps3.close();
+                rs3.close();
+                CloseConnexion();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "erreur BD");
+            }
+        }
+        
+    }
+    
     private void AffichageArticleParCategorie(String categorie) {
         conn = ConexionBD.Conexion();
         try {
@@ -307,12 +387,51 @@ public final class Journal extends javax.swing.JInternalFrame {
         try {
             String requete = null;
             if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle ORDER BY DateJournal asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle ORDER BY DateJournal asc";
+                
+                /*requete = "select distinct Journal.DateJournal as 'Date Journal' ,Journal.DateMouvement as 'Date Mouvement' ,Journal.TypeMouvement as 'Type' ,Journal.Action as 'Action' ,Journal.NumMouvement as 'Ref', Fournisseur.NomFournisseur as 'Fournisseur', section.NomSection as 'Section' , article.NomArticle as 'Article' ,Journal.QteMouvement , Journal.PUMouvement, Journal.MontantMouvement, Journal.QteStock, Journal.MontantStock,Journal.QteInventaire,Journal.Difference from Journal, article, Fournisseur, section WHERE\n"
+                    + "(article.NumArticle=Journal.NumArticle and Fournisseur.NumFournisseur=Journal.Fournisseur and section.idSection=Journal.Section) ORDER BY DateJournal asc";*/
             }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle ORDER BY DateMouvement asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle ORDER BY DateMouvement asc";
             }
+            
+            System.out.println(requete);
             ps = conn.prepareStatement(requete);
             rs = ps.executeQuery();
             TableJournal.setModel(DbUtils.resultSetToTableModel(rs));
@@ -333,17 +452,56 @@ public final class Journal extends javax.swing.JInternalFrame {
         print=1;
     }
     
-    private void AffichageJournalImpression() {
+    private void AffichageJournal2date(String date1, String date2) {
         conn = ConexionBD.Conexion();
         try {
             String requete = null;
             if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle ORDER BY DateJournal asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
+                
+                /*requete = "select distinct Journal.DateJournal as 'Date Journal' ,Journal.DateMouvement as 'Date Mouvement' ,Journal.TypeMouvement as 'Type' ,Journal.Action as 'Action' ,Journal.NumMouvement as 'Ref', Fournisseur.NomFournisseur as 'Fournisseur', section.NomSection as 'Section' , article.NomArticle as 'Article' ,Journal.QteMouvement , Journal.PUMouvement, Journal.MontantMouvement, Journal.QteStock, Journal.MontantStock,Journal.QteInventaire,Journal.Difference from Journal, article, Fournisseur, section WHERE\n"
+                    + "(article.NumArticle=Journal.NumArticle and Fournisseur.NumFournisseur=Journal.Fournisseur and section.idSection=Journal.Section) ORDER BY DateJournal asc";*/
             }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle ORDER BY DateMouvement asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where DateMouvement between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
             }
+            
+            System.out.println(requete);
             ps = conn.prepareStatement(requete);
             rs = ps.executeQuery();
             TableJournal.setModel(DbUtils.resultSetToTableModel(rs));
@@ -361,7 +519,10 @@ public final class Journal extends javax.swing.JInternalFrame {
             }
         }
         tabelJournal();
+        print=2;
     }
+    
+    
 
     public void Deplace() {
         try {
@@ -399,15 +560,49 @@ public final class Journal extends javax.swing.JInternalFrame {
     }
     
     
-    private void AffichageJournal(String nomArticle) {
+    private void AffichageJournalArticle(String nomArticle) {
         try {
             String requete = null;
             if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and article.NomArticle like '" + nomArticle + "' ORDER BY DateJournal asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where A.NomArticle like '" + nomArticle + "' ORDER BY DateJournal asc";
             }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and article.NomArticle like '" + nomArticle + "' ORDER BY DateMouvement asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where A.NomArticle like '" + nomArticle + "' ORDER BY DateMouvement asc";
             }
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
@@ -426,93 +621,52 @@ public final class Journal extends javax.swing.JInternalFrame {
         //txtbackgroundarticle.setIcon(img);
         //txtrechercherarticle.setText("Tapez Numero ou Nom Article");
 
-        print=2;
-    }
-    
-    private void AffichageJournalImpression(String nomArticle) {
-        try {
-            String requete = null;
-            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement'  from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and article.NomArticle like '" + nomArticle + "' ORDER BY DateJournal asc";
-            }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and article.NomArticle like '" + nomArticle + "' ORDER BY DateMouvement asc";
-            }
-            ps5 = conn.prepareStatement(requete);
-            rs5 = ps5.executeQuery();
-            TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
-            ajusterTableJournal();
-            /*TableColorCellRenderer renderer = new TableColorCellRenderer();
-            TableJournal.setDefaultRenderer(Object.class, renderer);
-            TableJournal.setSelectionForeground(Color.GREEN);*/
-        } catch (SQLException e) {
-            System.out.println(e);
-        } finally {
-            CloseRsPs5();
-        }
-        tabelJournal();
-        //ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
-        //txtbackgroundarticle.setIcon(img);
-        //txtrechercherarticle.setText("Tapez Numero ou Nom Article");
-    }
-    
-    private void AffichageJournal2dateArticle(String nomArticle, String date1, String date2) {
-        try {
-            String requete = null;
-            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and article.NomArticle like '" + nomArticle + "' and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
-            }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and article.NomArticle like '" + nomArticle + "' and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
-            }
-            ps5 = conn.prepareStatement(requete);
-            rs5 = ps5.executeQuery();
-            System.out.println(requete);
-            TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
-            ajusterTableJournal();
-        } catch (SQLException e) {
-            System.out.println(e);
-        } finally {
-            CloseRsPs5();
-        }
-        tabelJournal();
         print=3;
     }
     
-    private void AffichageJournal2dateArticleImpression(String nomArticle, String date1, String date2) {
+    private void AffichageJournalArticle2date(String nomArticle, String date1, String date2) {
         try {
             String requete = null;
             if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and article.NomArticle like '" + nomArticle + "' and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where A.NomArticle like '" + nomArticle + "' and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
             }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and article.NomArticle like '" + nomArticle + "' and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
-            }
-            ps5 = conn.prepareStatement(requete);
-            rs5 = ps5.executeQuery();
-            System.out.println(requete);
-            TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
-            ajusterTableJournal();
-        } catch (SQLException e) {
-            System.out.println(e);
-        } finally {
-            CloseRsPs5();
-        }
-        tabelJournal();
-    }
-    
-    private void AffichageJournal2dateType(String type, String date1, String date2) {
-        try {
-            String requete = null;
-            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "' and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
-            }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "' and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where A.NomArticle like '" + nomArticle + "' and DateMouvement between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
             }
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
@@ -527,39 +681,43 @@ public final class Journal extends javax.swing.JInternalFrame {
         tabelJournal();
         print=4;
     }
+   
     
-    private void AffichageJournal2dateTypeImpression(String type, String date1, String date2) {
+    private void AffichageJournalInventaire2date(String date1, String date2) {
         try {
             String requete = null;
             if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "' and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'INVENTAIRE' and J.DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
             }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "' and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
-            }
-            ps5 = conn.prepareStatement(requete);
-            rs5 = ps5.executeQuery();
-            System.out.println(requete);
-            TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
-            ajusterTableJournal();
-        } catch (SQLException e) {
-            System.out.println(e);
-        } finally {
-            CloseRsPs5();
-        }
-        tabelJournal();
-    }
-    
-    private void AffichageJournal2dateArticleType(String type, String nomArticle, String date1, String date2) {
-        try {
-            String requete = null;
-            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and article.NomArticle like '" + nomArticle + "' and TypeMouvement like '" + type + "' and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
-            }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and article.NomArticle like '" + nomArticle + "' and TypeMouvement like '" + type + "' and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'INVENTAIRE' and J.DateMouvement between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
             }
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
@@ -575,38 +733,45 @@ public final class Journal extends javax.swing.JInternalFrame {
         print=5;
     }
     
-    private void AffichageJournal2dateArticleTypeImpression(String type, String nomArticle, String date1, String date2) {
+    private void AffichageJournalEntree2date(String date1, String date2) {
         try {
             String requete = null;
             if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and article.NomArticle like '" + nomArticle + "' and TypeMouvement like '" + type + "' and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'ENTREE' and J.DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
             }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and article.NomArticle like '" + nomArticle + "' and TypeMouvement like '" + type + "' and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
-            }
-            ps5 = conn.prepareStatement(requete);
-            rs5 = ps5.executeQuery();
-            System.out.println(requete);
-            TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
-            ajusterTableJournal();
-        } catch (SQLException e) {
-            System.out.println(e);
-        } finally {
-            CloseRsPs5();
-        }
-        tabelJournal();
-    }
-    
-    private void AffichageJournal2date(String date1, String date2) {
-        try {
-            String requete = null;
-            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
-            }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'ENTREE' and J.DateMouvement between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
             }
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
@@ -622,38 +787,45 @@ public final class Journal extends javax.swing.JInternalFrame {
         print=6;
     }
     
-    private void AffichageJournal2dateImpression(String date1, String date2) {
+    private void AffichageJournalSortie2date(String date1, String date2) {
         try {
             String requete = null;
             if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'SORTIE' and J.DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
             }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
-            }
-            ps5 = conn.prepareStatement(requete);
-            rs5 = ps5.executeQuery();
-            System.out.println(requete);
-            TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
-            ajusterTableJournal();
-        } catch (SQLException e) {
-            System.out.println(e);
-        } finally {
-            CloseRsPs5();
-        }
-        tabelJournal();
-    }
-    
-    private void AffichageJournalFiltre(String type) {
-        try {
-            String requete = null;
-            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "' ORDER BY DateJournal asc";
-            }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "' ORDER BY DateMouvement asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'SORTIE' and J.DateMouvement between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
             }
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
@@ -669,38 +841,49 @@ public final class Journal extends javax.swing.JInternalFrame {
         print=7;
     }
     
-    private void AffichageJournalFiltreImpression(String type) {
+    private void AffichageJournalTypeArticle2date(String type, String nomArticle, String date1, String date2) {
         try {
             String requete = null;
             if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "' ORDER BY DateJournal asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like '" + type + "' and A.NomArticle like '" + nomArticle + "' and J.DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
             }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "' ORDER BY DateMouvement asc";
-            }
-            ps5 = conn.prepareStatement(requete);
-            rs5 = ps5.executeQuery();
-            System.out.println(requete);
-            TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
-            ajusterTableJournal();
-        } catch (SQLException e) {
-            System.out.println(e);
-        } finally {
-            CloseRsPs5();
-        }
-        tabelJournal();
-    }
-    
-    private void AffichageJournalFiltreArticle(String type, String article) {
-        try {
-            String requete = null;
-            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "' and article.NomArticle like '" + article + "' ORDER BY DateJournal asc";
-            }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' ,TypeMouvement as 'Type' ,Action as 'Action' ,NumMouvement as 'Ref' , Acteur as 'Acteur', article.NomArticle as 'Article' ,QteMouvement , PUMouvement, MontantMouvement, Journal.QteStock, Journal.MontantStock,QteInventaire,Difference from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "' and article.NomArticle like '" + article + "' ORDER BY DateMouvement asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like '" + type + "' and A.NomArticle like '" + nomArticle + "' and J.DateMouvement between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
             }
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
@@ -716,15 +899,41 @@ public final class Journal extends javax.swing.JInternalFrame {
         print=8;
     }
     
-    private void AffichageJournalFiltreArticleImpression(String type, String article) {
+    private void AffichageJournalEntreeFournisseur2date(String acteur, String date1, String date2) {
         try {
             String requete = null;
             if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "' and article.NomArticle like '" + article + "' ORDER BY DateJournal asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'ENTREE' and F.NumFournisseur like '" + acteur + "' and J.DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
             }else{
-                requete = "select DateJournal as 'Date Journal' ,DateMouvement as 'Date Mouvement' from Journal, article WHERE\n"
-                    + "article.NumArticle=Journal.NumArticle and TypeMouvement like '" + type + "' and article.NomArticle like '" + article + "' ORDER BY DateMouvement asc";
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'ENTREE' and F.NumFournisseur like '" + acteur + "' and J.DateMouvement between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
             }
             ps5 = conn.prepareStatement(requete);
             rs5 = ps5.executeQuery();
@@ -737,6 +946,757 @@ public final class Journal extends javax.swing.JInternalFrame {
             CloseRsPs5();
         }
         tabelJournal();
+        print=9;
+    }
+    
+    private void AffichageJournalSortieSection2date(String acteur, String date1, String date2) {
+        try {
+            String requete = null;
+            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'SORTIE' and S.idSection like '" + acteur + "' and J.DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
+            }else{
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'SORTIE' and S.idSection like '" + acteur + "' and J.DateMouvement between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
+            }
+            ps5 = conn.prepareStatement(requete);
+            rs5 = ps5.executeQuery();
+            System.out.println(requete);
+            TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
+            ajusterTableJournal();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            CloseRsPs5();
+        }
+        tabelJournal();
+        print=10;
+    }
+    
+    private void AffichageJournalEntreeFournisseurArticle2date(String acteur, String nomArticle, String date1, String date2) {
+        try {
+            String requete = null;
+            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'ENTREE' and A.NomArticle like '" + nomArticle + "' and F.NumFournisseur like '" + acteur + "' and J.DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
+            }else{
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'ENTREE' and A.NumArticle like '" + nomArticle + "' and F.NumFournisseur like '" + acteur + "' and DateMouvement between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
+            }
+            ps5 = conn.prepareStatement(requete);
+            rs5 = ps5.executeQuery();
+            System.out.println(requete);
+            TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
+            ajusterTableJournal();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            CloseRsPs5();
+        }
+        tabelJournal();
+        print=11;
+    }
+    
+    private void AffichageJournalSortieSectionArticle2date(String acteur, String nomArticle, String date1, String date2) {
+        try {
+            String requete = null;
+            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'SORTIE' and S.idSection like '" + acteur + "' and A.NomArticle like '" + nomArticle + "' and J.DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
+            }else{
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'SORTIE' and S.idSection like '" + acteur + "' and A.NomArticle like '" + nomArticle + "' and J.DateMouvement between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
+            }
+            ps5 = conn.prepareStatement(requete);
+            rs5 = ps5.executeQuery();
+            System.out.println(requete);
+            TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
+            ajusterTableJournal();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            CloseRsPs5();
+        }
+        tabelJournal();
+        print=12;
+    }
+    
+    private void AffichageJournalInventaireArticle2date(String nomArticle, String date1, String date2) {
+        try {
+            String requete = null;
+            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Article A on A.NumArticle=J.NumArticle where A.NomArticle like '" + nomArticle + "' and J.TypeMouvement like 'INVENTAIRE' and J.DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
+            }else{
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Article A on A.NumArticle=J.NumArticle where A.NomArticle like '" + nomArticle + "' and J.TypeMouvement like 'INVENTAIRE' and J.DateMouvement between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
+            }
+            ps5 = conn.prepareStatement(requete);
+            rs5 = ps5.executeQuery();
+            System.out.println(requete);
+            TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
+            ajusterTableJournal();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            CloseRsPs5();
+        }
+        tabelJournal();
+        print=13;
+    }
+    
+    private void AffichageJournalEntreeArticle2date(String nomArticle, String date1, String date2) {
+        try {
+            String requete = null;
+            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where A.NomArticle like '" + nomArticle + "' and J.TypeMouvement like 'ENTREE' and J.DateJournal between '" + date1 + "' and '" + date2 + "' ORDER BY DateJournal asc";
+            }else{
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where A.NomArticle like '" + nomArticle + "' and J.TypeMouvement like 'ENTREE' and J.DateMouvement between '" + date1 + "' and '" + date2 + "' ORDER BY DateMouvement asc";
+            }
+            ps5 = conn.prepareStatement(requete);
+            rs5 = ps5.executeQuery();
+            System.out.println(requete);
+            TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
+            ajusterTableJournal();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            CloseRsPs5();
+        }
+        tabelJournal();
+        print=14;
+    }
+    
+    private void AffichageJournalFiltre(String type) {
+        try {
+            String requete = null;
+            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like '" + type + "' ORDER BY DateJournal asc";
+            }else{
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like '" + type + "' ORDER BY DateMouvement asc";
+            }
+            ps5 = conn.prepareStatement(requete);
+            rs5 = ps5.executeQuery();
+            System.out.println(requete);
+            TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
+            ajusterTableJournal();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            CloseRsPs5();
+        }
+        tabelJournal();
+        print=15;
+    }
+    
+    private void AffichageJournalEntreeFournisseur(String acteur) {
+        try {
+            String requete = null;
+            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'ENTREE' and F.NumFournisseur like '" + acteur + "' ORDER BY DateJournal asc";
+            }else{
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'ENTREE' and F.NumFournisseur like '" + acteur + "' ORDER BY DateMouvement asc";
+            }
+            ps5 = conn.prepareStatement(requete);
+            rs5 = ps5.executeQuery();
+            System.out.println(requete);
+            TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
+            ajusterTableJournal();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            CloseRsPs5();
+        }
+        tabelJournal();
+        print=16;
+    }
+    
+    private void AffichageJournalSortieSection(String acteur) {
+        try {
+            String requete = null;
+            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'SORTIE' and S.idSection like '" + acteur + "' ORDER BY DateJournal asc";
+            }else{
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where   J.TypeMouvement like 'SORTIE' and S.idSection like '" + acteur + "' ORDER BY DateMouvement asc";
+            }
+            ps2 = conn.prepareStatement(requete);
+            rs2 = ps2.executeQuery();
+            System.out.println(requete);
+            TableJournal.setModel(DbUtils.resultSetToTableModel(rs2));
+            ajusterTableJournal();
+        } catch (SQLException e) {
+            System.out.println("AffichageJournalSortieSection: "+e);
+        } finally {
+            CloseRsPs2();
+        }
+        tabelJournal();
+        print=17;
+    }
+    
+    private void AffichageJournalSortie() {
+        try {
+            String requete = null;
+            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'SORTIE' ORDER BY DateJournal asc";
+            }else{
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'SORTIE' ORDER BY DateMouvement asc";
+            }
+            ps2 = conn.prepareStatement(requete);
+            rs2 = ps2.executeQuery();
+            System.out.println(requete);
+            TableJournal.setModel(DbUtils.resultSetToTableModel(rs2));
+            ajusterTableJournal();
+        } catch (SQLException e) {
+            System.out.println("AffichageJournalSortieSection: "+e);
+        } finally {
+            CloseRsPs2();
+        }
+        tabelJournal();
+        print=18;
+    }
+    
+    private void AffichageJournalEntree() {
+        try {
+            String requete = null;
+            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'ENTREE' ORDER BY DateJournal asc";
+            }else{
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'ENTREE' ORDER BY DateMouvement asc";
+            }
+            ps2 = conn.prepareStatement(requete);
+            rs2 = ps2.executeQuery();
+            System.out.println(requete);
+            TableJournal.setModel(DbUtils.resultSetToTableModel(rs2));
+            ajusterTableJournal();
+        } catch (SQLException e) {
+            System.out.println("AffichageJournalSortieSection: "+e);
+        } finally {
+            CloseRsPs2();
+        }
+        tabelJournal();
+        print=19;
+    }
+    
+    private void AffichageJournalFiltreArticle(String type, String article) {
+        try {
+            String requete = null;
+            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like '" + type + "' and A.NomArticle like '" + article + "' ORDER BY DateJournal asc";
+            }else{
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock,"
+                        + "J.QteInventaire,"
+                        + "J.Difference "
+                        + "from Journal J "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like '" + type + "' and A.NomArticle like '" + article + "' ORDER BY DateMouvement asc";
+            }
+            ps5 = conn.prepareStatement(requete);
+            rs5 = ps5.executeQuery();
+            System.out.println(requete);
+            TableJournal.setModel(DbUtils.resultSetToTableModel(rs5));
+            ajusterTableJournal();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            CloseRsPs5();
+        }
+        tabelJournal();
+        print=20;
+    }
+    
+    private void AffichageJournalSortieSectionArticle(String acteur, String article) {
+        try {
+            String requete = null;
+            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'SORTIE' and S.idSection like '" + acteur + "' and A.NomArticle like '" + article + "' ORDER BY DateJournal asc";
+            }else{
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'SORTIE' and S.idSection like '" + acteur + "' and A.NomArticle like '" + article + "' ORDER BY DateMouvement asc";
+            }
+            ps2 = conn.prepareStatement(requete);
+            rs2 = ps2.executeQuery();
+            System.out.println(requete);
+            TableJournal.setModel(DbUtils.resultSetToTableModel(rs2));
+            ajusterTableJournal();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            CloseRsPs2();
+        }
+        tabelJournal();
+        print=21;
+    }
+    
+    private void AffichageJournalEntreeFournisseurArticle(String acteur, String article) {
+        try {
+            String requete = null;
+            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'ENTREE' and F.NumFournisseur like '" + acteur + "' and A.NomArticle like '" + article + "' ORDER BY DateJournal asc";
+            }else{
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'ENTREE' and F.NumFournisseur like '" + acteur + "' and A.NomArticle like '" + article + "' ORDER BY DateMouvement asc";
+            }
+            ps2 = conn.prepareStatement(requete);
+            rs2 = ps2.executeQuery();
+            System.out.println(requete);
+            TableJournal.setModel(DbUtils.resultSetToTableModel(rs2));
+            ajusterTableJournal();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            CloseRsPs2();
+        }
+        tabelJournal();
+        print=22;
+    }
+    
+    private void AffichageJournalEntreeArticle(String article) {
+        try {
+            String requete = null;
+            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'ENTREE' and A.NomArticle like '" + article + "' ORDER BY DateJournal asc";
+            }else{
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "F.NomFournisseur as 'Fournisseur', "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join Fournisseur F on F.NumFournisseur=J.Fournisseur "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'ENTREE' and A.NomArticle like '" + article + "' ORDER BY DateMouvement asc";
+            }
+            ps2 = conn.prepareStatement(requete);
+            rs2 = ps2.executeQuery();
+            System.out.println(requete);
+            TableJournal.setModel(DbUtils.resultSetToTableModel(rs2));
+            ajusterTableJournal();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            CloseRsPs2();
+        }
+        tabelJournal();
+        print=23;
+    }
+    
+    private void AffichageJournalSortieArticle(String article) {
+        try {
+            String requete = null;
+            if(dateCombo.getSelectedItem().toString().equals("DateJournal")){
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'SORTIE' and A.NomArticle like '" + article + "' ORDER BY DateJournal asc";
+            }else{
+                requete = "select distinct J.DateJournal as 'Date Journal' ,"
+                        + "J.DateMouvement as 'Date Mouvement' ,"
+                        + "J.TypeMouvement as 'Type' ,"
+                        + "J.Action as 'Action' ,"
+                        + "J.NumMouvement as 'Ref', "
+                        + "S.NomSection as 'Section' , "
+                        + "A.NomArticle as 'Article' ,"
+                        + "J.QteMouvement , "
+                        + "J.PUMouvement, "
+                        + "J.MontantMouvement, "
+                        + "J.QteStock, "
+                        + "J.MontantStock "
+                        + "from Journal J "
+                        + "left join section S on S.idSection=J.Section "
+                        + "left join Article A on A.NumArticle=J.NumArticle where J.TypeMouvement like 'SORTIE' and A.NomArticle like '" + article + "' ORDER BY DateMouvement asc";
+            }
+            ps2 = conn.prepareStatement(requete);
+            rs2 = ps2.executeQuery();
+            System.out.println(requete);
+            TableJournal.setModel(DbUtils.resultSetToTableModel(rs2));
+            ajusterTableJournal();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            CloseRsPs2();
+        }
+        tabelJournal();
+        print=24;
     }
     
     
@@ -854,7 +1814,6 @@ public final class Journal extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        chartPanel = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         txtrechercher1Article = new javax.swing.JTextField();
         txtbackground3 = new javax.swing.JLabel();
@@ -870,6 +1829,11 @@ public final class Journal extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         dateCombo = new javax.swing.JComboBox<>();
+        labelSection = new javax.swing.JLabel();
+        ComboSection = new javax.swing.JComboBox<>();
+        labelFournisseur = new javax.swing.JLabel();
+        ComboFournisseur = new javax.swing.JComboBox<>();
+        graph = new javax.swing.JPanel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -1000,9 +1964,9 @@ public final class Journal extends javax.swing.JInternalFrame {
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(10, 120, 520, 220);
 
-        jLabel2.setText("Article : ");
+        jLabel2.setText("NomArticle : ");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(540, 100, 60, 14);
+        jLabel2.setBounds(540, 110, 80, 14);
 
         date1.setDateFormatString("dd-MM-yyyy");
         getContentPane().add(date1);
@@ -1028,20 +1992,6 @@ public final class Journal extends javax.swing.JInternalFrame {
         });
         getContentPane().add(jButton1);
         jButton1.setBounds(1090, 80, 90, 23);
-
-        javax.swing.GroupLayout chartPanelLayout = new javax.swing.GroupLayout(chartPanel);
-        chartPanel.setLayout(chartPanelLayout);
-        chartPanelLayout.setHorizontalGroup(
-            chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 510, Short.MAX_VALUE)
-        );
-        chartPanelLayout.setVerticalGroup(
-            chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 230, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(chartPanel);
-        chartPanel.setBounds(670, 110, 510, 230);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/GPB/images/interface.png"))); // NOI18N
         jButton2.setAlignmentY(0.0F);
@@ -1096,7 +2046,7 @@ public final class Journal extends javax.swing.JInternalFrame {
 
         nomArticle.setText(" ");
         getContentPane().add(nomArticle);
-        nomArticle.setBounds(590, 100, 70, 14);
+        nomArticle.setBounds(610, 110, 190, 14);
 
         btnInventaire.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnInventaire.setText("Inventaire");
@@ -1120,7 +2070,7 @@ public final class Journal extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(btnInventaire);
-        btnInventaire.setBounds(540, 180, 118, 30);
+        btnInventaire.setBounds(540, 200, 118, 30);
 
         btnSupprInventaire.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnSupprInventaire.setText("Supprimer");
@@ -1143,11 +2093,11 @@ public final class Journal extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(btnSupprInventaire);
-        btnSupprInventaire.setBounds(540, 220, 118, 30);
+        btnSupprInventaire.setBounds(680, 200, 118, 30);
 
         jLabel4.setText("Nombre inventé :");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(540, 130, 120, 14);
+        jLabel4.setBounds(540, 140, 120, 14);
 
         NbInvt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1155,7 +2105,7 @@ public final class Journal extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(NbInvt);
-        NbInvt.setBounds(540, 150, 120, 20);
+        NbInvt.setBounds(540, 160, 120, 20);
 
         printbtn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         printbtn.setText("Imprimer");
@@ -1178,7 +2128,7 @@ public final class Journal extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(printbtn);
-        printbtn.setBounds(540, 260, 120, 30);
+        printbtn.setBounds(680, 150, 120, 30);
 
         ComboCategorie.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1204,11 +2154,11 @@ public final class Journal extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(typeCombo);
-        typeCombo.setBounds(540, 320, 120, 20);
+        typeCombo.setBounds(540, 270, 260, 20);
 
         jLabel6.setText("Filtre par Type :");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(540, 300, 110, 14);
+        jLabel6.setBounds(540, 250, 110, 14);
 
         jLabel7.setText("Filtre par Date :");
         getContentPane().add(jLabel7);
@@ -1227,6 +2177,44 @@ public final class Journal extends javax.swing.JInternalFrame {
         });
         getContentPane().add(dateCombo);
         dateCombo.setBounds(520, 60, 120, 20);
+
+        labelSection.setText("Section : ");
+        getContentPane().add(labelSection);
+        labelSection.setBounds(540, 300, 120, 14);
+
+        ComboSection.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ComboSectionItemStateChanged(evt);
+            }
+        });
+        getContentPane().add(ComboSection);
+        ComboSection.setBounds(540, 320, 120, 20);
+
+        labelFournisseur.setText("Fournissseur : ");
+        getContentPane().add(labelFournisseur);
+        labelFournisseur.setBounds(680, 300, 120, 14);
+
+        ComboFournisseur.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ComboFournisseurItemStateChanged(evt);
+            }
+        });
+        getContentPane().add(ComboFournisseur);
+        ComboFournisseur.setBounds(680, 320, 120, 20);
+
+        javax.swing.GroupLayout graphLayout = new javax.swing.GroupLayout(graph);
+        graph.setLayout(graphLayout);
+        graphLayout.setHorizontalGroup(
+            graphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 370, Short.MAX_VALUE)
+        );
+        graphLayout.setVerticalGroup(
+            graphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 230, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(graph);
+        graph.setBounds(820, 110, 370, 230);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1273,7 +2261,7 @@ public final class Journal extends javax.swing.JInternalFrame {
         int row = TableArticle.getSelectedRow();
         Journal.test = (TableArticle.getModel().getValueAt(row, 0).toString());
         nomArticle.setText(test);
-        AffichageJournal(test);
+        AffichageJournalArticle(test);
         CloseRsPs1();
         CloseRsPs2();
         CloseConnexion();
@@ -1297,15 +2285,132 @@ public final class Journal extends javax.swing.JInternalFrame {
         String Date1 = dateFormat.format(date1.getDate());
         String Date2 = dateFormat.format(date2.getDate());
         String num = nomArticle.getText();
+        if(Date1.hashCode()>Date2.hashCode()){
+            JOptionPane.showMessageDialog(null, "Date1 inférieur à Date2");
+        }else{
+            if(num.equals("")){
+                if(typeCombo.getSelectedItem().toString().equals(" ")){
+                   AffichageJournal2date(Date1,Date2); 
+                } else if(!(typeCombo.getSelectedItem().toString().equals(" "))){
+                    if(typeCombo.getSelectedItem().toString().equals("INVENTAIRE")){
+                        AffichageJournalInventaire2date(Date1,Date2);
+                    }else if(typeCombo.getSelectedItem().toString().equals("ENTREE")){
+                        if(ComboFournisseur.getSelectedItem().toString().equals(" ")){
+                            AffichageJournalEntree2date(Date1,Date2);
+                        }else{
+                            try {
+                                String requete = "select * from Fournisseur where NomFournisseur LIKE ?";
+                                ps6 = conn.prepareStatement(requete);
+                                System.out.println(ComboFournisseur.getSelectedItem().toString());
+                                ps6.setString(1, "%" + ComboFournisseur.getSelectedItem().toString() + "%");
+                                rs6 = ps6.executeQuery();
+                                section = rs6.getString("NumFournisseur");
+                            } catch (SQLException e) {
+                                System.out.println("ComboFournisseurItemStateChanged: "+e);
+                            } finally {
+                                try {
+                                    ps6.close();
+                                    rs6.close();
+                                } catch (SQLException e) {
+                                    JOptionPane.showMessageDialog(null, "erreur BD");
+                                }
+                            }
+                            AffichageJournalEntreeFournisseur2date(section,Date1,Date2);
+                        }
+                    }else{
+                        if(ComboSection.getSelectedItem().toString().equals(" ")){
+                            AffichageJournalSortie2date(Date1,Date2);
+                        }else{
+                            try {
+                                String requete = "select * from section where NomSection LIKE ?";
+                                ps6 = conn.prepareStatement(requete);
+                                System.out.println(ComboSection.getSelectedItem().toString());
+                                ps6.setString(1, "%" + ComboSection.getSelectedItem().toString() + "%");
+                                rs6 = ps6.executeQuery();
+                                section = rs6.getString("idSection");
+                            } catch (SQLException e) {
+                                System.out.println("ComboSectionItemStateChanged: "+e);
+                            } finally {
+                                try {
+                                    ps6.close();
+                                    rs6.close();
+                                } catch (SQLException e) {
+                                    JOptionPane.showMessageDialog(null, "erreur BD");
+                                }
+                            }
+                            AffichageJournalSortieSection2date(section,Date1,Date2);
+                        }
+                    } 
+                } 
+            }else{
+                if(typeCombo.getSelectedItem().toString().equals(" ")){
+                   AffichageJournalArticle2date(num,Date1,Date2); 
+                } else if(!(typeCombo.getSelectedItem().toString().equals(" "))){
+                    if(typeCombo.getSelectedItem().toString().equals("INVENTAIRE")){
+                        AffichageJournalInventaireArticle2date(num,Date1,Date2);
+                    }else if(typeCombo.getSelectedItem().toString().equals("ENTREE")){
+                        if(ComboFournisseur.getSelectedItem().toString().equals(" ")){
+                            AffichageJournalEntreeArticle2date(num,Date1,Date2);
+                        }else{
+                            try {
+                                String requete = "select * from Fournisseur where NomFournisseur LIKE ?";
+                                ps6 = conn.prepareStatement(requete);
+                                System.out.println(ComboFournisseur.getSelectedItem().toString());
+                                ps6.setString(1, "%" + ComboFournisseur.getSelectedItem().toString() + "%");
+                                rs6 = ps6.executeQuery();
+                                section = rs6.getString("NumFournisseur");
+                            } catch (SQLException e) {
+                                System.out.println("ComboFournisseurItemStateChanged: "+e);
+                            } finally {
+                                try {
+                                    ps6.close();
+                                    rs6.close();
+                                } catch (SQLException e) {
+                                    JOptionPane.showMessageDialog(null, "erreur BD");
+                                }
+                            }
+                            AffichageJournalEntreeFournisseurArticle2date(section,num,Date1,Date2);
+                        }
+                    }else{
+                        if(ComboSection.getSelectedItem().toString().equals(" ")){
+                            AffichageJournalTypeArticle2date(typeCombo.getSelectedItem().toString(),num,Date1,Date2);
+                        }else{
+                            try {
+                                String requete = "select * from section where NomSection LIKE ?";
+                                ps6 = conn.prepareStatement(requete);
+                                System.out.println(ComboSection.getSelectedItem().toString());
+                                ps6.setString(1, "%" + ComboSection.getSelectedItem().toString() + "%");
+                                rs6 = ps6.executeQuery();
+                                section = rs6.getString("idSection");
+                            } catch (SQLException e) {
+                                System.out.println("ComboSectionItemStateChanged: "+e);
+                            } finally {
+                                try {
+                                    ps6.close();
+                                    rs6.close();
+                                } catch (SQLException e) {
+                                    JOptionPane.showMessageDialog(null, "erreur BD");
+                                }
+                            }
+                            AffichageJournalSortieSectionArticle2date(ComboSection.getSelectedItem().toString(),num,Date1,Date2);
+                        }
+                    } 
+                }
+            }
+        }
+        
+        
+        /*
+        
         if(num.equals("") && typeCombo.getSelectedItem().toString().equals(" ")){
             AffichageJournal2date(Date1,Date2);
         }else if(num.equals("") && !(typeCombo.getSelectedItem().toString().equals(" "))){
             AffichageJournal2dateType(typeCombo.getSelectedItem().toString(),Date1,Date2);
         }else if(!(num.equals("")) && typeCombo.getSelectedItem().toString().equals(" ")){
             AffichageJournal2dateArticle(nomArticle.getText(),Date1,Date2);
-        }else{
+        }else {
             AffichageJournal2dateArticleType(typeCombo.getSelectedItem().toString(),nomArticle.getText(),Date1,Date2);
-        }
+        }*/
         btnInventaire.setEnabled(false);
         btnSupprInventaire.setEnabled(false);
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -1324,11 +2429,60 @@ public final class Journal extends javax.swing.JInternalFrame {
 
     private void printbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printbtnActionPerformed
 
+        if(print==1){
+            ImpressionJournal();
+        }else if(print==2){
+            ImpressionJournal2date();
+        }else if(print==3){
+            ImpressionJournalArticle();
+        }else if(print==4){
+            ImpressionJournalArticle2date();
+        }else if(print==5){
+            ImpressionJournalType2date();
+        }else if(print==6){
+            ImpressionJournalType2date();
+        }else if(print==7){
+            ImpressionJournalType2date();
+        }else if(print==8){
+            ImpressionJournalArticleType2date();
+        }else if(print==9){
+            ImpressionJournalTypeFournisseur2date();
+        }else if(print==10){
+            ImpressionJournalTypeSection2date();
+        }else if(print==11){
+            ImpressionJournalArticleTypeFournisseur2date();
+        }else if(print==12){
+            ImpressionJournalArticleTypeSection2date();
+        }else if(print==13){
+            ImpressionJournalArticleType2date();
+        }else if(print==14){
+            ImpressionJournalArticleType2date();
+        }else if(print==15){
+            ImpressionJournalType();
+        }else if(print==16){
+            ImpressionJournalTypeFournisseur();
+        }else if(print==17){
+            ImpressionJournalTypeFournisseur();
+        }else if(print==18){
+            ImpressionJournalType();
+        }else if(print==19){
+            ImpressionJournalType();
+        }else if(print==20){
+            ImpressionJournalArticleType();
+        }else if(print==21){
+            ImpressionJournalArticleTypeSection();
+        }else if(print==22){
+            ImpressionJournalArticleTypeFournisseur();
+        }else if(print==23){
+            ImpressionJournalArticleType();
+        }else if(print==24){
+            ImpressionJournalArticleType();
+        }
         
-        conn = ConexionBD.Conexion();
+        /*conn = ConexionBD.Conexion();
         DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
         Long millis = System.currentTimeMillis();
-        Date date3 = new Date(millis);
+        Date date3 = new Date(millis);*/
         /*
         if(print==1){
             MessageFormat header = new MessageFormat("Historique de Mouvement le "+dateFormat1.format(date3));
@@ -1340,7 +2494,7 @@ public final class Journal extends javax.swing.JInternalFrame {
             } catch (java.awt.print.PrinterException e) {
                 System.err.format("Erreur d'impression ", e.getMessage());
             }
-            AffichageJournal();
+            AffichageJournalArticle();
         }else if(print==2){
             MessageFormat header = new MessageFormat("Historique de Mouvement le "+dateFormat1.format(date3));
             MessageFormat footer = new MessageFormat("Page{0,number,integer}");
@@ -1351,12 +2505,12 @@ public final class Journal extends javax.swing.JInternalFrame {
             } catch (java.awt.print.PrinterException e) {
                 System.err.format("Erreur d'impression ", e.getMessage());
             }
-            AffichageJournal();
+            AffichageJournalArticle();
         }else
         */
-        
+        /*
         if(nomArticle.getText().equals("")){
-            MessageFormat header = new MessageFormat("Historique des articles du "+dateFormat1.format(date3));
+            MessageFormat header = new MessageFormat("Historique des articles ,le "+dateFormat1.format(date3));
             MessageFormat footer = new MessageFormat("Page{0,number,integer}");
             try {
                 TableJournal.print(JTable.PrintMode.FIT_WIDTH, header, footer);
@@ -1389,7 +2543,7 @@ public final class Journal extends javax.swing.JInternalFrame {
             } catch (java.awt.print.PrinterException e) {
                 System.err.format("Erreur d'impression ", e.getMessage());
             }
-        }
+        }*/
 
         /*
         try (PDDocument doc = new PDDocument()) {
@@ -1417,12 +2571,497 @@ public final class Journal extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_printbtnActionPerformed
     
+    public void ImpressionJournaltemp(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[7];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Article : "+nomArticle.getText());
+        header[5] = new MessageFormat("                  Type : "+typeCombo.getSelectedItem());
+        header[4] = new MessageFormat("                  Fournisseur : "+ComboFournisseur.getSelectedItem());
+        header[4] = new MessageFormat("                  Section : "+ComboSection.getSelectedItem());
+        header[6] = new MessageFormat("                  Date du "+date1.getDateFormatString()+" au "+date2.getDateFormatString());
+
+        MessageFormat[] footer = new MessageFormat[2];
+        footer[0] = new MessageFormat("");
+        footer[1] = new MessageFormat("");
+        job.setCopies(2);
+        job.setJobName("BondEntree");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournal(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[3];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+
+        MessageFormat[] footer = new MessageFormat[2];
+        footer[0] = new MessageFormat("");
+        footer[1] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournalArticle(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[4];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Article : "+nomArticle.getText());
+
+        MessageFormat[] footer = new MessageFormat[1];
+        footer[0] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournalType(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[4];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Type : "+typeCombo.getSelectedItem());
+
+        MessageFormat[] footer = new MessageFormat[1];
+        footer[0] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournalTypeFournisseur(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[5];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Type : "+typeCombo.getSelectedItem());
+        header[4] = new MessageFormat("                  Fournisseur : "+ComboFournisseur.getSelectedItem());
+
+        MessageFormat[] footer = new MessageFormat[1];
+        footer[0] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournalTypeSection(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[5];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Type : "+typeCombo.getSelectedItem());
+        header[4] = new MessageFormat("                  Section : "+ComboSection.getSelectedItem());
+
+        MessageFormat[] footer = new MessageFormat[1];
+        footer[0] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournal2date(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[4];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Date du "+dateFormat1.format(date1.getDate())+" au "+dateFormat1.format(date2.getDate()));
+
+        MessageFormat[] footer = new MessageFormat[1];
+        footer[0] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournalArticleType(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[5];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Article : "+nomArticle.getText());
+        header[4] = new MessageFormat("                  Type : "+typeCombo.getSelectedItem());
+
+        MessageFormat[] footer = new MessageFormat[1];
+        footer[0] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournalArticleTypeFournisseur(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[6];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Article : "+nomArticle.getText());
+        header[4] = new MessageFormat("                  Type : "+typeCombo.getSelectedItem());
+        header[5] = new MessageFormat("                  Fournisseur : "+ComboFournisseur.getSelectedItem());
+
+        MessageFormat[] footer = new MessageFormat[1];
+        footer[0] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournalArticleTypeSection(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[6];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Article : "+nomArticle.getText());
+        header[4] = new MessageFormat("                  Type : "+typeCombo.getSelectedItem());
+        header[5] = new MessageFormat("                  Section : "+ComboSection.getSelectedItem());
+
+        MessageFormat[] footer = new MessageFormat[1];
+        footer[0] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournalArticle2date(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[5];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Article : "+nomArticle.getText());
+        header[4] = new MessageFormat("                  Date du "+dateFormat1.format(date1.getDate())+" au "+dateFormat1.format(date2.getDate()));
+
+        MessageFormat[] footer = new MessageFormat[1];
+        footer[0] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournalArticleType2date(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[6];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Article : "+nomArticle.getText());
+        header[4] = new MessageFormat("                  Type : "+typeCombo.getSelectedItem());
+        header[5] = new MessageFormat("                  Date du "+dateFormat1.format(date1.getDate())+" au "+dateFormat1.format(date2.getDate()));
+
+        MessageFormat[] footer = new MessageFormat[1];
+        footer[0] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournalArticleTypeFournisseur2date(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[7];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Article : "+nomArticle.getText());
+        header[4] = new MessageFormat("                  Type : "+typeCombo.getSelectedItem());
+        header[5] = new MessageFormat("                  Fournisseur : "+ComboFournisseur.getSelectedItem());
+        header[6] = new MessageFormat("                  Date du "+dateFormat1.format(date1.getDate())+" au "+dateFormat1.format(date2.getDate()));
+
+        MessageFormat[] footer = new MessageFormat[1];
+        footer[0] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournalArticleTypeSection2date(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[7];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Article : "+nomArticle.getText());
+        header[4] = new MessageFormat("                  Type : "+typeCombo.getSelectedItem());
+        header[5] = new MessageFormat("                  Section : "+ComboSection.getSelectedItem());
+        header[6] = new MessageFormat("                  Date du "+dateFormat1.format(date1.getDate())+" au "+dateFormat1.format(date2.getDate()));
+
+        MessageFormat[] footer = new MessageFormat[1];
+        footer[0] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournalType2date(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[5];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Type : "+typeCombo.getSelectedItem());
+        header[4] = new MessageFormat("                  Date du "+dateFormat1.format(date1.getDate())+" au "+dateFormat1.format(date2.getDate()));
+
+        MessageFormat[] footer = new MessageFormat[1];
+        footer[0] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournalTypeFournisseur2date(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[6];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Type : "+typeCombo.getSelectedItem());
+        header[4] = new MessageFormat("                  Fournisseur : "+ComboFournisseur.getSelectedItem());
+        header[5] = new MessageFormat("                  Date du "+dateFormat1.format(date1.getDate())+" au "+dateFormat1.format(date2.getDate()));
+
+        MessageFormat[] footer = new MessageFormat[1];
+        footer[0] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
+    
+    public void ImpressionJournalTypeSection2date(){
+        DateFormat dateFormat1 = new SimpleDateFormat("dd MMMM yyyy");
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        MessageFormat[] header = new MessageFormat[5];
+        header[0] = new MessageFormat("");
+        header[1] = new MessageFormat("");
+        header[2] = new MessageFormat("                                                HISTORIQUE du "+dateFormat1.format(date3)+"                                          ");
+        header[3] = new MessageFormat("                  Type : "+typeCombo.getSelectedItem());
+        header[4] = new MessageFormat("                  Section : "+ComboSection.getSelectedItem());
+        header[5] = new MessageFormat("                  Date du "+dateFormat1.format(date1.getDate())+" au "+dateFormat1.format(date2.getDate()));
+
+        MessageFormat[] footer = new MessageFormat[1];
+        footer[0] = new MessageFormat("");
+        job.setJobName("Historique");
+        job.setPrintable(new MyTablePrintable(TableJournal, JTable.PrintMode.FIT_WIDTH, header, footer));
+
+        if (job.printDialog())
+        try {
+            System.out.println("Calling PrintJob.print()");
+            job.print();
+            System.out.println("End PrintJob.print()");
+        }
+        catch (PrinterException pe) {
+            System.out.println("Error printing: " + pe);
+        }
+    }
     
     public void remplirComboCategorie() {
         
         ComboCategorie.removeAllItems();
         ComboCategorie.addItem("");
-        String requet = " select * from  categorie";
+        String requet = "select * from categorie";
         
         try {
             conn = ConexionBD.Conexion();
@@ -1441,6 +3080,51 @@ public final class Journal extends javax.swing.JInternalFrame {
             CloseConnexion();
         }
         ComboCategorie.setSelectedItem("");
+    }
+    
+    public void remplirComboSection(){
+        conn = ConexionBD.Conexion();
+        ComboSection.addItem(" ");
+        String requet = " select * from section";
+        try {
+            ps4 = conn.prepareStatement(requet);
+            rs4 = ps4.executeQuery();
+            ComboSection.removeAllItems();
+            while (rs4.next()){
+                String nom = rs4.getString("NomSection").toString();
+                ComboSection.addItem(nom);
+                ComboSection.setSelectedItem(" ");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseRsPs4();
+            CloseConnexion();
+        }
+    }
+    
+    public void remplirComboFournisseur() {
+        
+        conn = ConexionBD.Conexion();
+        ComboFournisseur.removeAllItems();
+        ComboFournisseur.addItem(" ");
+        String requet = " select * from  Fournisseur";
+        
+        try {
+            ps4 = conn.prepareStatement(requet);
+            rs4 = ps4.executeQuery();
+
+            while (rs4.next()) {
+                String nom = rs4.getString("NomFournisseur").toString();
+                ComboFournisseur.addItem(nom);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseRsPs4();
+            CloseConnexion();
+        }
     }
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -1466,6 +3150,11 @@ public final class Journal extends javax.swing.JInternalFrame {
         
         btnInventaire.setEnabled(false);
         btnSupprInventaire.setEnabled(false);
+        
+        labelSection.setVisible(false);
+        ComboSection.setVisible(false);
+        labelFournisseur.setVisible(false);
+        ComboFournisseur.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtrechercher1ArticleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtrechercher1ArticleMouseClicked
@@ -1505,6 +3194,7 @@ public final class Journal extends javax.swing.JInternalFrame {
             rs = ps.executeQuery();
             TableArticle.setModel(DbUtils.resultSetToTableModel(rs));
             ajusterTableArticle();
+            tabelArticle();
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
@@ -1594,7 +3284,7 @@ public final class Journal extends javax.swing.JInternalFrame {
                 int row = TableArticle.getSelectedRow();
                 Journal.test = (TableArticle.getModel().getValueAt(row, 0).toString());
                 nomArticle.setText(test);
-                AffichageJournal(test);
+                AffichageJournalArticle(test);
                 CloseRsPs5();
             }else{
                 String requete5 = "insert into Journal (DateJournal,DateMouvement,TypeMouvement,Action,NumArticle,QteStock,QteInventaire,Difference) values (?,?,?,?,?,?,?,?)";
@@ -1617,7 +3307,7 @@ public final class Journal extends javax.swing.JInternalFrame {
                 int row = TableArticle.getSelectedRow();
                 Journal.test = (TableArticle.getModel().getValueAt(row, 0).toString());
                 nomArticle.setText(test);
-                AffichageJournal(test);
+                AffichageJournalArticle(test);
                 CloseRsPs5();
             }
             CloseConnexion();
@@ -1662,7 +3352,7 @@ public final class Journal extends javax.swing.JInternalFrame {
             if(nomArticle.getText().equals("")){
                 AffichageJournal();
             }else{
-                AffichageJournal(test3);
+                AffichageJournalArticle(test3);
             }
             AffichageArticle();
             ImageIcon img = new ImageIcon(getClass().getResource("txt2.png"));
@@ -1705,24 +3395,69 @@ public final class Journal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_ComboCategorieItemStateChanged
 
     private void typeComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_typeComboItemStateChanged
-        conn = ConexionBD.Conexion();
+      
         String num = nomArticle.getText();
         if(typeCombo.getSelectedItem().toString().equals(" ")){
+            labelFournisseur.setVisible(false);
+            ComboFournisseur.setVisible(false);
+            labelSection.setVisible(false);
+            ComboSection.setVisible(false);
             if(num.equals("")){
                 AffichageJournal();
             }else{
-                AffichageJournal(num);
+                AffichageJournalArticle(num);
             }
         }else{
-            if(num.equals("")){
-                AffichageJournalFiltre(typeCombo.getSelectedItem().toString());
-            }else{
-                AffichageJournalFiltreArticle(typeCombo.getSelectedItem().toString(),nomArticle.getText());
+            if(typeCombo.getSelectedItem().toString().equals("ENTREE")){
+                labelFournisseur.setVisible(true);
+                ComboFournisseur.setVisible(true);
+                labelSection.setVisible(false);
+                ComboSection.setVisible(false);
+                remplirComboFournisseur();
+                ComboFournisseur.addItem(" ");
+                ComboFournisseur.setSelectedItem(" ");
+                /* if(num.equals("")){
+                    AffichageJournalEntree();
+                }else{
+                    AffichageJournalEntreeArticle(num);
+                }*/
+            }else if(typeCombo.getSelectedItem().toString().equals("SORTIE")){
+                labelSection.setVisible(true);
+                ComboSection.setVisible(true);
+                labelFournisseur.setVisible(false);
+                ComboFournisseur.setVisible(false);
+                remplirComboSection();
+                ComboSection.addItem(" ");
+                ComboSection.setSelectedItem(" ");
+                
+                /*if(num.equals("")){
+                    AffichageJournalEntree();
+                }else{
+                    AffichageJournalEntreeArticle(num);
+                }*/
+            }else if(typeCombo.getSelectedItem().toString().equals("INVENTAIRE")){
+                labelSection.setVisible(false);
+                ComboSection.setVisible(false);
+                labelFournisseur.setVisible(false);
+                ComboFournisseur.setVisible(false);
+                
+                if(num.equals("")){
+                    AffichageJournalFiltre(typeCombo.getSelectedItem().toString());
+                }else{
+                    AffichageJournalFiltreArticle(typeCombo.getSelectedItem().toString(),nomArticle.getText());
+                }
             }
         }
-        dateCombo.setSelectedItem("DateJournal");
+        //dateCombo.setSelectedItem("DateJournal");
         btnInventaire.setEnabled(false);
         btnSupprInventaire.setEnabled(false);
+        
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        date1.setDate(date3);
+        date2.setDate(date3);
+        date1.setDate(null);
+        date2.setDate(null);
     }//GEN-LAST:event_typeComboItemStateChanged
 
     private void dateComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_dateComboItemStateChanged
@@ -1753,6 +3488,100 @@ public final class Journal extends javax.swing.JInternalFrame {
     private void dateComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateComboActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dateComboActionPerformed
+
+    private void ComboSectionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboSectionItemStateChanged
+        conn = ConexionBD.Conexion();
+        //String num1 = numArticle.getText();
+        if(ComboSection.getItemCount() == 0){
+            
+        }else{
+            
+            if(ComboSection.getSelectedItem().toString().equals(" ")){
+                if(nomArticle.getText().equals("")){
+                    AffichageJournalSortie();
+                }else{
+                    AffichageJournalSortieArticle(nomArticle.getText());
+                }
+            }else{
+                try {
+                String requete = "select * from section where NomSection LIKE ?";
+                ps6 = conn.prepareStatement(requete);
+                System.out.println(ComboSection.getSelectedItem().toString());
+                ps6.setString(1, "%" + ComboSection.getSelectedItem().toString() + "%");
+                rs6 = ps6.executeQuery();
+                section = rs6.getString("idSection");
+                } catch (SQLException e) {
+                    System.out.println("ComboSectionItemStateChanged: "+e);
+                } finally {
+                    try {
+                        ps6.close();
+                        rs6.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "erreur BD");
+                    }
+                }
+                if(nomArticle.getText().equals("")){
+                    AffichageJournalSortieSection(section);
+                }else{
+                    AffichageJournalSortieSectionArticle(section,nomArticle.getText());
+                }
+            }
+        }
+        
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        date1.setDate(date3);
+        date2.setDate(date3);
+        date1.setDate(null);
+        date2.setDate(null);
+    }//GEN-LAST:event_ComboSectionItemStateChanged
+
+    private void ComboFournisseurItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboFournisseurItemStateChanged
+        conn = ConexionBD.Conexion();
+        //String num1 = numArticle.getText();
+        if(ComboFournisseur.getItemCount() == 0){
+            
+        }else{
+            
+            if(ComboFournisseur.getSelectedItem().toString().equals(" ")){
+                if(nomArticle.getText().equals("")){
+                    AffichageJournalEntree();
+                }else{
+                    AffichageJournalEntreeArticle(nomArticle.getText());
+                }
+            }else{
+                try {
+                String requete = "select * from Fournisseur where NomFournisseur LIKE ?";
+                ps6 = conn.prepareStatement(requete);
+                System.out.println(ComboFournisseur.getSelectedItem().toString());
+                ps6.setString(1, "%" + ComboFournisseur.getSelectedItem().toString() + "%");
+                rs6 = ps6.executeQuery();
+                section = rs6.getString("NumFournisseur");
+                } catch (SQLException e) {
+                    System.out.println("ComboFournisseurItemStateChanged: "+e);
+                } finally {
+                    try {
+                        ps6.close();
+                        rs6.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "erreur BD");
+                    }
+                }
+                if(nomArticle.getText().equals("")){
+                    AffichageJournalEntreeFournisseur(section);
+                }else{
+                    AffichageJournalEntreeFournisseurArticle(section,nomArticle.getText());
+                }
+            }
+        }
+        
+        Long millis = System.currentTimeMillis();
+        Date date3 = new Date(millis);
+        date1.setDate(date3);
+        date2.setDate(date3);
+        date1.setDate(null);
+        date2.setDate(null);
+    }//GEN-LAST:event_ComboFournisseurItemStateChanged
 
     private static final long serialVersionUID = 1L;
 
@@ -2228,6 +4057,8 @@ public final class Journal extends javax.swing.JInternalFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboCategorie;
+    private javax.swing.JComboBox<String> ComboFournisseur;
+    private javax.swing.JComboBox<String> ComboSection;
     private javax.swing.JTextField NbInvt;
     private javax.swing.JTable TableArticle;
     private javax.swing.JTable TableJournal;
@@ -2235,10 +4066,10 @@ public final class Journal extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSupprInventaire;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JPanel chartPanel;
     private com.toedter.calendar.JDateChooser date1;
     private com.toedter.calendar.JDateChooser date2;
     private javax.swing.JComboBox<String> dateCombo;
+    private javax.swing.JPanel graph;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JFrame jFrame1;
@@ -2254,6 +4085,8 @@ public final class Journal extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel labelFournisseur;
+    private javax.swing.JLabel labelSection;
     private javax.swing.JLabel nomArticle;
     private javax.swing.JButton printbtn;
     private javax.swing.JLabel txtbackground3;
